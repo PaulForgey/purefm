@@ -7,13 +7,95 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A1136452456362900C1420D /* LFO.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A1136442456362900C1420D /* LFO.mm */; };
+		8A11364824564A2300C1420D /* NoteFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A11364724564A2300C1420D /* NoteFormatter.m */; };
+		8A11364B2456AA2500C1420D /* FrequencyFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A11364A2456AA2500C1420D /* FrequencyFormatter.m */; };
+		8A591AA9243C5ADA00264A3F /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A591AA8243C5ADA00264A3F /* CoreMIDI.framework */; };
+		8A5F46F52445739C003B3B53 /* EnvelopeStage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A5F46F42445739C003B3B53 /* EnvelopeStage.mm */; };
+		8A7B3FFE2459622500CFA455 /* op.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A7B3FFC2459622500CFA455 /* op.cpp */; };
+		8A7B40012459656E00CFA455 /* algo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A7B3FFF2459656E00CFA455 /* algo.cpp */; };
+		8A7B400424596D0200CFA455 /* engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A7B400224596D0200CFA455 /* engine.cpp */; };
+		8A8FBA74245A576D00D2D28D /* env.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A8FBA72245A576D00D2D28D /* env.cpp */; };
+		8A9724DC245C068000880B8E /* lfosc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A9724DA245C068000880B8E /* lfosc.cpp */; };
+		8A9724DE245C0C8700880B8E /* oscillator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A9724DD245C0C8700880B8E /* oscillator.cpp */; };
+		8AAC892E243DB3E6001390F0 /* Operator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AAC892D243DB3E6001390F0 /* Operator.mm */; };
 		8AB2F535243C05070094B217 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2F534243C05070094B217 /* AppDelegate.m */; };
 		8AB2F537243C05080094B217 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AB2F536243C05080094B217 /* Assets.xcassets */; };
 		8AB2F53A243C05080094B217 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AB2F538243C05080094B217 /* MainMenu.xib */; };
 		8AB2F53D243C05080094B217 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2F53C243C05080094B217 /* main.m */; };
+		8AB2F54D243C05240094B217 /* purefmAudioUnit.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2F54C243C05240094B217 /* purefmAudioUnit.mm */; };
+		8AB2F551243C05240094B217 /* DSPKernel.hpp in Resources */ = {isa = PBXBuildFile; fileRef = 8AB2F550243C05240094B217 /* DSPKernel.hpp */; };
+		8AB2F553243C05240094B217 /* DSPKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2F552243C05240094B217 /* DSPKernel.mm */; };
+		8AB2F555243C05240094B217 /* BufferedAudioBus.hpp in Resources */ = {isa = PBXBuildFile; fileRef = 8AB2F554243C05240094B217 /* BufferedAudioBus.hpp */; };
+		8AB2F558243C05240094B217 /* purefmDSPKernel.hpp in Resources */ = {isa = PBXBuildFile; fileRef = 8AB2F557243C05240094B217 /* purefmDSPKernel.hpp */; };
+		8AB2F55A243C05240094B217 /* purefmDSPKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2F559243C05240094B217 /* purefmDSPKernel.mm */; };
+		8AB2F55E243C05240094B217 /* AudioUnitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2F55D243C05240094B217 /* AudioUnitViewController.m */; };
+		8AB2F561243C05240094B217 /* AudioUnitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AB2F55F243C05240094B217 /* AudioUnitViewController.xib */; };
+		8AB2F566243C05240094B217 /* purefm.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8AB2F548243C05240094B217 /* purefm.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8AB2F570243C07E90094B217 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2F56F243C07E90094B217 /* ViewController.m */; };
+		8AB2F575243C08FF0094B217 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB2F574243C08FF0094B217 /* AVFoundation.framework */; };
+		8AB2F576243C1B4C0094B217 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB2F572243C087F0094B217 /* AudioUnit.framework */; };
+		8ABBB8562446226E0075EC0D /* Envelope.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8ABBB8552446226E0075EC0D /* Envelope.mm */; };
+		8ABBB85C24465E250075EC0D /* EnvelopeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ABBB85B24465E250075EC0D /* EnvelopeView.m */; };
+		8ABE6C3124480CF800C66AD6 /* DurationFormatter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8ABE6C3024480CF800C66AD6 /* DurationFormatter.mm */; };
+		8ABE6C3424480DBB00C66AD6 /* tables.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ABE6C3224480DBB00C66AD6 /* tables.cpp */; };
+		8ABE6C372448321E00C66AD6 /* LevelFormatter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8ABE6C362448321E00C66AD6 /* LevelFormatter.mm */; };
+		8AD30FE6243E652600E83F88 /* OperatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AD30FE5243E652600E83F88 /* OperatorView.m */; };
+		8AD30FEF243E9D0600E83F88 /* AlgoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AD30FEE243E9D0600E83F88 /* AlgoView.m */; };
+		8AD611102457F91E00B7205B /* PitchFormatter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AD6110F2457F91E00B7205B /* PitchFormatter.mm */; };
+		8ADA2E0D245D5930005473CC /* globals.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8ADA2E0C245D5930005473CC /* globals.mm */; };
+		8AF4D4EE245B7BB400EE14E2 /* voice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AF4D4EC245B7BB400EE14E2 /* voice.cpp */; };
+		8AF4EF6F2458294100267422 /* State.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AF4EF6E2458294100267422 /* State.mm */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8AB2F564243C05240094B217 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8AB2F528243C05070094B217 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8AB2F547243C05240094B217;
+			remoteInfo = purefm;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8AB2F56A243C05240094B217 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8AB2F566243C05240094B217 /* purefm.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		8A1136432456362900C1420D /* LFO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LFO.h; sourceTree = "<group>"; };
+		8A1136442456362900C1420D /* LFO.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LFO.mm; sourceTree = "<group>"; };
+		8A11364624564A2300C1420D /* NoteFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NoteFormatter.h; sourceTree = "<group>"; };
+		8A11364724564A2300C1420D /* NoteFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NoteFormatter.m; sourceTree = "<group>"; };
+		8A1136492456AA2500C1420D /* FrequencyFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrequencyFormatter.h; sourceTree = "<group>"; };
+		8A11364A2456AA2500C1420D /* FrequencyFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrequencyFormatter.m; sourceTree = "<group>"; };
+		8A591AA8243C5ADA00264A3F /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
+		8A5F46F32445739C003B3B53 /* EnvelopeStage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnvelopeStage.h; sourceTree = "<group>"; };
+		8A5F46F42445739C003B3B53 /* EnvelopeStage.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EnvelopeStage.mm; sourceTree = "<group>"; };
+		8A7B3FFA245952D100CFA455 /* oscillator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = oscillator.hpp; sourceTree = "<group>"; };
+		8A7B3FFC2459622500CFA455 /* op.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = op.cpp; sourceTree = "<group>"; };
+		8A7B3FFD2459622500CFA455 /* op.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = op.hpp; sourceTree = "<group>"; };
+		8A7B3FFF2459656E00CFA455 /* algo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = algo.cpp; sourceTree = "<group>"; };
+		8A7B40002459656E00CFA455 /* algo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = algo.hpp; sourceTree = "<group>"; };
+		8A7B400224596D0200CFA455 /* engine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = engine.cpp; sourceTree = "<group>"; };
+		8A7B400324596D0200CFA455 /* engine.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = engine.hpp; sourceTree = "<group>"; };
+		8A8FBA72245A576D00D2D28D /* env.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = env.cpp; sourceTree = "<group>"; };
+		8A8FBA73245A576D00D2D28D /* env.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = env.hpp; sourceTree = "<group>"; };
+		8A9724DA245C068000880B8E /* lfosc.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = lfosc.cpp; sourceTree = "<group>"; };
+		8A9724DB245C068000880B8E /* lfosc.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = lfosc.hpp; sourceTree = "<group>"; };
+		8A9724DD245C0C8700880B8E /* oscillator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = oscillator.cpp; sourceTree = "<group>"; };
+		8AAC892C243DB3E6001390F0 /* Operator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Operator.h; sourceTree = "<group>"; };
+		8AAC892D243DB3E6001390F0 /* Operator.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Operator.mm; sourceTree = "<group>"; };
 		8AB2F530243C05070094B217 /* purefm-host.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "purefm-host.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AB2F533243C05070094B217 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8AB2F534243C05070094B217 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -22,6 +104,47 @@
 		8AB2F53B243C05080094B217 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8AB2F53C243C05080094B217 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8AB2F53E243C05080094B217 /* purefm_host.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = purefm_host.entitlements; sourceTree = "<group>"; };
+		8AB2F548243C05240094B217 /* purefm.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = purefm.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		8AB2F54B243C05240094B217 /* purefmAudioUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = purefmAudioUnit.h; sourceTree = "<group>"; };
+		8AB2F54C243C05240094B217 /* purefmAudioUnit.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = purefmAudioUnit.mm; sourceTree = "<group>"; };
+		8AB2F550243C05240094B217 /* DSPKernel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DSPKernel.hpp; sourceTree = "<group>"; };
+		8AB2F552243C05240094B217 /* DSPKernel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DSPKernel.mm; sourceTree = "<group>"; };
+		8AB2F554243C05240094B217 /* BufferedAudioBus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BufferedAudioBus.hpp; sourceTree = "<group>"; };
+		8AB2F556243C05240094B217 /* purefmDSPKernelAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = purefmDSPKernelAdapter.h; sourceTree = "<group>"; };
+		8AB2F557243C05240094B217 /* purefmDSPKernel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = purefmDSPKernel.hpp; sourceTree = "<group>"; };
+		8AB2F559243C05240094B217 /* purefmDSPKernel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = purefmDSPKernel.mm; sourceTree = "<group>"; };
+		8AB2F55C243C05240094B217 /* AudioUnitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioUnitViewController.h; sourceTree = "<group>"; };
+		8AB2F55D243C05240094B217 /* AudioUnitViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioUnitViewController.m; sourceTree = "<group>"; };
+		8AB2F560243C05240094B217 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AudioUnitViewController.xib; sourceTree = "<group>"; };
+		8AB2F562243C05240094B217 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8AB2F563243C05240094B217 /* purefm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = purefm.entitlements; sourceTree = "<group>"; };
+		8AB2F56E243C07E90094B217 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		8AB2F56F243C07E90094B217 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		8AB2F572243C087F0094B217 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		8AB2F574243C08FF0094B217 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		8ABBB8542446226E0075EC0D /* Envelope.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Envelope.h; sourceTree = "<group>"; };
+		8ABBB8552446226E0075EC0D /* Envelope.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Envelope.mm; sourceTree = "<group>"; };
+		8ABBB85A24465E250075EC0D /* EnvelopeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnvelopeView.h; sourceTree = "<group>"; };
+		8ABBB85B24465E250075EC0D /* EnvelopeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnvelopeView.m; sourceTree = "<group>"; };
+		8ABE6C2F24480CF800C66AD6 /* DurationFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DurationFormatter.h; sourceTree = "<group>"; };
+		8ABE6C3024480CF800C66AD6 /* DurationFormatter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DurationFormatter.mm; sourceTree = "<group>"; };
+		8ABE6C3224480DBB00C66AD6 /* tables.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tables.cpp; sourceTree = "<group>"; };
+		8ABE6C3324480DBB00C66AD6 /* tables.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = tables.hpp; sourceTree = "<group>"; };
+		8ABE6C352448321E00C66AD6 /* LevelFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LevelFormatter.h; sourceTree = "<group>"; };
+		8ABE6C362448321E00C66AD6 /* LevelFormatter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LevelFormatter.mm; sourceTree = "<group>"; };
+		8AC4B7F42462063C00D44230 /* README.txt */ = {isa = PBXFileReference; explicitFileType = text; path = README.txt; sourceTree = "<group>"; };
+		8AD30FE4243E652600E83F88 /* OperatorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OperatorView.h; sourceTree = "<group>"; };
+		8AD30FE5243E652600E83F88 /* OperatorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OperatorView.m; sourceTree = "<group>"; };
+		8AD30FED243E9D0600E83F88 /* AlgoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlgoView.h; sourceTree = "<group>"; };
+		8AD30FEE243E9D0600E83F88 /* AlgoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AlgoView.m; sourceTree = "<group>"; };
+		8AD6110E2457F91E00B7205B /* PitchFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PitchFormatter.h; sourceTree = "<group>"; };
+		8AD6110F2457F91E00B7205B /* PitchFormatter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PitchFormatter.mm; sourceTree = "<group>"; };
+		8ADA2E0C245D5930005473CC /* globals.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = globals.mm; sourceTree = "<group>"; };
+		8AF4D4EC245B7BB400EE14E2 /* voice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = voice.cpp; sourceTree = "<group>"; };
+		8AF4D4ED245B7BB400EE14E2 /* voice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = voice.hpp; sourceTree = "<group>"; };
+		8AF4D4EF245BAA7600EE14E2 /* globals.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = globals.hpp; sourceTree = "<group>"; };
+		8AF4EF6D2458294100267422 /* State.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = State.h; sourceTree = "<group>"; };
+		8AF4EF6E2458294100267422 /* State.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = State.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,14 +155,57 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8AB2F545243C05240094B217 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8AB2F575243C08FF0094B217 /* AVFoundation.framework in Frameworks */,
+				8A591AA9243C5ADA00264A3F /* CoreMIDI.framework in Frameworks */,
+				8AB2F576243C1B4C0094B217 /* AudioUnit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8A7B3FF52458BE6800CFA455 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8AC4B7F42462063C00D44230 /* README.txt */,
+				8AF4EF6D2458294100267422 /* State.h */,
+				8AF4EF6E2458294100267422 /* State.mm */,
+				8AAC892C243DB3E6001390F0 /* Operator.h */,
+				8AAC892D243DB3E6001390F0 /* Operator.mm */,
+				8A1136432456362900C1420D /* LFO.h */,
+				8A1136442456362900C1420D /* LFO.mm */,
+				8ABBB8542446226E0075EC0D /* Envelope.h */,
+				8ABBB8552446226E0075EC0D /* Envelope.mm */,
+				8A5F46F32445739C003B3B53 /* EnvelopeStage.h */,
+				8A5F46F42445739C003B3B53 /* EnvelopeStage.mm */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8AAC8925243D977F001390F0 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				8AD30FE4243E652600E83F88 /* OperatorView.h */,
+				8AD30FE5243E652600E83F88 /* OperatorView.m */,
+				8AD30FED243E9D0600E83F88 /* AlgoView.h */,
+				8AD30FEE243E9D0600E83F88 /* AlgoView.m */,
+				8ABBB85A24465E250075EC0D /* EnvelopeView.h */,
+				8ABBB85B24465E250075EC0D /* EnvelopeView.m */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
 		8AB2F527243C05070094B217 = {
 			isa = PBXGroup;
 			children = (
 				8AB2F532243C05070094B217 /* purefm-host */,
+				8AB2F549243C05240094B217 /* purefm */,
 				8AB2F531243C05070094B217 /* Products */,
+				8AB2F571243C087F0094B217 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -47,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				8AB2F530243C05070094B217 /* purefm-host.app */,
+				8AB2F548243C05240094B217 /* purefm.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,8 +228,102 @@
 				8AB2F53B243C05080094B217 /* Info.plist */,
 				8AB2F53C243C05080094B217 /* main.m */,
 				8AB2F53E243C05080094B217 /* purefm_host.entitlements */,
+				8AB2F56E243C07E90094B217 /* ViewController.h */,
+				8AB2F56F243C07E90094B217 /* ViewController.m */,
 			);
 			path = "purefm-host";
+			sourceTree = "<group>";
+		};
+		8AB2F549243C05240094B217 /* purefm */ = {
+			isa = PBXGroup;
+			children = (
+				8AB2F55F243C05240094B217 /* AudioUnitViewController.xib */,
+				8AB2F562243C05240094B217 /* Info.plist */,
+				8AB2F563243C05240094B217 /* purefm.entitlements */,
+				8AB2F54A243C05240094B217 /* Audio Unit */,
+				8A7B3FF52458BE6800CFA455 /* Model */,
+				8AB2F54E243C05240094B217 /* DSP */,
+				8AB2F55B243C05240094B217 /* UI */,
+			);
+			path = purefm;
+			sourceTree = "<group>";
+		};
+		8AB2F54A243C05240094B217 /* Audio Unit */ = {
+			isa = PBXGroup;
+			children = (
+				8AB2F54B243C05240094B217 /* purefmAudioUnit.h */,
+				8AB2F54C243C05240094B217 /* purefmAudioUnit.mm */,
+			);
+			path = "Audio Unit";
+			sourceTree = "<group>";
+		};
+		8AB2F54E243C05240094B217 /* DSP */ = {
+			isa = PBXGroup;
+			children = (
+				8AB2F557243C05240094B217 /* purefmDSPKernel.hpp */,
+				8AB2F559243C05240094B217 /* purefmDSPKernel.mm */,
+				8ABE6C3324480DBB00C66AD6 /* tables.hpp */,
+				8ABE6C3224480DBB00C66AD6 /* tables.cpp */,
+				8A7B400324596D0200CFA455 /* engine.hpp */,
+				8A7B400224596D0200CFA455 /* engine.cpp */,
+				8AF4D4ED245B7BB400EE14E2 /* voice.hpp */,
+				8AF4D4EC245B7BB400EE14E2 /* voice.cpp */,
+				8A9724DB245C068000880B8E /* lfosc.hpp */,
+				8A9724DA245C068000880B8E /* lfosc.cpp */,
+				8A7B40002459656E00CFA455 /* algo.hpp */,
+				8A7B3FFF2459656E00CFA455 /* algo.cpp */,
+				8A7B3FFD2459622500CFA455 /* op.hpp */,
+				8A7B3FFC2459622500CFA455 /* op.cpp */,
+				8A8FBA73245A576D00D2D28D /* env.hpp */,
+				8A8FBA72245A576D00D2D28D /* env.cpp */,
+				8A7B3FFA245952D100CFA455 /* oscillator.hpp */,
+				8A9724DD245C0C8700880B8E /* oscillator.cpp */,
+				8AF4D4EF245BAA7600EE14E2 /* globals.hpp */,
+				8ADA2E0C245D5930005473CC /* globals.mm */,
+				8AB2F54F243C05240094B217 /* Helpers */,
+			);
+			path = DSP;
+			sourceTree = "<group>";
+		};
+		8AB2F54F243C05240094B217 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				8AB2F550243C05240094B217 /* DSPKernel.hpp */,
+				8AB2F552243C05240094B217 /* DSPKernel.mm */,
+				8AB2F554243C05240094B217 /* BufferedAudioBus.hpp */,
+				8AB2F556243C05240094B217 /* purefmDSPKernelAdapter.h */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		8AB2F55B243C05240094B217 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				8AAC8925243D977F001390F0 /* views */,
+				8AB2F55C243C05240094B217 /* AudioUnitViewController.h */,
+				8AB2F55D243C05240094B217 /* AudioUnitViewController.m */,
+				8ABE6C2F24480CF800C66AD6 /* DurationFormatter.h */,
+				8ABE6C3024480CF800C66AD6 /* DurationFormatter.mm */,
+				8ABE6C352448321E00C66AD6 /* LevelFormatter.h */,
+				8ABE6C362448321E00C66AD6 /* LevelFormatter.mm */,
+				8A11364624564A2300C1420D /* NoteFormatter.h */,
+				8A11364724564A2300C1420D /* NoteFormatter.m */,
+				8A1136492456AA2500C1420D /* FrequencyFormatter.h */,
+				8A11364A2456AA2500C1420D /* FrequencyFormatter.m */,
+				8AD6110E2457F91E00B7205B /* PitchFormatter.h */,
+				8AD6110F2457F91E00B7205B /* PitchFormatter.mm */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		8AB2F571243C087F0094B217 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8A591AA8243C5ADA00264A3F /* CoreMIDI.framework */,
+				8AB2F574243C08FF0094B217 /* AVFoundation.framework */,
+				8AB2F572243C087F0094B217 /* AudioUnit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -75,15 +336,34 @@
 				8AB2F52C243C05070094B217 /* Sources */,
 				8AB2F52D243C05070094B217 /* Frameworks */,
 				8AB2F52E243C05070094B217 /* Resources */,
+				8AB2F56A243C05240094B217 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8AB2F565243C05240094B217 /* PBXTargetDependency */,
 			);
 			name = "purefm-host";
 			productName = "purefm-host";
 			productReference = 8AB2F530243C05070094B217 /* purefm-host.app */;
 			productType = "com.apple.product-type.application";
+		};
+		8AB2F547243C05240094B217 /* purefm */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8AB2F567243C05240094B217 /* Build configuration list for PBXNativeTarget "purefm" */;
+			buildPhases = (
+				8AB2F544243C05240094B217 /* Sources */,
+				8AB2F545243C05240094B217 /* Frameworks */,
+				8AB2F546243C05240094B217 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = purefm;
+			productName = purefm;
+			productReference = 8AB2F548243C05240094B217 /* purefm.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -95,6 +375,9 @@
 				ORGANIZATIONNAME = "Paul Forgey";
 				TargetAttributes = {
 					8AB2F52F243C05070094B217 = {
+						CreatedOnToolsVersion = 11.4;
+					};
+					8AB2F547243C05240094B217 = {
 						CreatedOnToolsVersion = 11.4;
 					};
 				};
@@ -113,6 +396,7 @@
 			projectRoot = "";
 			targets = (
 				8AB2F52F243C05070094B217 /* purefm-host */,
+				8AB2F547243C05240094B217 /* purefm */,
 			);
 		};
 /* End PBXProject section */
@@ -127,6 +411,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8AB2F546243C05240094B217 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8AB2F551243C05240094B217 /* DSPKernel.hpp in Resources */,
+				8AB2F561243C05240094B217 /* AudioUnitViewController.xib in Resources */,
+				8AB2F558243C05240094B217 /* purefmDSPKernel.hpp in Resources */,
+				8AB2F555243C05240094B217 /* BufferedAudioBus.hpp in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -134,12 +429,54 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AB2F570243C07E90094B217 /* ViewController.m in Sources */,
 				8AB2F53D243C05080094B217 /* main.m in Sources */,
 				8AB2F535243C05070094B217 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8AB2F544243C05240094B217 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8AF4D4EE245B7BB400EE14E2 /* voice.cpp in Sources */,
+				8AB2F553243C05240094B217 /* DSPKernel.mm in Sources */,
+				8ADA2E0D245D5930005473CC /* globals.mm in Sources */,
+				8AAC892E243DB3E6001390F0 /* Operator.mm in Sources */,
+				8AB2F55E243C05240094B217 /* AudioUnitViewController.m in Sources */,
+				8AF4EF6F2458294100267422 /* State.mm in Sources */,
+				8ABE6C372448321E00C66AD6 /* LevelFormatter.mm in Sources */,
+				8AB2F55A243C05240094B217 /* purefmDSPKernel.mm in Sources */,
+				8AD611102457F91E00B7205B /* PitchFormatter.mm in Sources */,
+				8A1136452456362900C1420D /* LFO.mm in Sources */,
+				8AB2F54D243C05240094B217 /* purefmAudioUnit.mm in Sources */,
+				8A11364B2456AA2500C1420D /* FrequencyFormatter.m in Sources */,
+				8A9724DE245C0C8700880B8E /* oscillator.cpp in Sources */,
+				8A7B3FFE2459622500CFA455 /* op.cpp in Sources */,
+				8AD30FEF243E9D0600E83F88 /* AlgoView.m in Sources */,
+				8A5F46F52445739C003B3B53 /* EnvelopeStage.mm in Sources */,
+				8ABBB8562446226E0075EC0D /* Envelope.mm in Sources */,
+				8ABE6C3124480CF800C66AD6 /* DurationFormatter.mm in Sources */,
+				8A11364824564A2300C1420D /* NoteFormatter.m in Sources */,
+				8A9724DC245C068000880B8E /* lfosc.cpp in Sources */,
+				8A8FBA74245A576D00D2D28D /* env.cpp in Sources */,
+				8ABBB85C24465E250075EC0D /* EnvelopeView.m in Sources */,
+				8A7B40012459656E00CFA455 /* algo.cpp in Sources */,
+				8ABE6C3424480DBB00C66AD6 /* tables.cpp in Sources */,
+				8AD30FE6243E652600E83F88 /* OperatorView.m in Sources */,
+				8A7B400424596D0200CFA455 /* engine.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8AB2F565243C05240094B217 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8AB2F547243C05240094B217 /* purefm */;
+			targetProxy = 8AB2F564243C05240094B217 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8AB2F538243C05080094B217 /* MainMenu.xib */ = {
@@ -148,6 +485,14 @@
 				8AB2F539243C05080094B217 /* Base */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		8AB2F55F243C05240094B217 /* AudioUnitViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8AB2F560243C05240094B217 /* Base */,
+			);
+			name = AudioUnitViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -300,6 +645,44 @@
 			};
 			name = Release;
 		};
+		8AB2F568243C05240094B217 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = purefm/purefm.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 553434UP3A;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = purefm/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Shaven-Yak.purefm-host.purefm";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		8AB2F569243C05240094B217 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = purefm/purefm.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 553434UP3A;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = purefm/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Shaven-Yak.purefm-host.purefm";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -317,6 +700,15 @@
 			buildConfigurations = (
 				8AB2F542243C05080094B217 /* Debug */,
 				8AB2F543243C05080094B217 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8AB2F567243C05240094B217 /* Build configuration list for PBXNativeTarget "purefm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8AB2F568243C05240094B217 /* Debug */,
+				8AB2F569243C05240094B217 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
