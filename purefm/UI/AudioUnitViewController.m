@@ -161,8 +161,8 @@
                        options:nil];
 
     [self.LFOEnvelopeView bind:@"keyUp"
-                      toObject:self.state.lfo.envelope
-                   withKeyPath:@"keyUp"
+                      toObject:self
+                   withKeyPath:@"state.lfo.envelope.keyUp"
                        options:nil];
 
     [self.pitchEnvelopeView bind:@"stages"
@@ -171,8 +171,8 @@
                          options:nil];
 
     [self.pitchEnvelopeView bind:@"keyUp"
-                        toObject:self.state.pitchEnvelope
-                     withKeyPath:@"keyUp"
+                        toObject:self
+                     withKeyPath:@"state.pitchEnvelope.keyUp"
                          options:nil];
 
     [self.durationFormatter bind:@"sampleRate"
@@ -206,8 +206,8 @@
                               options:nil];
 
     [self.pitchFormatter bind:@"scale"
-                     toObject:self.state.pitchEnvelope
-                  withKeyPath:@"scale"
+                     toObject:self
+                  withKeyPath:@"state.pitchEnvelope.scale"
                       options:nil];
 
     [self.frequencyFormatter bind:@"fixed"

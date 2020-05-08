@@ -65,7 +65,6 @@ class envelope {
         void init_at(int out) { _out = out; _level = out; }
 
         // for pitch envelope
-        void start_with(env_patch const *, int level, bool trigger);
         int pitch_value(int value, int lfo);
         int op_value(int value, int lfo);
 
