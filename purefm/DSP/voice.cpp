@@ -17,6 +17,8 @@ voice::voice(globals const *g) :
     _patch = nullptr;
     _key = -256;
     _trigger = false;
+    _pitch = 0;
+    _pitch_env.init_at(0);
 }
 
 voice::~voice() {
@@ -48,7 +50,7 @@ voice::start(patch const *patch, int key, int velocity) {
 
     _lfo.start(_patch->lfo.get(), velocity);
     _algo.start(patch, key, velocity);
-    _pitch_env.start_with(_patch->pitch_env.get(), 0, _trigger);
+    _pitch_env.start(_patch->pitch_env.get(), 0, _trigger);
 }
 
 int
@@ -60,8 +62,8 @@ voice::step() {
     if (((_counter++) & 0x0f) == 0) {
         // lfo every 16
         _lfo_output = _lfo.step();
+        _pitch = _pitch_env.pitch_value(_pitch_env.step(16), _lfo_output);
     }
 
-    int pitch = _pitch_env.pitch_value(_pitch_env.step(), _lfo_output);
-    return _algo.step(_lfo_output, pitch);
+    return _algo.step(_lfo_output, _pitch);
 }

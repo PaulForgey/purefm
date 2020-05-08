@@ -15,12 +15,16 @@ envelope::envelope(globals const *g) {
     _globals = g;
     _level = eg_min;
     _out = eg_min;
+    _rate_adj = 0;
+    _at = 0;
+    _key_up = -1;
+    _end = 0;
     _patch = nullptr;
     _egs = nullptr;
     _trigger = false;
-    _running = false;
-    _stage = -1;
-    _key_up = -1;
+    _run = false;
+    _idle = true;
+    _type = eg_exp;
 }
 
 envelope::~envelope() {
@@ -29,11 +33,11 @@ envelope::~envelope() {
 int
 envelope::pitch_value(int value, int lfo) {
     if (_patch == nullptr) {
-        return 0;
+        return value;
     }
     return (value >> (8 + _patch->scale)) +
-        (_globals->pitch_bend >> _patch->bend) +
-        (lfo >> (8 + _patch->lfo));
+            (_globals->pitch_bend >> _patch->bend) +
+            (lfo >> (8 + _patch->lfo));
 }
 
 int
@@ -50,8 +54,19 @@ envelope::op_value(int value, int lfo) {
 void
 envelope::update(env_patch const *patch) {
     _patch = patch;
+    _key_up = 0;
+    _end = 0;
     if (patch != nullptr) {
         _egs = patch->egs.get();
+        if (_egs != nullptr) {
+            int const key_up = _patch->key_up;
+            _end = (int)_egs->size();
+            if (key_up >= 0 && key_up < _end) {
+                _key_up = key_up;
+            } else {
+                _key_up = -1;
+            }
+        }
     } else {
         _egs = nullptr;
     }
@@ -59,156 +74,111 @@ envelope::update(env_patch const *patch) {
 
 void
 envelope::start(env_patch const *patch, int rate_adj, bool trigger) {
-    _patch = patch;
-    if (patch == nullptr) {
+    update(patch);
+    if (_egs == nullptr || _egs->empty()) {
         return;
     }
 
     _trigger = trigger;
-    _egs = _patch->egs.get();
-    _key_up = _patch->key_up;
-
-    if (_key_up >= _egs->size()) {
-        _key_up = -1;
-    }
+    _rate_adj = rate_adj;
 
     if (trigger) {
-        start(rate_adj);
-    }
-    else if (!_globals->sustain_pedal) {
+        run();
+    } else if (!_globals->sustain_pedal) {
         stop();
     }
 }
 
 void
-envelope::start_with(env_patch const *patch, int level, bool trigger) {
-    if (trigger) {
-        _level = level;
-        _out = level;
-    }
-    start(patch, 0, trigger);
-}
-
-void
-envelope::start(int rate_adj) {
-    _rate_adj = rate_adj;
-    _running = true;
+envelope::run() {
+    _run = true;
     set(0);
+
 }
 
 void
 envelope::stop() {
-    _running = false;
-
-    if (_patch->loop) {
+    _run = false;
+    if (_key_up >= 0) {
         set(_key_up);
-    } else {
-        if (_key_up >= 0) {
-            set(_key_up);
-        }
     }
 }
 
 void
-envelope::set(int stage) {
-    if (_egs->empty()) {
-        _stage = -1;
-        return;
-    }
-
-    if (stage >= 0 && stage >= _egs->size()) {
-        if (_running && _patch->loop) {
-            stage = 0;
+envelope::set(int at) {
+    _idle = false;
+    if (_run && (at == _key_up || at == _end)) {
+        if (_patch->loop && _at > 0) {
+            at = 0;
         } else {
-            stage = -1;
+            _idle = true;
+            return;
         }
     }
-    _stage = stage;
-    if (stage < 0) {
+    if (at < 0 || at >= _end) {
+        _idle = true;
         return;
     }
+    _at = at;
+    auto const &eg = (*_egs)[at];
+    int goal = eg->goal;
 
-    auto const &e = (*_egs)[stage];
-
-    eg_type to_t = e->type;
-    _goal = e->goal;
-    _step = std::max(e->rate + _rate_adj, 1);
-
-    if (to_t == eg_delay) {
-        _level = eg_min;
-        _goal = eg_max;
-        _out = e->goal;
-    }
-    else if (to_t == eg_linear) {
+    switch (eg->type) {
+    case eg_linear:
+        // if transitioning to a linear output, translate its starting state
         _level = eg_min + (_globals->t.exp((eg_max+1 - _out) >> 6) << 8);
-    } else {
+        break;
+
+    case eg_delay:
+        // delay immediately outputs its goal for the count of eg_min->eg_max
+        _level = eg_min;
+        goal = eg_max;
+        _out = eg->goal;
+        break;
+
+    default:
+        // otherwise whatever form of prior output is starting point
         _level = _out;
+        break;
     }
 
-    if ((_goal < _level && _step > 0) || (_goal > _level && _step < 0)) {
-        _step = -_step;
-    }
+    _type = eg->type;
+    _stage.set(_level, goal, eg->rate + _rate_adj);
 }
 
 int
-envelope::step() {
-    // no patch? no output
-    if (_patch == nullptr) {
-        return eg_min;
-    }
-    // no stages? return output
-    if (_stage < 0 || _egs->empty()) {
-        return _out;
+envelope::step(int count) {
+    if (!_trigger && _run && !_globals->sustain_pedal) {
+        stop();
     }
 
-    if (_running) {
-        if (!_trigger && !_globals->sustain_pedal) {
-            stop();
-        }
-        else if (_stage == _key_up) {
-            if (!_patch->loop) {
-                return _out;
-            }
-            set(0);
-        }
-        if (_stage < 0) {
+    if (_stage.done()) {
+        if (!_idle) {
+            set(_at+1);
+        } else {
             return _out;
         }
     }
 
-    bool done = false;
-
-    _level += _step;
-    if ((_level >= _goal && _step > 0) || (_level <= _goal && _step < 0)) {
-        _level = _goal;
-        done = true;
-    }
-
+    _level = _stage.step(count);
     int i;
-    auto const &e = (*_egs)[_stage];
 
-    switch (e->type) {
-        case eg_exp:
-        case eg_pitch:
-            _out = _level;
-            break;
+    switch(_type) {
+    case eg_linear:
+        i = (_level - eg_min) >> 10;
+        if (i > 0) {
+            _out = eg_max - (_globals->t.log(i) << 6);
+        } else {
+            _out = eg_min;
+        }
+        break;
 
-        case eg_linear:
-            i = (_level - eg_min) >> 10;
-            if (i > 0) {
-                _out = eg_max - (_globals->t.log(i) << 6);
-            } else {
-                _out = eg_min;
-            }
-            break;
+    case eg_delay:
+        break;
 
-        case eg_delay:
-            // leave alone
-            break;
-    }
-
-    if (done) {
-        set(_stage+1);
+    default:
+        _out = _level;
+        break;
     }
 
     return _out;

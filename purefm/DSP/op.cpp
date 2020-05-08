@@ -96,7 +96,7 @@ op::step(int lfo, int pitch) {
         return;
     }
 
-    if (!_patch->enabled) {
+    if (!_patch->enabled || _env.idle()) {
         *_out = *_sum;
         return;
     }
@@ -111,7 +111,7 @@ op::step(int lfo, int pitch) {
     bool neg;
     int mod = *_mod << 2;
     int out = _osc.step(_globals->t.pitch(frequency), mod, &neg);
-    int env = _env.op_value(_env.step(), lfo);
+    int env = _env.op_value(_env.step(1), lfo);
     env += bias + _level;
 
     out = _globals->t.output(out, env);

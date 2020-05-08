@@ -36,6 +36,7 @@ class voice {
         globals const *_globals;
         patch const *_patch;
         envelope _pitch_env;
+        int _pitch;
         unsigned _counter;
         int _key;
         bool _trigger;

@@ -11,6 +11,47 @@
 
 #include "globals.hpp"
 #include <vector>
+#include <algorithm>
+
+class eg_stage {
+    public:
+        eg_stage() {
+            _level = eg_min;
+            _goal = eg_min;
+            _rate = 0;
+        }
+        virtual ~eg_stage() {}
+
+        void set(int level, int goal, int rate) {
+            _level = level;
+            _goal = goal;
+
+            rate = std::max(rate, 1);
+            if (goal < level) {
+                _rate = -rate;
+            } else {
+                _rate = rate;
+            }
+        }
+
+        bool done() const { return _level == _goal; }
+        int level() const { return _level; }
+
+        int step(int count) {
+            if (!done()) {
+                _level += _rate * count;
+                if (_rate < 0) {
+                    _level = std::max(_goal, _level);
+                } else {
+                    _level = std::min(_goal, _level);
+                }
+            }
+            return _level;
+        }
+
+    private:
+        int _level, _goal, _rate;
+};
 
 class envelope {
     public:
@@ -19,26 +60,33 @@ class envelope {
 
         void update(env_patch const *);
         void start(env_patch const *, int rate_adj, bool trigger);
-        int step();
+        int step(int count);
+        int out() const { return _out; }
+        void init_at(int out) { _out = out; _level = out; }
 
         // for pitch envelope
         void start_with(env_patch const *, int level, bool trigger);
         int pitch_value(int value, int lfo);
         int op_value(int value, int lfo);
 
+        bool idle() const { return _idle && _level == eg_min; }
+
     private:
-        void set(int stage);
-        void start(int rate_adj);
+        void run();
         void stop();
+        void set(int at);
 
     private:
         int _level, _out;
-        int _step, _goal;
-        int _rate_adj;
-        int _stage, _key_up;
-        bool _trigger, _running;
-        env_patch const *_patch;
+        int _at;
+        eg_type _type;
+        eg_stage _stage;
+        bool _trigger, _run, _idle;
         eg_vec const *_egs;
+        int _key_up, _end;
+        int _rate_adj;
+
+        env_patch const *_patch;
         globals const *_globals;
 };
 

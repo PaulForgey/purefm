@@ -58,7 +58,7 @@ lfo::step() {
 
     unsigned long pitch = _globals->t.pitch(_frequency);
     osc = _osc.step(*f, _globals->t, pitch, 0, &neg);
-    env = _env.step() + _patch->level;
+    env = _env.step(1) + _patch->level;
 
     osc = _globals->t.output(osc, env);
     return neg ? -osc : osc;

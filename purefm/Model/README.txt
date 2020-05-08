@@ -31,7 +31,7 @@ or changed will update the engine via ptr_msg<T>::set().
 
 Envelope.mm probably has the most complex example of how this comes together.
 
-Simple scaler parameters are accessed without any sort of locking as data
+Simple non-pointer parameters are accessed without any sort of locking as data
 races are unimportant with them. If a set of values would need to change as an
 atomic group, they should be put in their own struct and updated via the
 pointer mechanism.

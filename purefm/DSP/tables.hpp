@@ -70,9 +70,13 @@ class tables {
         // and max+max is right below full)
         // output is in 16 bit unsigned range [0,0x10000)
         inline int output(int input, int envelope) const {
-            envelope = 0x1000000 - envelope;
-            envelope = std::max(envelope, 0);
-            envelope = std::min(envelope, 0x1000000);
+            if (envelope < 0) {
+                envelope = 0x1000000;
+            } else if (envelope > 0x1000000) {
+                envelope = 0;
+            } else {
+                envelope = 0x1000000 - envelope;
+            }
 
             envelope >>= 6; // [0-16] << 14 + [0-16384)
             input += envelope;
