@@ -152,7 +152,7 @@
 
     AUParameter *portamento =
     [AUParameterTree createParameterWithIdentifier:@"portamento"
-                                              name:@"portamento"
+                                              name:@"Portamento"
                                            address:kParam_Portamento
                                                min:0
                                                max:127

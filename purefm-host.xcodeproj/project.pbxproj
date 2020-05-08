@@ -90,6 +90,7 @@
 		8A7B40002459656E00CFA455 /* algo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = algo.hpp; sourceTree = "<group>"; };
 		8A7B400224596D0200CFA455 /* engine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = engine.cpp; sourceTree = "<group>"; };
 		8A7B400324596D0200CFA455 /* engine.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = engine.hpp; sourceTree = "<group>"; };
+		8A7DB96924653FB600749624 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8A8FBA72245A576D00D2D28D /* env.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = env.cpp; sourceTree = "<group>"; };
 		8A8FBA73245A576D00D2D28D /* env.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = env.hpp; sourceTree = "<group>"; };
 		8A9724DA245C068000880B8E /* lfosc.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = lfosc.cpp; sourceTree = "<group>"; };
@@ -203,6 +204,7 @@
 		8AB2F527243C05070094B217 = {
 			isa = PBXGroup;
 			children = (
+				8A7DB96924653FB600749624 /* README.md */,
 				8AB2F532243C05070094B217 /* purefm-host */,
 				8AB2F549243C05240094B217 /* purefm */,
 				8AB2F531243C05070094B217 /* Products */,
