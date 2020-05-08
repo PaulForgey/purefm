@@ -9,7 +9,6 @@
 #include "op.hpp"
 #include "globals.hpp"
 
-#include <algorithm>
 #include <cmath>
 
 op::op(
@@ -50,7 +49,7 @@ key_scale(int value, int type) {
 
 void
 op::start(op_patch const *patch, int key, int middle_c, int velocity) {
-    _patch = patch;
+    update(patch);
     if (patch == nullptr) {
         return;
     }
@@ -62,10 +61,6 @@ op::start(op_patch const *patch, int key, int middle_c, int velocity) {
 
     int note = key - middle_c;
 
-    _frequency = patch->frequency;
-    if (!patch->fixed) {
-        _frequency += _globals->t.scale(note);
-    }
     _env.start(patch->env.get(), (note * _patch->rate_scale) >> 2, true);
     _level = patch->level;
 
@@ -82,8 +77,11 @@ op::start(op_patch const *patch, int key, int middle_c, int velocity) {
     }
     _level += scale;
 
-    _level = std::max(_level, eg_min);
-    _level = std::min(_level, eg_max);
+    if (_level > eg_max) {
+        _level = eg_max;
+    } else if (_level < eg_min) {
+        _level = eg_min;
+    }
 
     if (patch->resync) {
         _osc.reset();
@@ -101,7 +99,7 @@ op::step(int lfo, int pitch) {
         return;
     }
 
-    int frequency = _frequency;
+    int frequency = _patch->frequency;
     if (!_patch->fixed) {
         frequency += pitch;
     }

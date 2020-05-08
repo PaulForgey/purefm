@@ -35,7 +35,6 @@ class op {
         int *_out;
         sine_oscillator _osc;
         envelope _env;
-        int _frequency;
         int _level;
 };
 

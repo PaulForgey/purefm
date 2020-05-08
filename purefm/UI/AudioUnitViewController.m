@@ -19,6 +19,7 @@
 @property (strong) IBOutlet DurationFormatter *durationFormatter;
 @property (strong) IBOutlet DurationFormatter *LFODurationFormatter;
 @property (strong) IBOutlet DurationFormatter *pitchDurationFormatter;
+@property (strong) IBOutlet DurationFormatter *portamentoFormatter;
 @property (strong) IBOutlet FrequencyFormatter *frequencyFormatter;
 @property (strong) IBOutlet PitchFormatter *pitchFormatter;
 @property (weak) IBOutlet AlgoView *algoView;
@@ -204,6 +205,11 @@
                              toObject:self.pitchStageController
                           withKeyPath:@"selection.linearity"
                               options:nil];
+
+    [self.portamentoFormatter bind:@"sampleRate"
+                          toObject:self
+                       withKeyPath:@"audioUnit.envelopeRate"
+                           options:nil];
 
     [self.pitchFormatter bind:@"scale"
                      toObject:self

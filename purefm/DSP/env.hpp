@@ -35,7 +35,7 @@ class eg_stage {
         }
 
         bool done() const { return _level == _goal; }
-        int level() const { return _level; }
+        int get_level() const { return _level; }
 
         int step(int count) {
             if (!done()) {

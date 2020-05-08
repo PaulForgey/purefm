@@ -17,6 +17,7 @@ enum {
     kParam_LFOFreq,
     kParam_Mono,
     kParam_MiddleC,
+    kParam_Portamento,
 };
 
 @interface purefmAudioUnit : AUAudioUnit

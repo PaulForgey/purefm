@@ -13,7 +13,6 @@
 #include "env.hpp"
 #include "lfosc.hpp"
 #include "globals.hpp"
-#include <utility>
 
 class voice {
     public:
@@ -30,6 +29,9 @@ class voice {
         int get_key() const { return _key; }
 
     private:
+        int highest_key() const;
+
+    private:
         algo _algo;
         lfo _lfo;
         int _lfo_output;
@@ -37,9 +39,12 @@ class voice {
         patch const *_patch;
         envelope _pitch_env;
         int _pitch;
+        eg_stage _freq_eg;
         unsigned _counter;
         int _key;
-        bool _trigger;
+        int _velocity;
+        unsigned char _keys[16];
+
 };
 
 #endif /* voice_hpp */

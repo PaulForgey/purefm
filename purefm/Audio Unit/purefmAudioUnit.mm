@@ -151,6 +151,18 @@
                                       valueStrings:nil
                                dependentParameters:nil];
 
+    AUParameter *portamento =
+    [AUParameterTree createParameterWithIdentifier:@"portamento"
+                                              name:@"portamento"
+                                           address:kParam_Portamento
+                                               min:0
+                                               max:127
+                                              unit:kAudioUnitParameterUnit_Generic
+                                          unitName:nil
+                                             flags:kAudioUnitParameterFlag_IsReadable|kAudioUnitParameterFlag_IsWritable
+                                      valueStrings:nil
+                               dependentParameters:nil];
+
 
     // Create the parameter tree.
     _parameterTree = [AUParameterTree createTreeWithChildren:@[
@@ -160,6 +172,7 @@
         lfoFrequency,
         mono,
         middleC,
+        portamento,
     ]];
 }
 

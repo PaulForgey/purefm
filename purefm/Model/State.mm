@@ -16,6 +16,7 @@
     NSArray< Operator * > *_operators;
     Envelope *_pitchEnvelope;
     LFO *_lfo;
+    int _portamento;
 
     patch_ptr::pointer _patch;
     AUParameterTree *_parameterTree;
@@ -77,6 +78,11 @@
             [self didChange:@"middleC"];
             break;
 
+        case kParam_Portamento:
+            [self updatePortamento:(int)value];
+            [self didChange:@"portamento"];
+            break;
+
         case kParam_LFOOutput:
         case kParam_LFOFreq:
         case kParam_LFOWave:
@@ -97,6 +103,7 @@
     self.feedback = 0;
     self.mono = NO;
     self.middleC = 60;
+    self.portamento = 0;
 
     return self;
 }
@@ -109,6 +116,7 @@
     [coder encodeInt:self.feedback forKey:@"feedback"];
     [coder encodeBool:self.mono forKey:@"mono"];
     [coder encodeInt:self.middleC forKey:@"middleC"];
+    [coder encodeInt:self.portamento forKey:@"portamento"];
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
@@ -124,6 +132,7 @@
     self.feedback = [coder decodeIntForKey:@"feedback"];
     self.mono = [coder decodeBoolForKey:@"mono"];
     self.middleC = [coder decodeIntForKey:@"middleC"];
+    self.portamento = [coder decodeIntForKey:@"portamento"];
 
     return self;
 }
@@ -152,6 +161,14 @@
 }
 - (int)middleC {
     return _patch->middle_c;
+}
+
+- (void)setPortamento:(int)portamento {
+    [self updatePortamento:portamento];
+    [[_parameterTree parameterWithAddress:kParam_Portamento] setValue:(AUValue)portamento];
+}
+- (int)portamento {
+    return _portamento;
 }
 
 - (NSArray< Operator * > *)operators {
@@ -203,6 +220,16 @@
 - (BOOL)validateFeedback:(id *)ioValue error:(NSError **)outError {
     [Operator clampMIDIValue:ioValue];
     return YES;
+}
+
+- (BOOL)validatePortamento:(id *)ioValue error:(NSError **)outError {
+    [Operator clampMIDIValue:ioValue];
+    return YES;
+}
+
+- (void)updatePortamento:(int)value {
+    _portamento = value;
+    _patch->portamento = tables::duration_param(value);
 }
 
 @end
