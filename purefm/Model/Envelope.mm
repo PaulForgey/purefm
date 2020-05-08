@@ -15,31 +15,14 @@
 @implementation Envelope {
     NSMutableArray< EnvelopeStage * > *_stages;
     env_patch_ptr::pointer _patch;
+    struct op_status const *_status;
+    int _playingStage;
 }
 
-// MARK: patch
+@synthesize status = _status;
+@synthesize playingStage = _playingStage;
 
-- (env_patch_ptr::pointer const &)patch {
-    return _patch;
-}
-
-- (void)initPatch {
-    _patch = std::make_shared<env_patch>();
-    _patch->egs.set(std::make_shared<eg_vec>());
-}
-
-// stages param is to safely update before replacing ivar
-- (void)connect:(NSMutableArray< EnvelopeStage * > *)stages {
-    auto egs = std::make_shared<eg_vec>();
-    EnvelopeStage *es;
-    for (es in stages) {
-        egs->push_back([es eg]);
-    }
-    _patch->egs.set(egs); // empty vec is allowed, just not nullptr
-    _stages = stages;
-}
-
-#pragma mark init / coder
+// MARK: init / coder
 
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:_stages forKey:@"stages"];
@@ -138,7 +121,41 @@
     [self didChangeValueForKey:@"stages"];
 }
 
-#pragma mark properties
+// MARK: patch
+
+- (env_patch_ptr::pointer const &)patch {
+    return _patch;
+}
+
+- (void)initPatch {
+    _patch = std::make_shared<env_patch>();
+    _patch->egs.set(std::make_shared<eg_vec>());
+}
+
+// stages param is to safely update before replacing ivar
+- (void)connect:(NSMutableArray< EnvelopeStage * > *)stages {
+    auto egs = std::make_shared<eg_vec>();
+    EnvelopeStage *es;
+    for (es in stages) {
+        egs->push_back([es eg]);
+    }
+    _patch->egs.set(egs); // empty vec is allowed, just not nullptr
+    _stages = stages;
+}
+
+// MARK: status
+
+- (void)updateStatus {
+    if (_status != NULL) {
+        if (_status->stage != _playingStage) {
+            [self willChangeValueForKey:@"playingStage"];
+            _playingStage = _status->stage;
+            [self didChangeValueForKey:@"playingStage"];
+        }
+    }
+}
+
+// MARK: properties
 
 + (void)clampScaleValue:(id *)ioValue max:(int)max{
     int v = [*ioValue intValue];

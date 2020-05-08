@@ -22,19 +22,15 @@
     lfo_patch_ptr::pointer _patch;
     int _level;
     AUParameterTree *_parameterTree;
+    struct voice_status const *_status;
+    int _output;
+    int _playingStage;
 }
 
 @synthesize parameterTree = _parameterTree;
-
-// MARK: patch
-
-- (lfo_patch_ptr::pointer const &)patch {
-    return _patch;
-}
-
-- (void)connect {
-    _patch->env.set([_envelope patch]);
-}
+@synthesize status = _status;
+@synthesize output = _output;
+@synthesize playingStage = _playingStage;
 
 // MARK: init / coder
 
@@ -72,6 +68,33 @@
     [self connect];
 
     return self;
+}
+
+// MARK: patch
+
+- (lfo_patch_ptr::pointer const &)patch {
+    return _patch;
+}
+
+- (void)connect {
+    _patch->env.set([_envelope patch]);
+}
+
+// MARK: status
+
+- (void)updateStatus {
+    if (_status != NULL) {
+        if (_status->lfo_output != _output) {
+            [self willChangeValueForKey:@"output"];
+            _output = _status->lfo_output;
+            [self didChangeValueForKey:@"output"];
+        }
+        if (_status->lfo_stage != _playingStage) {
+            [self willChangeValueForKey:@"playingStage"];
+            _playingStage = _status->lfo_stage;
+            [self didChangeValueForKey:@"playingStage"];
+        }
+    }
 }
 
 // MARK: AUParameters

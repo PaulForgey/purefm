@@ -20,9 +20,57 @@
 
     patch_ptr::pointer _patch;
     AUParameterTree *_parameterTree;
+
+    int _pitchStage;
 }
 
 @synthesize parameterTree = _parameterTree;
+@synthesize pitchStage = _pitchStage;
+
+// MARK: init / coder
+
+- (id)init {
+    self = [super init];
+
+    _patch = std::make_shared<patch>();
+    [self connect];
+
+    self.feedback = 0;
+    self.mono = NO;
+    self.middleC = 60;
+    self.portamento = 0;
+
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:_operators forKey:@"operators"];
+    [coder encodeObject:_pitchEnvelope forKey:@"pitchEnvelope"];
+    [coder encodeObject:_lfo forKey:@"lfo"];
+
+    [coder encodeInt:self.feedback forKey:@"feedback"];
+    [coder encodeBool:self.mono forKey:@"mono"];
+    [coder encodeInt:self.middleC forKey:@"middleC"];
+    [coder encodeInt:self.portamento forKey:@"portamento"];
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+    self = [super init];
+    _patch = std::make_shared<patch>();
+
+    _operators = [coder decodeObjectForKey:@"operators"];
+    _pitchEnvelope = [coder decodeObjectForKey:@"pitchEnvelope"];
+    _lfo = [coder decodeObjectForKey:@"lfo"];
+
+    [self connect];
+
+    self.feedback = [coder decodeIntForKey:@"feedback"];
+    self.mono = [coder decodeBoolForKey:@"mono"];
+    self.middleC = [coder decodeIntForKey:@"middleC"];
+    self.portamento = [coder decodeIntForKey:@"portamento"];
+
+    return self;
+}
 
 // MARK: patch
 
@@ -40,6 +88,35 @@
 }
 - (patch_ptr::pointer const &)patch {
     return _patch;
+}
+
+// MARK: status
+
+- (void)updateStatus {
+    struct voice_status const *s;
+    if (_status == NULL) {
+        return;
+    }
+    s = _status->voice;
+    if (s == NULL) {
+        return;
+    }
+    if (s->pitch_stage != _pitchStage) {
+        [self willChangeValueForKey:@"pitchStage"];
+        _pitchStage = s->pitch_stage;
+        [self didChangeValueForKey:@"pitchStage"];
+    }
+    if (_lfo != nil) {
+        _lfo.status = s;
+        [_lfo updateStatus];
+    }
+    if (_operators != nil) {
+        int i;
+        for (i = 0; i < 8; i++) {
+            _operators[i].status = s->ops[i];
+            [_operators[i] updateStatus];
+        }
+    }
 }
 
 // MARK: AUParameters
@@ -90,51 +167,6 @@
             break;
 
     }
-}
-
-// MARK: init / coder
-
-- (id)init {
-    self = [super init];
-
-    _patch = std::make_shared<patch>();
-    [self connect];
-
-    self.feedback = 0;
-    self.mono = NO;
-    self.middleC = 60;
-    self.portamento = 0;
-
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder {
-    [coder encodeObject:_operators forKey:@"operators"];
-    [coder encodeObject:_pitchEnvelope forKey:@"pitchEnvelope"];
-    [coder encodeObject:_lfo forKey:@"lfo"];
-
-    [coder encodeInt:self.feedback forKey:@"feedback"];
-    [coder encodeBool:self.mono forKey:@"mono"];
-    [coder encodeInt:self.middleC forKey:@"middleC"];
-    [coder encodeInt:self.portamento forKey:@"portamento"];
-}
-
-- (id)initWithCoder:(NSCoder *)coder {
-    self = [super init];
-    _patch = std::make_shared<patch>();
-
-    _operators = [coder decodeObjectForKey:@"operators"];
-    _pitchEnvelope = [coder decodeObjectForKey:@"pitchEnvelope"];
-    _lfo = [coder decodeObjectForKey:@"lfo"];
-
-    [self connect];
-
-    self.feedback = [coder decodeIntForKey:@"feedback"];
-    self.mono = [coder decodeBoolForKey:@"mono"];
-    self.middleC = [coder decodeIntForKey:@"middleC"];
-    self.portamento = [coder decodeIntForKey:@"portamento"];
-
-    return self;
 }
 
 // MARK: properties
@@ -192,6 +224,7 @@
         _operators[7].mod = 7;
         _operators[0].level = 127;
         [self connect];
+        [self updateStatus];
     }
     return _operators;
 }
@@ -208,6 +241,7 @@
     if (_lfo == nil) {
         _lfo = [[LFO alloc] init];
         [self connect];
+        [self updateStatus];
     }
     return _lfo;
 }

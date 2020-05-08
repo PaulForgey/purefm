@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "Envelope.h"
+#import "status.h"
+
 #ifdef __cplusplus
 # import "globals.hpp"
 #endif // __cplusplus
@@ -32,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (op_patch const *)patch;
 #endif // __cplusplus
 
+@property (nonatomic) struct op_status const *status;
+
 @property (nonatomic,readonly) int number;
 @property (nonatomic,readonly) Envelope *envelope;
 @property (nonatomic,readonly) BOOL algoChange;
@@ -51,6 +55,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int frequency;
 @property (nonatomic) BOOL fixed;
 
+@property (readonly) int output;
+
+- (void)updateStatus;
 
 @end
 

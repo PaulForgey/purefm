@@ -14,9 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface EnvelopeView : NSControl
 
-@property (nonatomic,nullable,assign) NSArray< EnvelopeStage * > *stages;
+@property (nonatomic,nullable) NSArray< EnvelopeStage * > *stages;
 @property (nonatomic) NSUInteger keyUp;
 @property (nonatomic) NSIndexSet *selectionIndexes;
+@property (nonatomic) int playingStage;
 
 @end
 

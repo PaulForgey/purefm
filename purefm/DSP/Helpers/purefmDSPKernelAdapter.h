@@ -7,6 +7,7 @@
 //
 
 #import <AudioToolbox/AudioToolbox.h>
+#import "status.h"
 
 #ifdef __cplusplus
 # import "globals.hpp"
@@ -25,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 #ifdef __cplusplus
 - (void)setPatch:(patch_ptr::pointer const &)patch;
 #endif // __cplusplus
+
+- (struct status const *)status;
 
 - (void)allocateRenderResources;
 - (void)deallocateRenderResources;

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <AudioUnit/AudioUnit.h>
 #import "Envelope.h"
+#import "status.h"
+
 #ifdef __cplusplus
 # import "globals.hpp"
 #endif // __cplusplus
@@ -30,14 +32,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (lfo_patch_ptr::pointer const &)patch;
 #endif // __cplusplus
 
-@property (nonatomic) AUParameterTree *parameterTree;
 - (void)setParameter:(AUParameter *)parameter value:(AUValue)value;
+- (void)updateStatus;
+
+@property (nonatomic) struct voice_status const *status;
+@property (nonatomic) AUParameterTree *parameterTree;
 
 @property (nonatomic,readonly) Envelope *envelope;
 @property (nonatomic) BOOL resync;
 @property (nonatomic) LFOWave wave;
 @property (nonatomic) int frequency;
 @property (nonatomic) int level;
+
+@property (readonly) int playingStage;
+@property (readonly) int output;
 
 @end
 

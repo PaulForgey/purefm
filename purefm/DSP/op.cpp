@@ -12,13 +12,17 @@
 #include <cmath>
 
 op::op(
-    globals const *g, int const *s, int const *m, int *o)
+    globals const *g, int const *s, int const *m, int *o1, int *o2)
     : _osc(g->t), _env(g) {
     _globals = g;
     _sum = s;
     _mod = m;
-    _out = o;
+    _out = o1;
+    _out2 = o2;
     _patch = nullptr;
+    _status.output = 0;
+    _status.stage = 0;
+    _env.set_status(&_status.stage);
 }
 
 op::~op() {
@@ -109,11 +113,13 @@ op::step(int lfo, int pitch) {
     bool neg;
     int mod = *_mod << 2;
     int out = _osc.step(_globals->t.pitch(frequency), mod, &neg);
-    int env = _env.op_value(_env.step(1), lfo);
-    env += bias + _level;
+    int eg = _env.op_value(_env.step(1), lfo);
+    eg += bias + _level;
 
-    out = _globals->t.output(out, env);
-    out = (neg ? -out : out) + *_sum;
-    *_out = out;
+    _status.output = (eg >> 9);
+    out = _globals->t.output(out, eg);
+    out = (neg ? -out : out);
+    *_out2 = out;
+    *_out = out + *_sum;
 }
 

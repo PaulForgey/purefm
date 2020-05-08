@@ -58,6 +58,7 @@ class envelope {
         envelope(globals const *);
         virtual ~envelope();
 
+        void set_status(int *status) { _status = status; }
         void update(env_patch const *);
         void start(env_patch const *, int rate_adj, bool trigger);
         int step(int count);
@@ -84,6 +85,7 @@ class envelope {
         eg_vec const *_egs;
         int _key_up, _end;
         int _rate_adj;
+        int *_status;
 
         env_patch const *_patch;
         globals const *_globals;

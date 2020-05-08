@@ -41,9 +41,7 @@
 
 	[self setupAudioBuses];
 	[self setupParameterTree];
-
     [self updatePatch];
-
 	[self setupParameterCallbacks];
 
     return self;
@@ -59,9 +57,10 @@
 - (void)updatePatch {
     [_kernelAdapter setPatch:[self.state patch]];
     self.state.parameterTree = _parameterTree;
+    self.state.status = [_kernelAdapter status];
 }
 
-#pragma mark - AUAudioUnit Setup
+// MARK: AUAudioUnit Setup
 
 - (void)setupAudioBuses {
 	// Create the input and output bus arrays.
@@ -177,16 +176,17 @@
 }
 
 - (void)setupParameterCallbacks {
-    __block __weak purefmAudioUnit *weakSelf = self;
+    __block State * const *state = &_state;
 
 	// implementorValueObserver is called when a parameter changes value.
 	_parameterTree.implementorValueObserver = ^(AUParameter *param, AUValue value) {
-        __strong purefmAudioUnit *strongSelf = weakSelf;
-		[strongSelf.state setParameter:param value:value];
+        if (*state != nil) {
+            [*state setParameter:param value:value];
+        }
 	};
 }
 
-#pragma mark - AUAudioUnit Overrides
+// MARK: AUAudioUnit Overrides
 
 // If an audio unit has input, an audio unit's audio input connection points.
 // Subclassers must override this property getter and should return the same object every time.
@@ -267,7 +267,7 @@
     [super setFullState:fullState];
 }
 
-#pragma mark - AUAudioUnit (AUAudioUnitImplementation)
+// MARK: AUAudioUnit (AUAudioUnitImplementation)
 
 // Block which subclassers must provide to implement rendering.
 - (AUInternalRenderBlock)internalRenderBlock {

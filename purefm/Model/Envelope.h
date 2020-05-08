@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "EnvelopeStage.h"
+#import "status.h"
 
 #ifdef __cplusplus
 # import "globals.hpp"
@@ -17,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Envelope : NSObject< NSCoding >
 
+@property (nonatomic) struct op_status const *status;
 @property (nonatomic,readonly) NSArray< EnvelopeStage * > *stages;
 @property (nonatomic) NSUInteger keyUp;
 @property (nonatomic) BOOL loop;
@@ -24,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int lfo;
 @property (nonatomic) int bend;     // pitch envelope
 @property (nonatomic) int scale;    // pitch envelope
+
+@property (readonly) int playingStage;
 
 + (void)clampScaleValue:(id _Nullable * _Nonnull)ioValue max:(int)max;
 
@@ -35,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 #ifdef __cplusplus
 - (env_patch_ptr::pointer const &)patch;
 #endif // __cplusplus
+
+- (void)updateStatus;
 
 @end
 

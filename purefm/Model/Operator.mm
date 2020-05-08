@@ -19,13 +19,12 @@
     int _level;
 
     op_patch _patch;
+    struct op_status const *_status;
+    int _output;
 }
 
-// MARK: patch
-
-- (op_patch const *)patch {
-    return &_patch;
-}
+@synthesize status = _status;
+@synthesize output = _output;
 
 // MARK: init / coder
 
@@ -90,6 +89,34 @@
     o.velocity = 0;
 
     return o;
+}
+
+// MARK: patch
+
+- (op_patch const *)patch {
+    return &_patch;
+}
+
+// MARK: status
+
+- (void)updateStatus {
+    if (_envelope != nil) {
+        [_envelope updateStatus];
+    }
+    if (_status != NULL) {
+        if (_output != _status->output) {
+            [self willChangeValueForKey:@"output"];
+            _output = _status->output;
+            [self didChangeValueForKey:@"output"];
+        }
+    }
+}
+
+- (void)setStatus:(const struct op_status *)status {
+    _status = status;
+    if (_envelope != nil) {
+        _envelope.status = status;
+    }
 }
 
 // MARK: properties

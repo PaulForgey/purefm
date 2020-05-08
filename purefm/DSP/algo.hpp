@@ -27,15 +27,17 @@ class algo {
         void update(patch const *);
 
         void start(patch const *, int key, int velocity);
-        int step(int lfo, int pitch);
+        void step(int *output, int lfo, int pitch); // output is 16 elements
+        op_status const *get_op_status(int i) const { return _ops[i]->get_status(); }
 
     private:
         globals const *_globals;
         patch const *_patch;
+        fb_filter _fb;
         int _outputs[8];
-        int _fb[4];
-        int _fbi, _fba;
-        int const *_fbo;
+        int _outputs2[8]; // unsummed outputs
+        int _fb_op;
+        int _fbi;
         op *_ops[8];
 
 };

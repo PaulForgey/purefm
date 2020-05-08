@@ -10,6 +10,7 @@
 #define globals_h
 
 #include "tables.hpp"
+#include "status.h"
 
 #include <vector>
 #include <memory>
@@ -166,6 +167,9 @@ struct globals {
 
     // patch info
     patch_ptr patch;
+
+    // returned engine state
+    struct status *status;
 
     // running info
     int mod_wheel;

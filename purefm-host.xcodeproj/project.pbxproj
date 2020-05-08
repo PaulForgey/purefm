@@ -82,6 +82,7 @@
 		8A591AA8243C5ADA00264A3F /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		8A5F46F32445739C003B3B53 /* EnvelopeStage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnvelopeStage.h; sourceTree = "<group>"; };
 		8A5F46F42445739C003B3B53 /* EnvelopeStage.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EnvelopeStage.mm; sourceTree = "<group>"; };
+		8A75DD912465213A00B83CA4 /* status.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = status.h; sourceTree = "<group>"; };
 		8A7B3FFA245952D100CFA455 /* oscillator.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = oscillator.hpp; sourceTree = "<group>"; };
 		8A7B3FFC2459622500CFA455 /* op.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = op.cpp; sourceTree = "<group>"; };
 		8A7B3FFD2459622500CFA455 /* op.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = op.hpp; sourceTree = "<group>"; };
@@ -280,6 +281,7 @@
 				8A9724DD245C0C8700880B8E /* oscillator.cpp */,
 				8AF4D4EF245BAA7600EE14E2 /* globals.hpp */,
 				8ADA2E0C245D5930005473CC /* globals.mm */,
+				8A75DD912465213A00B83CA4 /* status.h */,
 				8AB2F54F243C05240094B217 /* Helpers */,
 			);
 			path = DSP;

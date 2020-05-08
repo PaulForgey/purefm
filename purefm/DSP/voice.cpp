@@ -22,6 +22,15 @@ voice::voice(globals const *g) :
     _pitch = 0;
     _pitch_env.init_at(0);
     std::fill_n(_keys, 16, 0);
+    std::fill_n(_output, 16, 0);
+    for (int i = 0; i < 8; ++i) {
+        _status.ops[i] = _algo.get_op_status(i);
+    }
+    _status.pitch_stage = 0;
+    _status.lfo_stage = 0;
+    _status.lfo_output = 0;
+    _lfo.set_status(&_status);
+    _pitch_env.set_status(&_status.pitch_stage);
 }
 
 voice::~voice() {
@@ -102,12 +111,14 @@ voice::step() {
         return 0;
     }
 
-    if (((_counter++) & 0x0f) == 0) {
+    if ((_counter & 0x0f) == 0) {
         // lfo, pitch every 16
+        // run the engine 16 samples ahead to not call every eg every sample,
+        // as those add up pretty fast.
         _lfo_output = _lfo.step();
         _pitch = _pitch_env.pitch_value(_pitch_env.step(16), _lfo_output) +
                 (_freq_eg.step(16) >> 8);
+        _algo.step(_output, _lfo_output, _pitch);
     }
-
-    return _algo.step(_lfo_output, _pitch);
+    return _output[_counter++ & 0x0f];
 }

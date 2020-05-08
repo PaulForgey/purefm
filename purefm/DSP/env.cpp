@@ -25,6 +25,7 @@ envelope::envelope(globals const *g) {
     _run = false;
     _idle = true;
     _type = eg_exp;
+    _status = nullptr;
 }
 
 envelope::~envelope() {
@@ -114,6 +115,9 @@ envelope::set(int at) {
             _idle = true;
             return;
         }
+    }
+    if (_status != nullptr) {
+        *_status = at;
     }
     if (at < 0 || at >= _end) {
         _idle = true;

@@ -11,6 +11,7 @@
 #import "Operator.h"
 #import "LFO.h"
 #import "Envelope.h"
+#import "status.h"
 
 #ifdef __cplusplus
 # import "globals.hpp"
@@ -21,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface State : NSObject< NSCoding >
 
 @property (nonatomic) AUParameterTree *parameterTree;
+@property (nonatomic) struct status const *status;
 
 @property (nonatomic,readonly) NSArray< Operator * > *operators;
 @property (nonatomic,readonly) Envelope *pitchEnvelope;
@@ -31,11 +33,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int middleC;
 @property (nonatomic) int portamento;
 
+@property (readonly) int pitchStage;
+
 #ifdef __cplusplus
 - (patch_ptr::pointer const &)patch;
 #endif // __cplusplus
 
 - (void)setParameter:(AUParameter *)parameter value:(AUValue)value;
+- (void)updateStatus;
 
 @end
 

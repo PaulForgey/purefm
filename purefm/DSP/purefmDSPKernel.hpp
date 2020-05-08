@@ -13,6 +13,7 @@
 #import "tables.hpp"
 #import "engine.hpp"
 #import "globals.hpp"
+#import "status.h"
 
 #include <algorithm>
 
@@ -24,7 +25,10 @@ public:
     
     // MARK: Member Functions
 
-    purefmDSPKernel() : _engine(&_globals) {}
+    purefmDSPKernel() : _engine(&_globals) {
+        _status.voice = nullptr;
+        _globals.status = &_status;
+    }
     virtual ~purefmDSPKernel() {}
 
     void init(int channelCount, double inSampleRate) {
@@ -36,6 +40,10 @@ public:
     void setPatch(patch_ptr::pointer const &patch) {
         _globals.patch.set(patch);
         _engine.update();
+    }
+
+    struct status const *getStatus() const {
+        return &_status;
     }
 
     void reset() {
@@ -60,7 +68,7 @@ public:
         for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex) {
             const int frameOffset = int(frameIndex + bufferOffset);
 
-            out[frameOffset] = (float)_engine.step() / (float)0x10000000;
+            out[frameOffset] = (float)_engine.step() / (float)0x8000000;
         }
         for (int channel = 1; channel < chanCount; ++channel) {
             float *out2 = (float *)outBufferListPtr->mBuffers[channel].mData;
@@ -82,7 +90,8 @@ private:
     bool bypassed = false;
     AudioBufferList* inBufferListPtr = nullptr;
     AudioBufferList* outBufferListPtr = nullptr;
-    class globals _globals;
+    struct globals _globals;
+    struct status _status;
     class engine _engine;
 };
 

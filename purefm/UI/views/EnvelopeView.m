@@ -14,13 +14,22 @@
     NSIndexSet *_selectionIndexes;
     NSRect *parts;
     int partsLen;
+    int _playingStage;
 }
+
+@synthesize playingStage = _playingStage;
+@synthesize stages = _stages;
 
 - (void)dealloc {
     if (parts != NULL) {
         free(parts);
         parts = NULL;
     }
+}
+
+- (void)setPlayingStage:(int)playingStage {
+    _playingStage = playingStage;
+    self.needsDisplay = YES;
 }
 
 - (NSUInteger)keyUp {
@@ -30,10 +39,6 @@
 - (void)setKeyUp:(NSUInteger)keyUp {
     _keyUp = keyUp;
     self.needsDisplay = YES;
-}
-
-- (NSArray< EnvelopeStage * > *)stages {
-    return _stages;
 }
 
 - (void)setStages:(NSArray<EnvelopeStage *> *)stages {
@@ -112,7 +117,9 @@
         }
 
         if (NSIntersectsRect(dirtyRect, segrect)) {
-            if ([_selectionIndexes containsIndex:i]) {
+            if (i == _playingStage) {
+                [[NSColor findHighlightColor] setFill];
+            } else if ([_selectionIndexes containsIndex:i]) {
                 [[NSColor selectedControlColor] setFill];
             } else {
                 [colors[i % [colors count]] setFill];

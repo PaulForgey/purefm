@@ -27,6 +27,7 @@ class voice {
         int step();
 
         int get_key() const { return _key; }
+        voice_status const *get_status() const { return &_status; }
 
     private:
         int highest_key() const;
@@ -44,6 +45,8 @@ class voice {
         int _key;
         int _velocity;
         unsigned char _keys[16];
+        int _output[16];
+        voice_status _status;
 
 };
 

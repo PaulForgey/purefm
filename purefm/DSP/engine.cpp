@@ -49,6 +49,7 @@ engine::start(int channel, int key, int velocity) {
             }
         }
     }
+    _globals->status->voice = v->get_status();
     v->start(_patch, key, velocity);
 }
 

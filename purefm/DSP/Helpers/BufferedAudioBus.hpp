@@ -50,7 +50,7 @@ struct BufferedAudioBus {
     }
 };
 
-// MARK:-  BufferedOutputBus: BufferedAudioBus
+// MARK: -  BufferedOutputBus: BufferedAudioBus
 // MARK: prepareOutputBufferList()
 /*
  BufferedOutputBus

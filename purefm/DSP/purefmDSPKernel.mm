@@ -38,6 +38,10 @@
     _kernel.setPatch(patch);
 }
 
+- (struct status const *)status {
+    return _kernel.getStatus();
+}
+
 - (AUAudioUnitBus *)outputBus {
     return _outputBus.bus;
 }
@@ -60,7 +64,7 @@
     _outputBus.deallocateRenderResources();
 }
 
-// MARK: -  AUAudioUnit (AUAudioUnitImplementation)
+// MARK: AUAudioUnit (AUAudioUnitImplementation)
 
 // Subclassers must provide a AUInternalRenderBlock (via a getter) to implement rendering.
 - (AUInternalRenderBlock)internalRenderBlock {

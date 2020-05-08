@@ -12,9 +12,15 @@
 lfo::lfo(globals const *g) : _env(g) {
     _globals = g;
     _patch = nullptr;
+    _status = nullptr;
 }
 
 lfo::~lfo() {
+}
+
+void lfo::set_status(voice_status *status) {
+    _status = status;
+    _env.set_status(&_status->lfo_stage);
 }
 
 void
@@ -59,6 +65,10 @@ lfo::step() {
     unsigned long pitch = _globals->t.pitch(_frequency);
     osc = _osc.step(*f, _globals->t, pitch, 0, &neg);
     env = _env.step(1) + _patch->level;
+
+    if (_status != nullptr) {
+        _status->lfo_output = (env >> 9);
+    }
 
     osc = _globals->t.output(osc, env);
     return neg ? -osc : osc;

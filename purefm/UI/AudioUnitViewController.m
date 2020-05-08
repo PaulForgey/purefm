@@ -45,6 +45,7 @@
     Envelope *_envelope;
     Envelope *_pitchEnvelope;
     State *_state;
+    NSTimer *_refresh;
 }
 
 @dynamic view;
@@ -52,7 +53,7 @@
 @synthesize envelope = _envelope;
 @synthesize state = _state;
 
-#pragma mark properties
+// MARK: properties
 
 - (void) setAudioUnit:(purefmAudioUnit *)unit {
     _audioUnit = unit;
@@ -67,9 +68,25 @@
     return _audioUnit;
 }
 
-#pragma mark view
+// MARK: view
 
-- (void) viewDidLoad {
+- (void)viewWillDisappear {
+    [_refresh invalidate];
+    _refresh = nil;
+    [super viewWillDisappear];
+}
+
+- (void)viewWillAppear {
+    _refresh = [NSTimer scheduledTimerWithTimeInterval:0.100
+                                               repeats:YES
+                                               block:^(NSTimer * _Nonnull timer) {
+        [self.state updateStatus];
+    }];
+
+    [super viewWillAppear];
+}
+
+- (void)viewDidLoad {
     self.preferredContentSize = self.view.frame.size;
     if (_audioUnit != nil) {
         [self connectView];
@@ -97,6 +114,7 @@
     } else if (object == _pitchDurationFormatter) {
         self.pitchDurationText.needsDisplay = YES;
     } else if (object == _frequencyFormatter){
+        [[self frequencyField] abortEditing];
         self.frequencyField.needsDisplay = YES;
     } else if (object == _pitchFormatter){
         self.pitchLevelText.needsDisplay = YES;
@@ -156,6 +174,11 @@
                 withKeyPath:@"selection.envelope.keyUp"
                     options:nil];
 
+    [self.envelopeView bind:@"playingStage"
+                   toObject:self.operatorsController
+                withKeyPath:@"selection.envelope.playingStage"
+                    options:nil];
+
     [self.LFOEnvelopeView bind:@"stages"
                       toObject:self.LFOStageController
                    withKeyPath:@"arrangedObjects"
@@ -166,6 +189,11 @@
                    withKeyPath:@"state.lfo.envelope.keyUp"
                        options:nil];
 
+    [self.LFOEnvelopeView bind:@"playingStage"
+                      toObject:self
+                   withKeyPath:@"state.lfo.playingStage"
+                       options:nil];
+
     [self.pitchEnvelopeView bind:@"stages"
                         toObject:self.pitchStageController
                      withKeyPath:@"arrangedObjects"
@@ -174,6 +202,11 @@
     [self.pitchEnvelopeView bind:@"keyUp"
                         toObject:self
                      withKeyPath:@"state.pitchEnvelope.keyUp"
+                         options:nil];
+
+    [self.pitchEnvelopeView bind:@"playingStage"
+                        toObject:self
+                     withKeyPath:@"state.pitchStage"
                          options:nil];
 
     [self.durationFormatter bind:@"sampleRate"
@@ -221,11 +254,11 @@
                   withKeyPath:@"selection.fixed"
                       options:nil];
 
-
     self.pitchDurationFormatter.linearity = kLinearity_Pitch;
+    self.portamentoFormatter.linearity = kLinearity_Pitch;
 }
 
-#pragma mark actions
+// MARK: actions
 
 - (IBAction)algoChanged:(id)sender {
     [self.state willChangeValueForKey:@"operators"];
@@ -279,15 +312,11 @@
     }
 }
 
-- (IBAction)fixedChanged:(id)sender {
-    self.frequencyField.needsDisplay = YES;
-}
-
 - (IBAction)enabledChanged:(id)sender {
     self.algoView.needsDisplay = YES;
 }
 
-#pragma mark factory
+// MARK: factory
 
 - (AUAudioUnit *)createAudioUnitWithComponentDescription:(AudioComponentDescription)desc error:(NSError **)error {
     self.audioUnit = [[purefmAudioUnit alloc] initWithComponentDescription:desc error:error];

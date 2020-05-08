@@ -16,14 +16,15 @@ algo::algo(globals const *g) {
     _patch = nullptr;
     
     for (int i = 0; i < 8; ++i) {
-        _ops[i] = new op(g, &zero, &zero, &_outputs[i]);
+        _ops[i] = new op(g, &zero, &zero, &_outputs[i], &_outputs2[i]);
     }
 
     std::fill_n(_outputs, 8, 0);
-    std::fill_n(_fb, 4, 0);
+    std::fill_n(_outputs2, 8, 0);
 
-    _fbo = &_outputs[0];
-    _fba = 0;
+    _fb.set_input(&_outputs2[0]);
+    _fb_op = -1;
+    _fbi = 0;
 }
 
 algo::~algo() {
@@ -60,7 +61,8 @@ algo::set_op_node(int op_num, int sum, int mod) {
         o->set_mod(&zero);
     } else if (mod <= op_num) {
         o->set_mod(&_fbi);
-        _fbo = &_outputs[mod];
+        _fb.set_input(&_outputs2[mod]);
+        _fb_op = op_num;
     } else {
         o->set_mod(&_outputs[mod]);
     }
@@ -78,25 +80,19 @@ algo::start(patch const *patch, int key, int velocity) {
     }
 }
 
-int
-algo::step(int lfo, int pitch) {
+void
+algo::step(int *out, int lfo, int pitch) {
     if (_patch == nullptr) {
-        return 0;
+        return;
     }
 
-    // moving average (of 4) feedback filter
-    _fba += *_fbo - _fb[0];
-    _fb[0] = _fb[1];
-    _fb[1] = _fb[2];
-    _fb[2] = _fb[3];
-    _fb[3] = *_fbo;
-    _fbi = (_fba * _patch->feedback) >> 9;
+    for (int i = 0; i < 16; ++i) {
+        _fbi = (_fb() * _patch->feedback) >> 7;
 
-    // work the operators
-    for (auto &&o : _ops) {
-        o->step(lfo, pitch);
+        for (auto &op : _ops) {
+            op->step(lfo, pitch);
+        }
+
+        *(out++) = _outputs[0];
     }
-
-    // output of op1
-    return _outputs[0];
 }
