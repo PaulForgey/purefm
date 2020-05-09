@@ -16,13 +16,12 @@ algo::algo(globals const *g) {
     _patch = nullptr;
     
     for (int i = 0; i < 8; ++i) {
-        _ops[i] = new op(g, &zero, &zero, &_outputs[i], &_outputs2[i]);
+        _ops[i] = new op(g, &zero, &zero, &_outputs[i]);
     }
 
     std::fill_n(_outputs, 8, 0);
-    std::fill_n(_outputs2, 8, 0);
 
-    _fb.set_input(&_outputs2[0]);
+    _fb.set_input(&_outputs[0]);
     _fb_op = -1;
     _fbi = 0;
 }
@@ -61,7 +60,7 @@ algo::set_op_node(int op_num, int sum, int mod) {
         o->set_mod(&zero);
     } else if (mod <= op_num) {
         o->set_mod(&_fbi);
-        _fb.set_input(&_outputs2[mod]);
+        _fb.set_input(&_outputs[mod]);
         _fb_op = op_num;
     } else {
         o->set_mod(&_outputs[mod]);

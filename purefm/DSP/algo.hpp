@@ -35,7 +35,6 @@ class algo {
         patch const *_patch;
         fb_filter _fb;
         int _outputs[8];
-        int _outputs2[8]; // unsummed outputs
         int _fb_op;
         int _fbi;
         op *_ops[8];

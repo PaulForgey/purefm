@@ -12,13 +12,12 @@
 #include <cmath>
 
 op::op(
-    globals const *g, int const *s, int const *m, int *o1, int *o2)
+    globals const *g, int const *s, int const *m, int *o1)
     : _osc(g->t), _env(g) {
     _globals = g;
     _sum = s;
     _mod = m;
     _out = o1;
-    _out2 = o2;
     _patch = nullptr;
     _status.output = 0;
     _status.stage = 0;
@@ -119,7 +118,6 @@ op::step(int lfo, int pitch) {
     _status.output = (eg >> 12);
     out = _globals->t.output(out, eg);
     out = (neg ? -out : out);
-    *_out2 = out;
     *_out = out + *_sum;
 }
 

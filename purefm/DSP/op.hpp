@@ -42,7 +42,7 @@ class fb_filter {
 // from this level, all things are normalized to 24 bit ranges
 class op {
     public:
-        op(globals const *, int const *sum, int const *mod, int *out, int *out2);
+        op(globals const *, int const *sum, int const *mod, int *out);
         virtual ~op();
 
         void set_sum(int const *s) { _sum = s; }
