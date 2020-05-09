@@ -53,6 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) ScaleType scaleTypeLeft;
 @property (nonatomic) ScaleType scaleTypeRight;
 @property (nonatomic) int frequency;
+@property (nonatomic) int detune;
 @property (nonatomic) BOOL fixed;
 
 @property (readonly) int output;

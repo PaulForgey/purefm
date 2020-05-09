@@ -17,6 +17,8 @@
     int _number;
     Envelope *_envelope;
     int _level;
+    int _frequency;
+    int _detune;
 
     op_patch _patch;
     struct op_status const *_status;
@@ -44,6 +46,7 @@
     [coder encodeInt:self.scaleTypeLeft forKey:@"scaleTypeLeft"];
     [coder encodeInt:self.scaleTypeRight forKey:@"scaleTypeRight"];
     [coder encodeInt:self.frequency forKey:@"frequency"];
+    [coder encodeInt:self.detune forKey:@"detune"];
     [coder encodeBool:self.fixed forKey:@"fixed"];
 }
 
@@ -68,6 +71,7 @@
     self.scaleTypeLeft = (ScaleType)[coder decodeIntForKey:@"scaleTypeLeft"];
     self.scaleTypeRight = (ScaleType)[coder decodeIntForKey:@"scaleTypeRight"];
     self.frequency = [coder decodeIntForKey:@"frequency"];
+    self.detune = [coder decodeIntForKey:@"detune"];
     self.fixed = [coder decodeBoolForKey:@"fixed"];
 
     return self;
@@ -87,6 +91,7 @@
     o.resync = NO;
     o.level = 0;
     o.velocity = 0;
+    o.frequency = 0;
 
     return o;
 }
@@ -211,10 +216,19 @@
 }
 
 - (void)setFrequency:(int)frequency {
-    _patch.frequency = frequency;
+    _frequency = frequency;
+    _patch.frequency = frequency + _detune;
 }
 - (int)frequency {
-    return _patch.frequency;
+    return _frequency;
+}
+
+- (void)setDetune:(int)detune {
+    _detune = detune;
+    _patch.frequency = _frequency + detune;
+}
+- (int)detune {
+    return _detune;
 }
 
 - (void)setFixed:(BOOL)fixed {
