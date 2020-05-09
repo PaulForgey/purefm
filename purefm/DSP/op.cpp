@@ -116,7 +116,7 @@ op::step(int lfo, int pitch) {
     int eg = _env.op_value(_env.step(1), lfo);
     eg += bias + _level;
 
-    _status.output = (eg >> 9);
+    _status.output = (eg >> 12);
     out = _globals->t.output(out, eg);
     out = (neg ? -out : out);
     *_out2 = out;

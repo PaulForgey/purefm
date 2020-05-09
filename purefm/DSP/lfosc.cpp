@@ -67,7 +67,7 @@ lfo::step() {
     env = _env.step(1) + _patch->level;
 
     if (_status != nullptr) {
-        _status->lfo_output = (env >> 9);
+        _status->lfo_output = (env >> 12);
     }
 
     osc = _globals->t.output(osc, env);
