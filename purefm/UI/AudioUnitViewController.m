@@ -191,7 +191,7 @@
 
     [self.LFOEnvelopeView bind:@"playingStage"
                       toObject:self
-                   withKeyPath:@"state.lfo.playingStage"
+                   withKeyPath:@"state.lfo.envelope.playingStage"
                        options:nil];
 
     [self.pitchEnvelopeView bind:@"stages"
@@ -206,7 +206,7 @@
 
     [self.pitchEnvelopeView bind:@"playingStage"
                         toObject:self
-                     withKeyPath:@"state.pitchStage"
+                     withKeyPath:@"state.pitchEnvelope.playingStage"
                          options:nil];
 
     [self.durationFormatter bind:@"sampleRate"

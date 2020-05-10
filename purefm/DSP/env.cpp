@@ -25,31 +25,38 @@ envelope::envelope(globals const *g) {
     _run = false;
     _idle = true;
     _type = eg_exp;
-    _status = nullptr;
+    _status.output = (eg_min >> 12);
+    _status.stage = 0;
 }
 
 envelope::~envelope() {
 }
 
 int
-envelope::pitch_value(int value, int lfo) {
+envelope::pitch_value(int value) {
     if (_patch == nullptr) {
         return value;
     }
     return (value >> (8 + _patch->scale)) +
-            (_globals->pitch_bend >> _patch->bend) +
-            (lfo >> (8 + _patch->lfo));
+            (_globals->pitch_bend >> _patch->bend);
 }
 
 int
-envelope::op_value(int value, int lfo) {
+envelope::pitch_bias(int lfo) {
+    if (_patch == nullptr) {
+        return 0;
+    }
+    return (lfo >> (8 + _patch->lfo)) << 8;
+}
+
+int
+envelope::op_bias(int lfo) {
     if (_patch == nullptr) {
         return 0;
     }
     // mod_wheel value is shifted over 5
-    return value +
-        (((lfo >> 8) >> _patch->lfo) << 8) +
-        ((_globals->mod_wheel  >> _patch->expr) << 11);
+    return (lfo >> (8 + _patch->lfo) << 8) +
+           ((_globals->mod_wheel >> (5 + _patch->expr)) << 16);
 }
 
 void
@@ -116,9 +123,7 @@ envelope::set(int at) {
             return;
         }
     }
-    if (_status != nullptr) {
-        *_status = at;
-    }
+    _status.stage = at;
     if (at < 0 || at >= _end) {
         _idle = true;
         return;
@@ -151,7 +156,7 @@ envelope::set(int at) {
 }
 
 int
-envelope::step(int count) {
+envelope::step(int count, int bias) {
     if (!_trigger && _run && !_globals->sustain_pedal) {
         stop();
     }
@@ -160,7 +165,9 @@ envelope::step(int count) {
         if (!_idle) {
             set(_at+1);
         } else {
-            return _out;
+            int const out = _out + bias;
+            _status.output = out >> 12;
+            return out;
         }
     }
 
@@ -185,5 +192,7 @@ envelope::step(int count) {
         break;
     }
 
-    return _out;
+    int const out = _out + bias;
+    _status.output = out >> 12;
+    return out;
 }

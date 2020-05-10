@@ -51,7 +51,7 @@ class op {
         void start(op_patch const *patch, int key, int middle_c, int velocity);
         void update(op_patch const *patch);
         void step(int lfo, int pitch);
-        op_status const *get_status() const { return &_status; }
+        eg_status const *get_status() const { return _env.get_status(); }
 
     private:
         globals const *_globals;
@@ -62,7 +62,6 @@ class op {
         sine_oscillator _osc;
         envelope _env;
         int _level;
-        op_status _status;
 };
 
 #endif /* op_hpp */

@@ -15,12 +15,14 @@
 @implementation Envelope {
     NSMutableArray< EnvelopeStage * > *_stages;
     env_patch_ptr::pointer _patch;
-    struct op_status const *_status;
+    struct eg_status const *_status;
     int _playingStage;
+    int _output;
 }
 
 @synthesize status = _status;
 @synthesize playingStage = _playingStage;
+@synthesize output = _output;
 
 // MARK: init / coder
 
@@ -151,6 +153,11 @@
             [self willChangeValueForKey:@"playingStage"];
             _playingStage = _status->stage;
             [self didChangeValueForKey:@"playingStage"];
+        }
+        if (_status->output != _output) {
+            [self willChangeValueForKey:@"output"];
+            _output = _status->output;
+            [self didChangeValueForKey:@"output"];
         }
     }
 }

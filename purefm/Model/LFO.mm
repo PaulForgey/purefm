@@ -22,15 +22,11 @@
     lfo_patch_ptr::pointer _patch;
     int _level;
     AUParameterTree *_parameterTree;
-    struct voice_status const *_status;
-    int _output;
-    int _playingStage;
+    struct eg_status const *_status;
 }
 
 @synthesize parameterTree = _parameterTree;
 @synthesize status = _status;
-@synthesize output = _output;
-@synthesize playingStage = _playingStage;
 
 // MARK: init / coder
 
@@ -83,17 +79,9 @@
 // MARK: status
 
 - (void)updateStatus {
-    if (_status != NULL) {
-        if (_status->lfo_output != _output) {
-            [self willChangeValueForKey:@"output"];
-            _output = _status->lfo_output;
-            [self didChangeValueForKey:@"output"];
-        }
-        if (_status->lfo_stage != _playingStage) {
-            [self willChangeValueForKey:@"playingStage"];
-            _playingStage = _status->lfo_stage;
-            [self didChangeValueForKey:@"playingStage"];
-        }
+    if (_status != NULL && _envelope != nil) {
+        _envelope.status = _status;
+        [_envelope updateStatus];
     }
 }
 

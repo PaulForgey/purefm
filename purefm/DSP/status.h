@@ -9,16 +9,15 @@
 #ifndef status_h
 #define status_h
 
-struct op_status {
+struct eg_status {
     int stage;
     int output;
 };
 
 struct voice_status {
-    int pitch_stage;
-    int lfo_stage;
-    int lfo_output;
-    struct op_status const *ops[8];
+    struct eg_status const *pitch;
+    struct eg_status const *lfo;
+    struct eg_status const *ops[8];
 };
 
 struct status {

@@ -28,7 +28,7 @@ class algo {
 
         void start(patch const *, int key, int velocity);
         void step(int *output, int lfo, int pitch); // output is 16 elements
-        op_status const *get_op_status(int i) const { return _ops[i]->get_status(); }
+        eg_status const *get_eg_status(int i) const { return _ops[i]->get_status(); }
 
     private:
         globals const *_globals;

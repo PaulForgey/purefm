@@ -33,8 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int middleC;
 @property (nonatomic) int portamento;
 
-@property (readonly) int pitchStage;
-
 #ifdef __cplusplus
 - (patch_ptr::pointer const &)patch;
 #endif // __cplusplus

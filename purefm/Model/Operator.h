@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (op_patch const *)patch;
 #endif // __cplusplus
 
-@property (nonatomic) struct op_status const *status;
+@property (nonatomic) struct eg_status const *status;
 
 @property (nonatomic,readonly) int number;
 @property (nonatomic,readonly) Envelope *envelope;
@@ -55,8 +55,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int frequency;
 @property (nonatomic) int detune;
 @property (nonatomic) BOOL fixed;
-
-@property (readonly) int output;
 
 - (void)updateStatus;
 

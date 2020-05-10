@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Envelope : NSObject< NSCoding >
 
-@property (nonatomic) struct op_status const *status;
+@property (nonatomic) struct eg_status const *status;
 @property (nonatomic,readonly) NSArray< EnvelopeStage * > *stages;
 @property (nonatomic) NSUInteger keyUp;
 @property (nonatomic) BOOL loop;
@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int scale;    // pitch envelope
 
 @property (readonly) int playingStage;
+@property (readonly) int output;
 
 + (void)clampScaleValue:(id _Nullable * _Nonnull)ioValue max:(int)max;
 

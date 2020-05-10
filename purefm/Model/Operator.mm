@@ -21,12 +21,10 @@
     int _detune;
 
     op_patch _patch;
-    struct op_status const *_status;
-    int _output;
+    struct eg_status const *_status;
 }
 
 @synthesize status = _status;
-@synthesize output = _output;
 
 // MARK: init / coder
 
@@ -108,16 +106,9 @@
     if (_envelope != nil) {
         [_envelope updateStatus];
     }
-    if (_status != NULL) {
-        if (_output != _status->output) {
-            [self willChangeValueForKey:@"output"];
-            _output = _status->output;
-            [self didChangeValueForKey:@"output"];
-        }
-    }
 }
 
-- (void)setStatus:(const struct op_status *)status {
+- (void)setStatus:(const struct eg_status *)status {
     _status = status;
     if (_envelope != nil) {
         _envelope.status = status;

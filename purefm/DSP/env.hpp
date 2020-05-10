@@ -58,16 +58,17 @@ class envelope {
         envelope(globals const *);
         virtual ~envelope();
 
-        void set_status(int *status) { _status = status; }
+        eg_status const *get_status() const { return &_status; }
         void update(env_patch const *);
         void start(env_patch const *, int rate_adj, bool trigger);
-        int step(int count);
+        int step(int count, int bias);
         int out() const { return _out; }
         void init_at(int out) { _out = out; _level = out; }
 
         // for pitch envelope
-        int pitch_value(int value, int lfo);
-        int op_value(int value, int lfo);
+        int pitch_bias(int lfo);
+        int pitch_value(int value);
+        int op_bias(int lfo);
 
         bool idle() const { return _idle && _level == eg_min; }
 
@@ -85,7 +86,7 @@ class envelope {
         eg_vec const *_egs;
         int _key_up, _end;
         int _rate_adj;
-        int *_status;
+        eg_status _status;
 
         env_patch const *_patch;
         globals const *_globals;

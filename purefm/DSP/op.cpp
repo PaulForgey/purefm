@@ -19,9 +19,6 @@ op::op(
     _mod = m;
     _out = o1;
     _patch = nullptr;
-    _status.output = 0;
-    _status.stage = 0;
-    _env.set_status(&_status.stage);
 }
 
 op::~op() {
@@ -107,15 +104,13 @@ op::step(int lfo, int pitch) {
         frequency += pitch;
     }
 
-    int bias = 0;
+    int bias = _env.op_bias(lfo);
 
     bool neg;
     int mod = *_mod << 2;
     int out = _osc.step(_globals->t.pitch(frequency), mod, &neg);
-    int eg = _env.op_value(_env.step(1), lfo);
-    eg += bias + _level;
+    int eg = _env.step(1, bias) + _level;
 
-    _status.output = (eg >> 12);
     out = _globals->t.output(out, eg);
     out = (neg ? -out : out);
     *_out = out + *_sum;

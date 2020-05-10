@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setParameter:(AUParameter *)parameter value:(AUValue)value;
 - (void)updateStatus;
 
-@property (nonatomic) struct voice_status const *status;
+@property (nonatomic) struct eg_status const *status;
 @property (nonatomic) AUParameterTree *parameterTree;
 
 @property (nonatomic,readonly) Envelope *envelope;
@@ -43,9 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) LFOWave wave;
 @property (nonatomic) int frequency;
 @property (nonatomic) int level;
-
-@property (readonly) int playingStage;
-@property (readonly) int output;
 
 @end
 

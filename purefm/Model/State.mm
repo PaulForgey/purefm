@@ -20,12 +20,9 @@
 
     patch_ptr::pointer _patch;
     AUParameterTree *_parameterTree;
-
-    int _pitchStage;
 }
 
 @synthesize parameterTree = _parameterTree;
-@synthesize pitchStage = _pitchStage;
 
 // MARK: init / coder
 
@@ -101,14 +98,13 @@
     if (s == NULL) {
         return;
     }
-    if (s->pitch_stage != _pitchStage) {
-        [self willChangeValueForKey:@"pitchStage"];
-        _pitchStage = s->pitch_stage;
-        [self didChangeValueForKey:@"pitchStage"];
-    }
     if (_lfo != nil) {
-        _lfo.status = s;
+        _lfo.status = s->lfo;
         [_lfo updateStatus];
+    }
+    if (_pitchEnvelope != nil) {
+        _pitchEnvelope.status = s->pitch;
+        [_pitchEnvelope updateStatus];
     }
     if (_operators != nil) {
         int i;
