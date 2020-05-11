@@ -7,6 +7,7 @@
 //
 
 #import "AudioUnitViewController.h"
+#import "EnvelopeController.h"
 #import "purefmAudioUnit.h"
 #import "AlgoView.h"
 #import "EnvelopeView.h"
@@ -16,41 +17,29 @@
 
 @interface AudioUnitViewController ()
 @property (weak) IBOutlet NSView *view; // XCode's xib editor doesn't see us as an NSViewController
-@property (strong) IBOutlet DurationFormatter *durationFormatter;
-@property (strong) IBOutlet DurationFormatter *LFODurationFormatter;
-@property (strong) IBOutlet DurationFormatter *pitchDurationFormatter;
 @property (strong) IBOutlet DurationFormatter *portamentoFormatter;
 @property (strong) IBOutlet FrequencyFormatter *frequencyFormatter;
-@property (strong) IBOutlet PitchFormatter *pitchFormatter;
 @property (weak) IBOutlet AlgoView *algoView;
-@property (weak) IBOutlet EnvelopeView *envelopeView;
-@property (weak) IBOutlet EnvelopeView *LFOEnvelopeView;
-@property (weak) IBOutlet EnvelopeView *pitchEnvelopeView;
 @property (strong) IBOutlet NSArrayController *operatorsController;
-@property (strong) IBOutlet NSArrayController *envelopeStageController;
-@property (strong) IBOutlet NSArrayController *LFOStageController;
-@property (strong) IBOutlet NSArrayController *pitchStageController;
-@property (weak) IBOutlet NSTextField *levelText;
-@property (weak) IBOutlet NSTextField *durationText;
-@property (weak) IBOutlet NSTextField *LFODurationText;
 @property (weak) IBOutlet NSTextField *frequencyField;
-@property (weak) IBOutlet NSTextField *pitchDurationText;
-@property (weak) IBOutlet NSTextField *pitchLevelText;
+@property (weak) IBOutlet NSView *operatorEnvelopeView;
+@property (weak) IBOutlet NSView *lfoEnvelopeView;
+@property (weak) IBOutlet NSView *pitchEnvelopeView;
 
 @end
 
 @implementation AudioUnitViewController {
     purefmAudioUnit *_audioUnit;
-    Envelope *_envelopeClip;
-    Envelope *_envelope;
+    EnvelopeController *_operatorEnvelopeController;
+    EnvelopeController *_lfoEnvelopeController;
+    EnvelopeController *_pitchEnvelopeController;
+
     Envelope *_pitchEnvelope;
     State *_state;
     NSTimer *_refresh;
 }
 
 @dynamic view;
-@synthesize envelopeClip = _envelopeClip;
-@synthesize envelope = _envelope;
 @synthesize state = _state;
 
 // MARK: properties
@@ -88,6 +77,17 @@
 
 - (void)viewDidLoad {
     self.preferredContentSize = self.view.frame.size;
+    _operatorEnvelopeController = [EnvelopeController envelopeController];
+    [self.operatorEnvelopeView addSubview:_operatorEnvelopeController.view];
+    _operatorEnvelopeController.hasClip = YES;
+
+    _lfoEnvelopeController = [EnvelopeController envelopeController];
+    [self.lfoEnvelopeView addSubview:_lfoEnvelopeController.view];
+
+    _pitchEnvelopeController = [EnvelopeController envelopeController];
+    [self.pitchEnvelopeView addSubview:_pitchEnvelopeController.view];
+    _pitchEnvelopeController.pitch = YES;
+
     if (_audioUnit != nil) {
         [self connectView];
     }
@@ -109,15 +109,9 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self updateState];
         });
-    } else if (object == _durationFormatter) {
-        self.durationText.needsDisplay = YES;
-    } else if (object == _pitchDurationFormatter) {
-        self.pitchDurationText.needsDisplay = YES;
     } else if (object == _frequencyFormatter){
         [[self frequencyField] abortEditing];
         self.frequencyField.needsDisplay = YES;
-    } else if (object == _pitchFormatter){
-        self.pitchLevelText.needsDisplay = YES;
     } else {
         [super observeValueForKeyPath:keyPath
                              ofObject:object
@@ -134,25 +128,10 @@
                         options:NSKeyValueObservingOptionNew
                         context:NULL];
 
-    [self.durationFormatter addObserver:self
-                             forKeyPath:@"reformat"
-                                options:NSKeyValueObservingOptionNew
-                                context:NULL];
-
     [self.frequencyFormatter addObserver:self
                               forKeyPath:@"reformat"
                                  options:NSKeyValueObservingOptionNew
                                  context:NULL];
-
-    [self.pitchDurationFormatter addObserver:self
-                                  forKeyPath:@"reformat"
-                                     options:NSKeyValueObservingOptionNew
-                                     context:NULL];
-
-    [self.pitchFormatter addObserver:self
-                          forKeyPath:@"reformat"
-                             options:NSKeyValueObservingOptionNew
-                             context:NULL];
 
     [self.algoView bind:@"operators"
                toObject:self
@@ -164,97 +143,46 @@
                         withKeyPath:@"selection.envelope"
                             options:nil];
 
-    [self.envelopeView bind:@"stages"
-                   toObject:self.envelopeStageController
-                withKeyPath:@"arrangedObjects"
-                    options:nil];
+    [_operatorEnvelopeController bind:@"envelope"
+                             toObject:self
+                          withKeyPath:@"envelope"
+                              options:nil];
 
-    [self.envelopeView bind:@"keyUp"
-                   toObject:self.operatorsController
-                withKeyPath:@"selection.envelope.keyUp"
-                    options:nil];
-
-    [self.envelopeView bind:@"playingStage"
-                   toObject:self.operatorsController
-                withKeyPath:@"selection.envelope.playingStage"
-                    options:nil];
-
-    [self.LFOEnvelopeView bind:@"stages"
-                      toObject:self.LFOStageController
-                   withKeyPath:@"arrangedObjects"
-                       options:nil];
-
-    [self.LFOEnvelopeView bind:@"keyUp"
-                      toObject:self
-                   withKeyPath:@"state.lfo.envelope.keyUp"
-                       options:nil];
-
-    [self.LFOEnvelopeView bind:@"playingStage"
-                      toObject:self
-                   withKeyPath:@"state.lfo.envelope.playingStage"
-                       options:nil];
-
-    [self.pitchEnvelopeView bind:@"stages"
-                        toObject:self.pitchStageController
-                     withKeyPath:@"arrangedObjects"
-                         options:nil];
-
-    [self.pitchEnvelopeView bind:@"keyUp"
-                        toObject:self
-                     withKeyPath:@"state.pitchEnvelope.keyUp"
-                         options:nil];
-
-    [self.pitchEnvelopeView bind:@"playingStage"
-                        toObject:self
-                     withKeyPath:@"state.pitchEnvelope.playingStage"
-                         options:nil];
-
-    [self.durationFormatter bind:@"sampleRate"
-                        toObject:self
-                     withKeyPath:@"audioUnit.envelopeRate"
-                         options:nil];
-
-    [self.durationFormatter bind:@"linearity"
-                        toObject:self.envelopeStageController
-                     withKeyPath:@"selection.linearity"
-                         options:nil];
-
-    [self.LFODurationFormatter bind:@"sampleRate"
-                           toObject:self
-                        withKeyPath:@"audioUnit.LFORate"
-                            options:nil];
-
-    [self.LFODurationFormatter bind:@"linearity"
-                           toObject:self.LFOStageController
-                        withKeyPath:@"selection.linearity"
-                            options:nil];
-
-    [self.pitchDurationFormatter bind:@"sampleRate"
+    [_operatorEnvelopeController bind:@"sampleRate"
                              toObject:self
                           withKeyPath:@"audioUnit.envelopeRate"
                               options:nil];
 
-    [self.pitchDurationFormatter bind:@"linearity"
-                             toObject:self.pitchStageController
-                          withKeyPath:@"selection.linearity"
-                              options:nil];
+    [_lfoEnvelopeController bind:@"envelope"
+                        toObject:self
+                     withKeyPath:@"state.lfo.envelope"
+                         options:nil];
+
+    [_lfoEnvelopeController bind:@"sampleRate"
+                        toObject:self
+                     withKeyPath:@"audioUnit.lfoRate"
+                         options:nil];
+
+    [_pitchEnvelopeController bind:@"envelope"
+                          toObject:self
+                       withKeyPath:@"state.pitchEnvelope"
+                           options:nil];
+
+    [_pitchEnvelopeController bind:@"sampleRate"
+                          toObject:self
+                       withKeyPath:@"audioUnit.envelopeRate"
+                           options:nil];
 
     [self.portamentoFormatter bind:@"sampleRate"
                           toObject:self
                        withKeyPath:@"audioUnit.envelopeRate"
                            options:nil];
 
-    [self.pitchFormatter bind:@"scale"
-                     toObject:self
-                  withKeyPath:@"state.pitchEnvelope.scale"
-                      options:nil];
-
     [self.frequencyFormatter bind:@"fixed"
                      toObject:self.operatorsController
                   withKeyPath:@"selection.fixed"
                       options:nil];
 
-    self.pitchDurationFormatter.linearity = kLinearity_Pitch;
     self.portamentoFormatter.linearity = kLinearity_Pitch;
 }
 
@@ -264,52 +192,6 @@
     [self.state willChangeValueForKey:@"operators"];
     [self.state didChangeValueForKey:@"operators"];
     [_audioUnit updatePatch];
-}
-
-- (IBAction)envelopeStageChanged:(id)sender {
-    self.envelopeView.needsDisplay = YES;
-    self.LFOEnvelopeView.needsDisplay = YES;
-    self.pitchEnvelopeView.needsDisplay = YES;
-}
-
-- (IBAction)clickedKeyUp:(id)sender {
-    if (_envelope != nil) {
-        NSUInteger index = _envelopeView.selectionIndexes.firstIndex;
-        if (_envelope.keyUp == index) {
-            self.envelope.keyUp = NSNotFound;
-        } else {
-            self.envelope.keyUp = index;
-        }
-    }
-}
-
-- (IBAction)clickedLFOKeyUp:(id)sender {
-    NSUInteger index = _LFOEnvelopeView.selectionIndexes.firstIndex;
-    [self.state.lfo.envelope toggleKeyUp:index];
-}
-
-- (IBAction)clickedPitchKeyUp:(id)sender {
-    NSUInteger index = _pitchEnvelopeView.selectionIndexes.firstIndex;
-    [self.state.pitchEnvelope toggleKeyUp:index];
-}
-
-- (IBAction)copyEnvelope:(id)sender {
-    if (_envelope != nil) {
-        self.envelopeClip = [_envelope copy];
-    }
-}
-
-- (IBAction)pasteEnvelope:(id)sender {
-    if (_envelopeClip == nil) {
-        return;
-    }
-
-    NSUInteger i;
-    for (i = 0; i < 8; ++i) {
-        if ([_operatorsController.selectionIndexes containsIndex:i]) {
-            [self.state.operators[i].envelope replace:_envelopeClip];
-        }
-    }
 }
 
 - (IBAction)enabledChanged:(id)sender {

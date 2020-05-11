@@ -10,6 +10,8 @@
 		8A1136452456362900C1420D /* LFO.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A1136442456362900C1420D /* LFO.mm */; };
 		8A11364824564A2300C1420D /* NoteFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A11364724564A2300C1420D /* NoteFormatter.m */; };
 		8A11364B2456AA2500C1420D /* FrequencyFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A11364A2456AA2500C1420D /* FrequencyFormatter.m */; };
+		8A3B2E78246792B1005D0D2C /* EnvelopeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A3B2E76246792B1005D0D2C /* EnvelopeController.m */; };
+		8A49F2892468D8FF00818CE3 /* EnvelopeController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A49F28B2468D8FF00818CE3 /* EnvelopeController.xib */; };
 		8A591AA9243C5ADA00264A3F /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A591AA8243C5ADA00264A3F /* CoreMIDI.framework */; };
 		8A5F46F52445739C003B3B53 /* EnvelopeStage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A5F46F42445739C003B3B53 /* EnvelopeStage.mm */; };
 		8A7B3FFE2459622500CFA455 /* op.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A7B3FFC2459622500CFA455 /* op.cpp */; };
@@ -79,6 +81,9 @@
 		8A11364724564A2300C1420D /* NoteFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NoteFormatter.m; sourceTree = "<group>"; };
 		8A1136492456AA2500C1420D /* FrequencyFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FrequencyFormatter.h; sourceTree = "<group>"; };
 		8A11364A2456AA2500C1420D /* FrequencyFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrequencyFormatter.m; sourceTree = "<group>"; };
+		8A3B2E75246792B1005D0D2C /* EnvelopeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnvelopeController.h; sourceTree = "<group>"; };
+		8A3B2E76246792B1005D0D2C /* EnvelopeController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnvelopeController.m; sourceTree = "<group>"; };
+		8A49F28A2468D8FF00818CE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/EnvelopeController.xib; sourceTree = "<group>"; };
 		8A591AA8243C5ADA00264A3F /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		8A5F46F32445739C003B3B53 /* EnvelopeStage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnvelopeStage.h; sourceTree = "<group>"; };
 		8A5F46F42445739C003B3B53 /* EnvelopeStage.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EnvelopeStage.mm; sourceTree = "<group>"; };
@@ -241,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				8AB2F55F243C05240094B217 /* AudioUnitViewController.xib */,
+				8A49F28B2468D8FF00818CE3 /* EnvelopeController.xib */,
 				8AB2F562243C05240094B217 /* Info.plist */,
 				8AB2F563243C05240094B217 /* purefm.entitlements */,
 				8AB2F54A243C05240094B217 /* Audio Unit */,
@@ -306,6 +312,8 @@
 				8AAC8925243D977F001390F0 /* views */,
 				8AB2F55C243C05240094B217 /* AudioUnitViewController.h */,
 				8AB2F55D243C05240094B217 /* AudioUnitViewController.m */,
+				8A3B2E75246792B1005D0D2C /* EnvelopeController.h */,
+				8A3B2E76246792B1005D0D2C /* EnvelopeController.m */,
 				8ABE6C2F24480CF800C66AD6 /* DurationFormatter.h */,
 				8ABE6C3024480CF800C66AD6 /* DurationFormatter.mm */,
 				8ABE6C352448321E00C66AD6 /* LevelFormatter.h */,
@@ -419,6 +427,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A49F2892468D8FF00818CE3 /* EnvelopeController.xib in Resources */,
 				8AB2F551243C05240094B217 /* DSPKernel.hpp in Resources */,
 				8AB2F561243C05240094B217 /* AudioUnitViewController.xib in Resources */,
 				8AB2F558243C05240094B217 /* purefmDSPKernel.hpp in Resources */,
@@ -449,6 +458,7 @@
 				8AAC892E243DB3E6001390F0 /* Operator.mm in Sources */,
 				8AB2F55E243C05240094B217 /* AudioUnitViewController.m in Sources */,
 				8AF4EF6F2458294100267422 /* State.mm in Sources */,
+				8A3B2E78246792B1005D0D2C /* EnvelopeController.m in Sources */,
 				8ABE6C372448321E00C66AD6 /* LevelFormatter.mm in Sources */,
 				8AB2F55A243C05240094B217 /* purefmDSPKernel.mm in Sources */,
 				8AD611102457F91E00B7205B /* PitchFormatter.mm in Sources */,
@@ -483,6 +493,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		8A49F28B2468D8FF00818CE3 /* EnvelopeController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A49F28A2468D8FF00818CE3 /* Base */,
+			);
+			name = EnvelopeController.xib;
+			sourceTree = "<group>";
+		};
 		8AB2F538243C05080094B217 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (

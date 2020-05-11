@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16096" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16096"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="EnvelopeController">
+            <connections>
+                <outlet property="durationFormatter" destination="Y10-aV-Kgc" id="KKR-1K-HZI"/>
+                <outlet property="durationLabel" destination="f3t-16-1Hw" id="ocI-9B-x94"/>
+                <outlet property="envelopeView" destination="yfT-G0-HgR" id="TMm-CW-X28"/>
+                <outlet property="levelFormatter" destination="9r3-0f-Kz0" id="Y3j-Wi-DOU"/>
+                <outlet property="pitchFormatter" destination="fGl-Ys-Nmn" id="OgI-dp-ZmU"/>
+                <outlet property="pitchLabel" destination="A4T-RM-Nrz" id="EJW-wJ-MO0"/>
+                <outlet property="stages" destination="Cad-Ro-ulv" id="RT8-f4-B0z"/>
+                <outlet property="view" destination="b8a-hN-R4T" id="Ua9-vt-5SG"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="b8a-hN-R4T">
+            <rect key="frame" x="0.0" y="0.0" width="447" height="266"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eT3-HJ-h0Y">
+                    <rect key="frame" x="23" y="250" width="64" height="14"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="Linearity" id="0LH-p2-Pj4">
+                        <font key="font" metaFont="message" size="11"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <binding destination="-2" name="hidden" keyPath="pitch" id="UiY-HO-1J5"/>
+                    </connections>
+                </textField>
+                <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="87C-mh-ajg" userLabel="Linearity">
+                    <rect key="frame" x="90" y="245" width="90" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <popUpButtonCell key="cell" type="push" title="Exp" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="baQ-Vg-l2y" id="tcC-QY-1lZ">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="message" size="11"/>
+                        <menu key="menu" id="eEm-Vm-zCN">
+                            <items>
+                                <menuItem title="Exp" state="on" id="baQ-Vg-l2y" userLabel="Exp"/>
+                                <menuItem title="Linear" id="rqF-gb-LLd" userLabel="Linear"/>
+                                <menuItem title="Delay" id="1aE-1L-xeR" userLabel="Delay"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <connections>
+                        <action selector="updateStage:" target="-2" id="QyM-GU-dZq"/>
+                        <binding destination="-2" name="hidden" keyPath="pitch" id="ckl-Fz-n3Z"/>
+                        <binding destination="Cad-Ro-ulv" name="selectedIndex" keyPath="selection.linearity" id="uuM-pZ-XCk"/>
+                    </connections>
+                </popUpButton>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dEn-hM-lgt">
+                    <rect key="frame" x="90" y="248" width="52" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Delay" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="GUt-ww-wt9">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="message" size="11"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="updateStage:" target="-2" id="USv-s0-TCc"/>
+                        <binding destination="-2" name="hidden" keyPath="pitch" id="XOe-R5-icu">
+                            <dictionary key="options">
+                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                            </dictionary>
+                        </binding>
+                        <binding destination="Cad-Ro-ulv" name="value" keyPath="selection.delay" id="1R8-1K-3ox">
+                            <dictionary key="options">
+                                <bool key="NSRaisesForNotApplicableKeys" value="NO"/>
+                            </dictionary>
+                        </binding>
+                    </connections>
+                </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RGm-qF-xyv">
+                    <rect key="frame" x="23" y="225" width="64" height="14"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="Duration" id="eYA-5n-J9J">
+                        <font key="font" metaFont="message" size="11"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rHM-n8-fgY" userLabel="Duration Slider">
+                    <rect key="frame" x="93" y="222" width="312" height="19"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="127" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="UgB-Ms-crf"/>
+                    <connections>
+                        <action selector="updateStage:" target="-2" id="MBY-08-4sP"/>
+                        <binding destination="Cad-Ro-ulv" name="value" keyPath="selection.duration" id="SbR-bU-cHw"/>
+                    </connections>
+                </slider>
+                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V58-IW-RrR" userLabel="Duration">
+                    <rect key="frame" x="413" y="223" width="34" height="19"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="kqF-Z5-SD4">
+                        <font key="font" metaFont="message" size="11"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <action selector="updateStage:" target="-2" id="HLU-cg-jJD"/>
+                        <binding destination="Cad-Ro-ulv" name="value" keyPath="selection.duration" id="uQg-Lf-Oaw"/>
+                    </connections>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f3t-16-1Hw" userLabel="db /sec">
+                    <rect key="frame" x="91" y="203" width="226" height="14"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Label" id="aLu-G6-3Qw">
+                        <font key="font" metaFont="message" size="11"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <binding destination="Cad-Ro-ulv" name="value" keyPath="selection.duration" id="Oh0-xd-G8y"/>
+                        <outlet property="formatter" destination="Y10-aV-Kgc" id="Nth-Rh-bXI"/>
+                    </connections>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gSO-Cb-zjV">
+                    <rect key="frame" x="23" y="181" width="64" height="14"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="Level" id="SjR-pO-1Rx">
+                        <font key="font" metaFont="message" size="11"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ce1-x4-nbY" userLabel="Level Slider">
+                    <rect key="frame" x="93" y="178" width="312" height="19"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="127" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="7ht-lO-rOY"/>
+                    <connections>
+                        <action selector="updateStage:" target="-2" id="e7C-6X-NOC"/>
+                        <binding destination="Cad-Ro-ulv" name="value" keyPath="selection.level" id="GSg-94-Jwx"/>
+                    </connections>
+                </slider>
+                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LqC-NY-ysX" userLabel="Level">
+                    <rect key="frame" x="413" y="179" width="34" height="19"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="H7l-tu-hUa">
+                        <font key="font" metaFont="message" size="11"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <action selector="updateStage:" target="-2" id="YGf-kZ-kd2"/>
+                        <binding destination="Cad-Ro-ulv" name="value" keyPath="selection.level" id="qY7-to-ETF"/>
+                    </connections>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A4T-RM-Nrz" userLabel="- db">
+                    <rect key="frame" x="91" y="159" width="226" height="14"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Label" id="yBn-h5-TtF">
+                        <font key="font" metaFont="message" size="11"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <binding destination="Cad-Ro-ulv" name="value" keyPath="selection.level" id="g7n-VK-hrU"/>
+                        <outlet property="formatter" destination="9r3-0f-Kz0" id="ceT-iC-6J4"/>
+                    </connections>
+                </textField>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Znf-Ca-cf4">
+                    <rect key="frame" x="20" y="124" width="70" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Insert" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Y8z-Gb-HSq">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="message" size="11"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="insert:" target="Cad-Ro-ulv" id="NEs-2f-9NF"/>
+                        <binding destination="Cad-Ro-ulv" name="enabled" keyPath="canInsert" id="VgG-4f-gAz"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eGi-bf-0yM">
+                    <rect key="frame" x="88" y="124" width="70" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7AN-L1-mPe">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="message" size="11"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="add:" target="Cad-Ro-ulv" id="Frr-s5-7s8"/>
+                        <binding destination="Cad-Ro-ulv" name="enabled" keyPath="canAdd" id="P2I-Lm-XbA"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q5b-Kc-mY0">
+                    <rect key="frame" x="156" y="124" width="70" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Remove" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="iXg-e7-6Gg">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="message" size="11"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="remove:" target="Cad-Ro-ulv" id="TBA-Fd-I8V"/>
+                        <binding destination="Cad-Ro-ulv" name="enabled" keyPath="canRemove" id="JbJ-8B-KIK"/>
+                    </connections>
+                </button>
+                <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VDF-Td-3e1" userLabel="Clip">
+                    <rect key="frame" x="229" y="127" width="70" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <popUpButtonCell key="cell" type="push" title="Clip" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" altersStateOfSelectedItem="NO" selectedItem="nOr-4f-Gr4" id="IJC-q2-dzI" userLabel="Clip">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="message" size="11"/>
+                        <menu key="menu" title="Clip" autoenablesItems="NO" id="Ws9-OY-nNn">
+                            <items>
+                                <menuItem title="Clip" id="nOr-4f-Gr4">
+                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                    <menu key="submenu" title="Clip" id="xeU-39-u5A">
+                                        <items>
+                                            <menuItem title="Copy" id="4Jc-nL-gra">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                                <connections>
+                                                    <action selector="copyEnvelope:" target="-2" id="Ghk-f9-dj5"/>
+                                                    <binding destination="-2" name="enabled" keyPath="envelope" id="6H4-h0-FBh">
+                                                        <dictionary key="options">
+                                                            <string key="NSValueTransformerName">NSIsNotNil</string>
+                                                        </dictionary>
+                                                    </binding>
+                                                </connections>
+                                            </menuItem>
+                                            <menuItem title="Paste" id="DaL-BQ-6k3">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                                <connections>
+                                                    <action selector="pasteEnvelope:" target="-2" id="acY-jX-YqB"/>
+                                                    <binding destination="-2" name="enabled" keyPath="clip" id="nfE-fw-UrQ">
+                                                        <dictionary key="options">
+                                                            <string key="NSValueTransformerName">NSIsNotNil</string>
+                                                        </dictionary>
+                                                    </binding>
+                                                    <binding destination="-2" name="enabled2" keyPath="envelope" previousBinding="nfE-fw-UrQ" id="QEq-6L-doG">
+                                                        <dictionary key="options">
+                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                            <integer key="NSNullPlaceholder" value="-1"/>
+                                                            <string key="NSValueTransformerName">NSIsNotNil</string>
+                                                        </dictionary>
+                                                    </binding>
+                                                </connections>
+                                            </menuItem>
+                                        </items>
+                                    </menu>
+                                </menuItem>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <connections>
+                        <binding destination="-2" name="hidden" keyPath="hasClip" id="z1O-5H-sdy">
+                            <dictionary key="options">
+                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                            </dictionary>
+                        </binding>
+                    </connections>
+                </popUpButton>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j29-xq-XOf">
+                    <rect key="frame" x="333" y="130" width="48" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Loop" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="6nm-zr-h9R">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="message" size="11"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="-2" name="value" keyPath="envelope.loop" id="KhD-3R-ph5"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OsQ-fN-n1r">
+                    <rect key="frame" x="382" y="124" width="70" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Key Up" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3iF-x4-IwR">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="message" size="11"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="clickedKeyUp:" target="-2" id="5Jg-oF-qBP"/>
+                        <binding destination="Cad-Ro-ulv" name="enabled" keyPath="canRemove" id="IhF-UR-pOF"/>
+                    </connections>
+                </button>
+                <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yfT-G0-HgR" customClass="EnvelopeView">
+                    <rect key="frame" x="25" y="26" width="422" height="96"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                </customView>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="77b-Ir-hea">
+                    <rect key="frame" x="20" y="-6" width="70" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Prev" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2c6-wU-GSf">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="message" size="11"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="selectPrevious:" target="Cad-Ro-ulv" id="FvA-yG-zpQ"/>
+                        <binding destination="Cad-Ro-ulv" name="enabled" keyPath="canSelectPrevious" id="n6D-yD-O6H"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uhW-vm-PGt">
+                    <rect key="frame" x="382" y="-6" width="70" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Next" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fsE-pq-lFW">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="message" size="11"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="selectNext:" target="Cad-Ro-ulv" id="ycZ-Yc-mlo"/>
+                        <binding destination="Cad-Ro-ulv" name="enabled" keyPath="canSelectNext" id="uoH-XM-mZW"/>
+                    </connections>
+                </button>
+                <slider horizontalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W0m-6r-SfN">
+                    <rect key="frame" x="-1" y="26" width="19" height="96"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <sliderCell key="cell" controlSize="small" enabled="NO" alignment="left" minValue="-2048" maxValue="2047" doubleValue="50" tickMarkPosition="right" sliderType="linear" id="cQv-ss-24W"/>
+                    <connections>
+                        <binding destination="-2" name="value" keyPath="envelope.output" id="Jdr-qR-MC7">
+                            <dictionary key="options">
+                                <bool key="NSConditionallySetsEnabled" value="NO"/>
+                            </dictionary>
+                        </binding>
+                    </connections>
+                </slider>
+            </subviews>
+            <point key="canvasLocation" x="87" y="88"/>
+        </customView>
+        <arrayController objectClassName="EnvelopeStage" id="Cad-Ro-ulv" userLabel="Stages">
+            <connections>
+                <binding destination="-2" name="contentArray" keyPath="envelope.stages" id="ZBQ-O7-iFB"/>
+                <binding destination="-2" name="selectionIndexes" keyPath="envelopeView.selectionIndexes" id="taA-hN-67X"/>
+            </connections>
+        </arrayController>
+        <customFormatter id="Y10-aV-Kgc" userLabel="Duration Formatter" customClass="DurationFormatter"/>
+        <customFormatter id="9r3-0f-Kz0" userLabel="Level Formatter" customClass="LevelFormatter"/>
+        <customFormatter id="fGl-Ys-Nmn" userLabel="Pitch Formatter" customClass="PitchFormatter"/>
+    </objects>
+</document>

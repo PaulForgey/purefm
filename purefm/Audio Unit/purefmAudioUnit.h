@@ -26,7 +26,7 @@ enum {
 @property (nonatomic, readonly) purefmDSPKernelAdapter *kernelAdapter;
 @property (readonly) double sampleRate;
 @property (readonly) double envelopeRate;
-@property (readonly) double LFORate;
+@property (readonly) double lfoRate;
 
 - (void)updatePatch;
 

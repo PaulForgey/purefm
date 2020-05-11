@@ -22,14 +22,14 @@
 @implementation purefmAudioUnit {
     double _sampleRate;
     double _envelopeRate;
-    double _LFORate;
+    double _lfoRate;
     State *_state;
 }
 
 @synthesize parameterTree = _parameterTree;
 @synthesize sampleRate = _sampleRate;
 @synthesize envelopeRate = _envelopeRate;
-@synthesize LFORate = _LFORate;
+@synthesize lfoRate = _lfoRate;
 
 - (instancetype)initWithComponentDescription:(AudioComponentDescription)componentDescription options:(AudioComponentInstantiationOptions)options error:(NSError **)outError {
     self = [super initWithComponentDescription:componentDescription options:options error:outError];
@@ -221,9 +221,9 @@
         _envelopeRate = _sampleRate;
     }
     [self didChangeValueForKey:@"envelopeRate"];
-    [self willChangeValueForKey:@"LFORate"];
-    _LFORate = _envelopeRate / 16.0;
-    [self didChangeValueForKey:@"LFORate"];
+    [self willChangeValueForKey:@"lfoRate"];
+    _lfoRate = _envelopeRate / 16.0;
+    [self didChangeValueForKey:@"lfoRate"];
 	return YES;
 }
 
