@@ -138,8 +138,11 @@
 }
 
 - (IBAction)pasteEnvelope:(id)sender {
-    if (self.clip != nil && self.envelope != nil) {
-        [self.envelope replace:self.clip];
+    if (self.clip != nil) {
+        Envelope *e;
+        for (e in self.multiSelect) {
+            [e replace:self.clip];
+        }
         self.envelopeView.needsDisplay = YES;
     }
 }

@@ -232,15 +232,6 @@
                                                             <string key="NSValueTransformerName">NSIsNotNil</string>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="-2" name="enabled2" keyPath="envelope" previousBinding="nfE-fw-UrQ" id="QEq-6L-doG">
-                                                        <dictionary key="options">
-                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                                            <integer key="NSNullPlaceholder" value="-1"/>
-                                                            <string key="NSValueTransformerName">NSIsNotNil</string>
-                                                        </dictionary>
-                                                    </binding>
                                                 </connections>
                                             </menuItem>
                                         </items>

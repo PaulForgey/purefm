@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property Envelope *envelope;
 @property Envelope *clip;
+@property NSArray< Envelope * > *multiSelect; // for pasting
 @property BOOL hasClip;
 @property (nonatomic) double sampleRate;
 @property (nonatomic) BOOL pitch;

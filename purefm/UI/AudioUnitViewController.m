@@ -153,6 +153,11 @@
                           withKeyPath:@"audioUnit.envelopeRate"
                               options:nil];
 
+    [_operatorEnvelopeController bind:@"multiSelect"
+                             toObject:self.operatorsController
+                          withKeyPath:@"selectedObjects.@unionOfObjects.envelope"
+                              options:nil];
+
     [_lfoEnvelopeController bind:@"envelope"
                         toObject:self
                      withKeyPath:@"state.lfo.envelope"
