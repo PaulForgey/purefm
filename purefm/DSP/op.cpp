@@ -131,10 +131,7 @@ op::step(int lfo, int pitch) {
     if (_patch == nullptr) {
         return 0;
     }
-    if (!_patch->enabled) {
-        return _out;
-    }
-    if (_env.idle()) {
+    if (!_patch->enabled || _env.idle()) {
         _out = *_sum;
         return _out;
     }

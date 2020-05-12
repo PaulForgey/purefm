@@ -87,7 +87,7 @@ voice::start(patch const *patch, int key, int velocity) {
         }
     }
 
-    int f = _globals->t.scale(key - _patch->middle_c);
+    int f = _globals->t.scale(key - _patch->middle_c) + _patch->tuning;
     if (!_patch->mono || _velocity == 0) {
         _freq_eg.set(f << 8, f << 8, _patch->portamento);
     } else {

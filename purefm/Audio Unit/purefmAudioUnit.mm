@@ -162,6 +162,18 @@
                                       valueStrings:nil
                                dependentParameters:nil];
 
+    AUParameter *tuning =
+    [AUParameterTree createParameterWithIdentifier:@"tuning"
+                                              name:@"Tuning"
+                                           address:kParam_Tuning
+                                               min:-2048
+                                               max:2047
+                                              unit:kAudioUnitParameterUnit_Generic
+                                          unitName:nil
+                                             flags:kAudioUnitParameterFlag_IsReadable|kAudioUnitParameterFlag_IsWritable
+                                      valueStrings:nil
+                               dependentParameters:nil];
+
 
     // Create the parameter tree.
     _parameterTree = [AUParameterTree createTreeWithChildren:@[
@@ -172,6 +184,7 @@
         mono,
         middleC,
         portamento,
+        tuning,
     ]];
 }
 

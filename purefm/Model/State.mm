@@ -36,6 +36,7 @@
     self.mono = NO;
     self.middleC = 60;
     self.portamento = 0;
+    self.tuning = 0;
 
     return self;
 }
@@ -49,6 +50,7 @@
     [coder encodeBool:self.mono forKey:@"mono"];
     [coder encodeInt:self.middleC forKey:@"middleC"];
     [coder encodeInt:self.portamento forKey:@"portamento"];
+    [coder encodeInt:self.tuning forKey:@"tuning"];
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
@@ -65,6 +67,7 @@
     self.mono = [coder decodeBoolForKey:@"mono"];
     self.middleC = [coder decodeIntForKey:@"middleC"];
     self.portamento = [coder decodeIntForKey:@"portamento"];
+    self.tuning = [coder decodeIntForKey:@"tuning"];
 
     return self;
 }
@@ -156,6 +159,11 @@
             [self didChange:@"portamento"];
             break;
 
+        case kParam_Tuning:
+            _patch->tuning = (int)value;
+            [self didChange:@"tuning"];
+            break;
+
         case kParam_LFOOutput:
         case kParam_LFOFreq:
         case kParam_LFOWave:
@@ -197,6 +205,14 @@
 }
 - (int)portamento {
     return _portamento;
+}
+
+- (void)setTuning:(int)tuning{
+    _patch->tuning = tuning;
+    [[_parameterTree parameterWithAddress:kParam_Tuning] setValue:(AUValue)tuning];
+}
+- (int)tuning {
+    return _patch->tuning;
 }
 
 - (NSArray< Operator * > *)operators {

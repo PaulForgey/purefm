@@ -154,6 +154,7 @@ struct patch {
     bool mono;
     int middle_c;
     int portamento;
+    int tuning;
 
     op_patch const *ops[8];
     env_patch_ptr pitch_env;
