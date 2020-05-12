@@ -21,20 +21,23 @@ class fb_filter {
             std::fill_n(_buf, 4, 0);
             _ptr = 0;
             _acc = 0;
+            _in = 0;
+            _out = 0;
         }
         virtual ~fb_filter() {}
 
-        void set_input(int const *in) { _in = in; }
+        void input(int in) { _in = in; }
+        int const *output() const { return &_out; }
 
-        int operator()() {
-            _acc += *_in - _buf[_ptr];
-            _buf[_ptr] = *_in;
+        void step(int scale) {
+            _acc += _in - _buf[_ptr];
+            _buf[_ptr] = _in;
             _ptr = (_ptr + 1) & 3;
-            return _acc >> 2;
+            _out = (_acc * scale) >> 9; // 7 bit scale + /4 average
         }
 
     private:
-        int const *_in;
+        int _in, _out;
         int _buf[4];
         int _ptr, _acc;
 };
@@ -42,15 +45,17 @@ class fb_filter {
 // from this level, all things are normalized to 24 bit ranges
 class op {
     public:
-        op(globals const *, int const *sum, int const *mod, int *out);
+        op(globals const *);
         virtual ~op();
 
-        void set_sum(int const *s) { _sum = s; }
-        void set_mod(int const *m) { _mod = m; }
+        void set_sum(op const *s);
+        void set_mod(op const *m);
+        void set_fb_input(fb_filter const *);
+        void set_fb_output(fb_filter *);
 
-        void start(op_patch const *patch, int key, int middle_c, int velocity);
+        void start(op_patch const *patch, int key, int velocity);
         void update(op_patch const *patch);
-        void step(int lfo, int pitch);
+        int step(int lfo, int pitch);
         eg_status const *get_status() const { return _env.get_status(); }
 
     private:
@@ -58,10 +63,13 @@ class op {
         op_patch const *_patch;
         int const *_sum;
         int const *_mod;
-        int *_out, *_out2;
+        fb_filter *_fb;
+        int _out;
         sine_oscillator _osc;
         envelope _env;
         int _level;
+
+        int const _zero = 0;
 };
 
 #endif /* op_hpp */

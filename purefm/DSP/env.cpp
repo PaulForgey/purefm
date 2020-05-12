@@ -88,9 +88,8 @@ envelope::start(env_patch const *patch, int rate_adj, bool trigger) {
     }
 
     _trigger = trigger;
-    _rate_adj = rate_adj;
-
     if (trigger) {
+        _rate_adj = rate_adj;
         run();
     } else if (!_globals->sustain_pedal) {
         stop();

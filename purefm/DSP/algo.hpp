@@ -34,9 +34,6 @@ class algo {
         globals const *_globals;
         patch const *_patch;
         fb_filter _fb;
-        int _outputs[8];
-        int _fb_op;
-        int _fbi;
         op *_ops[8];
 
 };

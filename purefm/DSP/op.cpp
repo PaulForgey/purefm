@@ -11,14 +11,14 @@
 
 #include <cmath>
 
-op::op(
-    globals const *g, int const *s, int const *m, int *o1)
+op::op(globals const *g)
     : _osc(g->t), _env(g) {
     _globals = g;
-    _sum = s;
-    _mod = m;
-    _out = o1;
     _patch = nullptr;
+    _sum = &_zero;
+    _mod = &_zero;
+    _out = 0;
+    _fb = nullptr;
 }
 
 op::~op() {
@@ -48,7 +48,39 @@ key_scale(int value, int type) {
 }
 
 void
-op::start(op_patch const *patch, int key, int middle_c, int velocity) {
+op::set_sum(op const *s) {
+    if (s == nullptr) {
+        _sum = &_zero;
+    } else {
+        _sum = &s->_out;
+    }
+}
+
+void
+op::set_mod(op const *s) {
+    if (s == nullptr) {
+        _mod = &_zero;
+    } else {
+        _mod = &s->_out;
+    }
+}
+
+void
+op::set_fb_input(fb_filter const *f) {
+    if (f == nullptr) {
+        _mod = &_zero;
+    } else {
+        _mod = f->output();
+    }
+}
+
+void
+op::set_fb_output(fb_filter *f) {
+    _fb = f;
+}
+
+void
+op::start(op_patch const *patch, int key, int velocity) {
     update(patch);
     if (patch == nullptr) {
         return;
@@ -59,9 +91,15 @@ op::start(op_patch const *patch, int key, int middle_c, int velocity) {
         return;
     }
 
-    int note = key - middle_c;
+    int r = 128 - ((key * _patch->rate_scale) >> 7);
 
-    _env.start(patch->env.get(), (note * _patch->rate_scale) >> 2, true);
+    if (r < 128) {
+        r = _globals->t.duration_param(r);
+    } else {
+        r = 0;
+    }
+
+    _env.start(patch->env.get(), r, true);
     _level = patch->level;
 
     velocity = ((velocity - 96) >> (7 - _patch->velocity));
@@ -88,15 +126,17 @@ op::start(op_patch const *patch, int key, int middle_c, int velocity) {
     }
 }
 
-void
+int
 op::step(int lfo, int pitch) {
     if (_patch == nullptr) {
-        return;
+        return 0;
     }
-
-    if (!_patch->enabled || _env.idle()) {
-        *_out = *_sum;
-        return;
+    if (!_patch->enabled) {
+        return _out;
+    }
+    if (_env.idle()) {
+        _out = *_sum;
+        return _out;
     }
 
     int frequency = _patch->frequency;
@@ -113,6 +153,13 @@ op::step(int lfo, int pitch) {
 
     out = _globals->t.output(out, eg);
     out = (neg ? -out : out);
-    *_out = out + *_sum;
+
+    // enter feedback loop _before_ summation
+    if (_fb != nullptr) {
+        _fb->input(out);
+    }
+
+    _out = out + *_sum;
+    return _out;
 }
 

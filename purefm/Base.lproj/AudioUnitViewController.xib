@@ -27,13 +27,6 @@
                 <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe">
                     <rect key="frame" x="0.0" y="0.0" width="800" height="500"/>
                     <subviews>
-                        <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EIt-88-pxP" customClass="AlgoView">
-                            <rect key="frame" x="20" y="190" width="290" height="290"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <connections>
-                                <action selector="algoChanged:" target="-2" id="ykX-YP-Wzv"/>
-                            </connections>
-                        </customView>
                         <tabView fixedFrame="YES" controlSize="small" translatesAutoresizingMaskIntoConstraints="NO" id="jSm-0l-sZS">
                             <rect key="frame" x="311" y="10" width="476" height="483"/>
                             <autoresizingMask key="autoresizingMask"/>
@@ -554,7 +547,7 @@
                             </tabViewItems>
                         </tabView>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ixZ-I1-p6Q">
-                            <rect key="frame" x="15" y="165" width="56" height="14"/>
+                            <rect key="frame" x="15" y="463" width="56" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="Feedback" id="V1y-6D-Vin">
                                 <font key="font" metaFont="message" size="11"/>
@@ -563,7 +556,7 @@
                             </textFieldCell>
                         </textField>
                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LKp-Za-mRU" userLabel="Feedback Slider">
-                            <rect key="frame" x="77" y="164" width="191" height="17"/>
+                            <rect key="frame" x="77" y="462" width="191" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="127" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="BBO-1X-iXD"/>
                             <connections>
@@ -576,7 +569,7 @@
                             </connections>
                         </slider>
                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wm7-tk-JpB" userLabel="Feedback">
-                            <rect key="frame" x="276" y="163" width="34" height="19"/>
+                            <rect key="frame" x="276" y="461" width="34" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="aFn-00-aXH">
                                 <font key="font" metaFont="message" size="11"/>
@@ -596,6 +589,13 @@
                                 </binding>
                             </connections>
                         </textField>
+                        <customView id="EIt-88-pxP" customClass="AlgoView">
+                            <rect key="frame" x="17" y="163" width="290" height="290"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <connections>
+                                <action selector="algoChanged:" target="-2" id="ykX-YP-Wzv"/>
+                            </connections>
+                        </customView>
                         <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="VPA-RN-v4u">
                             <rect key="frame" x="20" y="152" width="290" height="5"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -675,6 +675,14 @@
                                 <outlet property="formatter" destination="Odu-mZ-IeV" id="Kuh-Al-kMm"/>
                             </connections>
                         </textField>
+                        <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zc5-Lo-kC3" userLabel="Frequency Stepper">
+                            <rect key="frame" x="145" y="82" width="15" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" increment="4096" minValue="-40960" maxValue="24575" id="Fr8-n9-YPr"/>
+                            <connections>
+                                <binding destination="lWd-LK-06F" name="value" keyPath="selection.frequency" id="6YP-o7-3b5"/>
+                            </connections>
+                        </stepper>
                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YeE-kt-99I">
                             <rect key="frame" x="171" y="84" width="50" height="18"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -737,14 +745,6 @@
                                 <binding destination="lWd-LK-06F" name="value" keyPath="selection.velocity" id="7oL-CO-CqN"/>
                             </connections>
                         </slider>
-                        <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zc5-Lo-kC3" userLabel="Frequency Stepper">
-                            <rect key="frame" x="145" y="82" width="15" height="22"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" increment="4096" minValue="-40960" maxValue="24575" id="Fr8-n9-YPr"/>
-                            <connections>
-                                <binding destination="lWd-LK-06F" name="value" keyPath="selection.frequency" id="6YP-o7-3b5"/>
-                            </connections>
-                        </stepper>
                     </subviews>
                 </customView>
             </subviews>

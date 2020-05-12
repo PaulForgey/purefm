@@ -9,26 +9,19 @@
 #include "algo.hpp"
 #include <algorithm>
 
-static int const zero = 0;
-
 algo::algo(globals const *g) {
     _globals = g;
     _patch = nullptr;
-    
-    for (int i = 0; i < 8; ++i) {
-        _ops[i] = new op(g, &zero, &zero, &_outputs[i]);
+
+    for (auto &&o : _ops) {
+        o = new op(g);
     }
-
-    std::fill_n(_outputs, 8, 0);
-
-    _fb.set_input(&_outputs[0]);
-    _fb_op = -1;
-    _fbi = 0;
 }
 
 algo::~algo() {
-    for (auto&& o : _ops) {
+    for (auto &&o : _ops) {
         delete o;
+        o = nullptr;
     }
 }
 
@@ -48,22 +41,21 @@ algo::update(patch const *patch) {
 
 void
 algo::set_op_node(int op_num, int sum, int mod) {
-    auto&& o = _ops[op_num];
+    auto &o = _ops[op_num];
 
     if (sum < 0) {
-        o->set_sum(&zero);
+        o->set_sum(nullptr);
     } else {
-        o->set_sum(&_outputs[sum]);
+        o->set_sum(_ops[sum]);
     }
 
     if (mod < 0) {
-        o->set_mod(&zero);
+        o->set_mod(nullptr);
     } else if (mod <= op_num) {
-        o->set_mod(&_fbi);
-        _fb.set_input(&_outputs[mod]);
-        _fb_op = op_num;
+        o->set_fb_input(&_fb);
+        _ops[mod]->set_fb_output(&_fb);
     } else {
-        o->set_mod(&_outputs[mod]);
+        o->set_mod(_ops[mod]);
     }
 }
 
@@ -75,7 +67,7 @@ algo::start(patch const *patch, int key, int velocity) {
     }
 
     for (int i = 0; i < 8; ++i) {
-        _ops[i]->start(_patch->ops[i], key, patch->middle_c, velocity);
+        _ops[i]->start(_patch->ops[i], key, velocity);
     }
 }
 
@@ -86,12 +78,12 @@ algo::step(int *out, int lfo, int pitch) {
     }
 
     for (int i = 0; i < 16; ++i) {
-        _fbi = (_fb() * _patch->feedback) >> 7;
-
-        for (auto &op : _ops) {
-            op->step(lfo, pitch);
+        _fb.step(_patch->feedback);
+        int o0 = 0;
+        for (int j = 7; j >= 0; --j) {
+            op *o = _ops[j];
+            o0 = o->step(lfo, pitch);
         }
-
-        *(out++) = _outputs[0];
+        *(out++) = o0;
     }
 }
