@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+// displays pitch offset value from pitch envelope in octaves and steps
+// display only
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PitchFormatter : NSFormatter

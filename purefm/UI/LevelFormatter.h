@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+// displays a level parameter in db
+// display only
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LevelFormatter : NSFormatter

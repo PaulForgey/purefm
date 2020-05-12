@@ -91,14 +91,7 @@ op::start(op_patch const *patch, int key, int velocity) {
         return;
     }
 
-    int r = 128 - ((key * _patch->rate_scale) >> 7);
-
-    if (r < 128) {
-        r = _globals->t.duration_param(r);
-    } else {
-        r = 0;
-    }
-
+    int r = ((key * _patch->rate_scale) >> 7);
     _env.start(patch->env.get(), r, true);
     _level = patch->level;
 

@@ -16,7 +16,6 @@
 @implementation EnvelopeStage {
     eg_ptr _eg;     // actual engine parameters
     int _level;     // in UI/MIDI terms
-    int _duration;  // in UI/MIDI terms
 }
 
 // MARK: patch
@@ -79,11 +78,10 @@
 }
 
 - (void)setDuration:(int)duration {
-    _duration = duration;
-    _eg->rate = tables::duration_param(duration);
+    _eg->rate = duration;
 }
 - (int)duration {
-    return _duration;
+    return _eg->rate;
 }
 
 - (void)setLinearity:(EnvelopeStageLinearity)linearity {
@@ -100,6 +98,8 @@
     case kLinearity_Linear:
         _eg->type = eg_linear;
         break;
+    case kLinearity_Attack:
+        _eg->type = eg_attack;
     }
 }
 
@@ -109,6 +109,8 @@
         return kLinearity_Exp;
     case eg_linear:
         return kLinearity_Linear;
+    case eg_attack:
+        return kLinearity_Attack;
     case eg_pitch:
         return kLinearity_Pitch;
     case eg_delay:

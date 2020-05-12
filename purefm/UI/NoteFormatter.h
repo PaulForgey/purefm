@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+// displays and parses a MIDI note value
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface NoteFormatter : NSFormatter

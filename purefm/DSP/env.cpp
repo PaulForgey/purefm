@@ -130,6 +130,15 @@ envelope::set(int at) {
     _at = at;
     auto const &eg = (*_egs)[at];
     int goal = eg->goal;
+    int rate = eg->rate - _rate_adj;
+    if (rate < 0) {
+        rate = 0;
+    } else if (rate > 0x7f) {
+        rate = 0x7f;
+    }
+    rate = _globals->t.duration_param(rate);
+
+    _type = eg->type;
 
     switch (eg->type) {
     case eg_linear:
@@ -144,14 +153,23 @@ envelope::set(int at) {
         _out = eg->goal;
         break;
 
+    case eg_attack:
+        // revert to eg_exp if not actually attacking
+        if (_level >= goal) {
+            _type = eg_exp;
+        } else {
+            // DX-7 style behavior with eg_attack: start at minimum level
+            _level = std::max(_level, -0x14c000);
+        }
+        break;
+
     default:
         // otherwise whatever form of prior output is starting point
         _level = _out;
         break;
     }
 
-    _type = eg->type;
-    _stage.set(_level, goal, eg->rate + _rate_adj);
+    _stage.set(_level, goal, rate);
 }
 
 int
@@ -170,7 +188,12 @@ envelope::step(int count, int bias) {
         }
     }
 
-    _level = _stage.step(count);
+    if (_type == eg_attack) {
+        int const m = ((17 << 20) - (_level - eg_min)) >> 20;
+        _level = _stage.step(count * m);
+    } else {
+        _level = _stage.step(count);
+    }
     int i;
 
     switch(_type) {

@@ -48,6 +48,10 @@
         return [NSString stringWithFormat:@"%.3f mv/s", unitsSec];
         }
 
+    case kLinearity_Attack:
+        // just make shit up for this one
+        return [NSString stringWithFormat:@"%d units", value];
+
     case kLinearity_Pitch: {
         // upper 16 bit unit range
         double unitsSec = (double)value * (_sampleRate / 256.0);

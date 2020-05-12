@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+// displays and parses frequency parameter in pitch units as hz
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FrequencyFormatter : NSFormatter

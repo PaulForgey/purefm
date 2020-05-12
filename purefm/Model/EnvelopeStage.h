@@ -14,8 +14,9 @@
 typedef enum {
     kLinearity_Exp = 0,
     kLinearity_Linear,
+    kLinearity_Attack, // a very inprecise hack to allow DX-7 style behavior
     kLinearity_Delay,
-    kLinearity_Pitch // alias for Linear but with different presentation
+    kLinearity_Pitch,  // alias for Linear but with different presentation
 } EnvelopeStageLinearity;
 
 NS_ASSUME_NONNULL_BEGIN

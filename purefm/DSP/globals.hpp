@@ -77,6 +77,7 @@ const int eg_min = -0x800000;
 typedef enum {
     eg_exp = 0,
     eg_linear,
+    eg_attack,
     eg_delay,
     eg_pitch
 } eg_type;

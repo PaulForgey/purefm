@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+// displays tuning parameter in cents
+// display only
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TuningFormatter : NSFormatter

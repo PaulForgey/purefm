@@ -21,6 +21,7 @@
 		8A9724DC245C068000880B8E /* lfosc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A9724DA245C068000880B8E /* lfosc.cpp */; };
 		8A9724DE245C0C8700880B8E /* oscillator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A9724DD245C0C8700880B8E /* oscillator.cpp */; };
 		8A9FD999246A691B0077B6E6 /* TuningFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9FD998246A691B0077B6E6 /* TuningFormatter.m */; };
+		8A9FD99C246B25C60077B6E6 /* ParamFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9FD99B246B25C60077B6E6 /* ParamFormatter.m */; };
 		8AAC892E243DB3E6001390F0 /* Operator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AAC892D243DB3E6001390F0 /* Operator.mm */; };
 		8AB2F535243C05070094B217 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB2F534243C05070094B217 /* AppDelegate.m */; };
 		8AB2F537243C05080094B217 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AB2F536243C05080094B217 /* Assets.xcassets */; };
@@ -104,6 +105,8 @@
 		8A9724DD245C0C8700880B8E /* oscillator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = oscillator.cpp; sourceTree = "<group>"; };
 		8A9FD997246A691B0077B6E6 /* TuningFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TuningFormatter.h; sourceTree = "<group>"; };
 		8A9FD998246A691B0077B6E6 /* TuningFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TuningFormatter.m; sourceTree = "<group>"; };
+		8A9FD99A246B25C60077B6E6 /* ParamFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParamFormatter.h; sourceTree = "<group>"; };
+		8A9FD99B246B25C60077B6E6 /* ParamFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParamFormatter.m; sourceTree = "<group>"; };
 		8AAC892C243DB3E6001390F0 /* Operator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Operator.h; sourceTree = "<group>"; };
 		8AAC892D243DB3E6001390F0 /* Operator.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Operator.mm; sourceTree = "<group>"; };
 		8AB2F530243C05070094B217 /* purefm-host.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "purefm-host.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -329,6 +332,8 @@
 				8AD6110F2457F91E00B7205B /* PitchFormatter.mm */,
 				8A9FD997246A691B0077B6E6 /* TuningFormatter.h */,
 				8A9FD998246A691B0077B6E6 /* TuningFormatter.m */,
+				8A9FD99A246B25C60077B6E6 /* ParamFormatter.h */,
+				8A9FD99B246B25C60077B6E6 /* ParamFormatter.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -485,6 +490,7 @@
 				8A9FD999246A691B0077B6E6 /* TuningFormatter.m in Sources */,
 				8AD30FE6243E652600E83F88 /* OperatorView.m in Sources */,
 				8A7B400424596D0200CFA455 /* engine.cpp in Sources */,
+				8A9FD99C246B25C60077B6E6 /* ParamFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
