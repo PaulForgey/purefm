@@ -99,7 +99,7 @@ voice::start(patch const *patch, int key, int velocity) {
 
     _lfo.start(_patch->lfo.get(), velocity);
     _algo.start(patch, key, velocity);
-    _pitch_env.start(_patch->pitch_env.get(), 0, velocity > 0);
+    _pitch_env.start(_patch->pitch_env.get(), 0, 0, velocity > 0);
 }
 
 int

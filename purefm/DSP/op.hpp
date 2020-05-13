@@ -67,7 +67,6 @@ class op {
         int _out;
         sine_oscillator _osc;
         envelope _env;
-        int _level;
 
         int const _zero = 0;
 };

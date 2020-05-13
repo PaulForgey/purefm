@@ -16,6 +16,7 @@ envelope::envelope(globals const *g) {
     _level = eg_min;
     _out = eg_min;
     _rate_adj = 0;
+    _level_adj = 0;
     _at = 0;
     _key_up = -1;
     _end = 0;
@@ -55,7 +56,7 @@ envelope::op_bias(int lfo) {
         return 0;
     }
     // mod_wheel value is shifted over 5
-    return (lfo >> (8 + _patch->lfo) << 8) +
+    return ((lfo >> (8 + _patch->lfo)) << 8) +
            ((_globals->mod_wheel >> (5 + _patch->expr)) << 16);
 }
 
@@ -81,7 +82,7 @@ envelope::update(env_patch const *patch) {
 }
 
 void
-envelope::start(env_patch const *patch, int rate_adj, bool trigger) {
+envelope::start(env_patch const *patch, int level_adj, int rate_adj, bool trigger) {
     update(patch);
     if (_egs == nullptr || _egs->empty()) {
         return;
@@ -90,6 +91,7 @@ envelope::start(env_patch const *patch, int rate_adj, bool trigger) {
     _trigger = trigger;
     if (trigger) {
         _rate_adj = rate_adj;
+        _level_adj = level_adj;
         run();
     } else if (!_globals->sustain_pedal) {
         stop();
@@ -129,7 +131,14 @@ envelope::set(int at) {
     }
     _at = at;
     auto const &eg = (*_egs)[at];
-    int goal = eg->goal;
+
+    int goal = eg->goal + _level_adj;
+    if (goal < eg_min) {
+        goal = eg_min;
+    } else if (goal > eg_max) {
+        goal = eg_max;
+    }
+
     int rate = eg->rate - _rate_adj;
     if (rate < 0) {
         rate = 0;
@@ -150,7 +159,7 @@ envelope::set(int at) {
         // delay immediately outputs its goal for the count of eg_min->eg_max
         _level = eg_min;
         goal = eg_max;
-        _out = eg->goal;
+        _out = goal;
         break;
 
     case eg_attack:

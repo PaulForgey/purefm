@@ -11,6 +11,10 @@
 
 #include <algorithm>
 
+const int eg_max = 0x7fffff;
+const int eg_mid = 0x000000;
+const int eg_min = -0x800000;
+
 class tables {
     private:
         int _logsin[0x4000];
@@ -64,18 +68,14 @@ class tables {
 
 
         // return linear output of log input and envelope value
-        // envelope is <=0: silence, >=0x1000000: full
-        // (note egs have a range of [-0x800000,0x800000), as
-        // do any other level settings, which means min+max is still below 0,
-        // and max+max is right below full)
-        // output is in 16 bit unsigned range [0,0x10000)
+        // output is in 24 bit signed positive range
         inline int output(int input, int envelope) const {
-            if (envelope < 0) {
+            if (envelope < eg_min) {
                 envelope = 0x1000000;
-            } else if (envelope > 0x1000000) {
+            } else if (envelope > eg_max) {
                 envelope = 0;
             } else {
-                envelope = 0x1000000 - envelope;
+                envelope = -eg_min - envelope;
             }
 
             envelope >>= 6; // [0-16] << 14 + [0-16384)

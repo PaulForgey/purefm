@@ -24,7 +24,7 @@ lfo::start(lfo_patch const *patch, int velocity) {
         return;
     }
 
-    _env.start(patch->env.get(), 0, velocity != 0);
+    _env.start(patch->env.get(), eg_min + _patch->level, 0, velocity != 0);
     _frequency = patch->frequency;
 
     if (velocity > 0 && patch->resync) {
@@ -58,7 +58,7 @@ lfo::step() {
 
     unsigned long pitch = _globals->t.pitch(_frequency);
     osc = _osc.step(*f, _globals->t, pitch, 0, &neg);
-    env = _env.step(1, 0) + _patch->level;
+    env = _env.step(1, 0);
 
     osc = _globals->t.output(osc, env);
     return neg ? -osc : osc;

@@ -87,32 +87,24 @@ op::start(op_patch const *patch, int key, int velocity) {
     }
 
     if (velocity == 0) {
-        _env.start(patch->env.get(), 0, false);
+        _env.start(patch->env.get(), 0, 0, false);
         return;
     }
 
-    int r = ((key * _patch->rate_scale) >> 7);
-    _env.start(patch->env.get(), r, true);
-    _level = patch->level;
+    int level = _patch->level;
 
-    velocity = ((velocity - 96) >> (7 - _patch->velocity));
-    _level += (velocity << 17);
-
-    int scale = 0;
     if (key > _patch->breakpoint) {
-        scale = key_scale((key - _patch->breakpoint) * _patch->key_scale_right,
+        level += key_scale((key - _patch->breakpoint) * _patch->key_scale_right,
             _patch->scale_type_right);
     } else {
-        scale = key_scale((_patch->breakpoint - key) * _patch->key_scale_left,
+        level += key_scale((_patch->breakpoint - key) * _patch->key_scale_left,
             _patch->scale_type_left);
     }
-    _level += scale;
+    velocity = ((velocity - 96) >> (7 - _patch->velocity));
+    level += (velocity << 17);
 
-    if (_level > eg_max) {
-        _level = eg_max;
-    } else if (_level < eg_min) {
-        _level = eg_min;
-    }
+    int r = ((key * _patch->rate_scale) >> 7);
+    _env.start(patch->env.get(), eg_min + level, r, true);
 
     if (patch->resync) {
         _osc.reset();
@@ -139,9 +131,8 @@ op::step(int lfo, int pitch) {
     bool neg;
     int mod = *_mod << 2;
     int out = _osc.step(_globals->t.pitch(frequency), mod, &neg);
-    int eg = _env.step(1, bias) + _level;
 
-    out = _globals->t.output(out, eg);
+    out = _globals->t.output(out, _env.step(1, bias));
     out = (neg ? -out : out);
 
     // enter feedback loop _before_ summation

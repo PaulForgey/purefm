@@ -70,10 +70,6 @@ class ptr_msg {
 
 };
 
-const int eg_max = 0x7fffff;
-const int eg_mid = 0x000000;
-const int eg_min = -0x800000;
-
 typedef enum {
     eg_exp = 0,
     eg_linear,

@@ -60,7 +60,7 @@ class envelope {
 
         eg_status const *get_status() const { return &_status; }
         void update(env_patch const *);
-        void start(env_patch const *, int rate_adj, bool trigger);
+        void start(env_patch const *, int level_adj, int rate_adj, bool trigger);
         int step(int count, int bias);
         int out() const { return _out; }
         void init_at(int out) { _out = out; _level = out; }
@@ -85,7 +85,7 @@ class envelope {
         bool _trigger, _run, _idle;
         eg_vec const *_egs;
         int _key_up, _end;
-        int _rate_adj;
+        int _level_adj, _rate_adj;
         eg_status _status;
 
         env_patch const *_patch;
