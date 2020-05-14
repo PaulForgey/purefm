@@ -25,9 +25,6 @@
     if (self = [super init]) {
         AVAudioFormat *format = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:48000 channels:1];
         
-        // Create a DSP kernel to handle the signal processing.
-        _kernel.init(format.channelCount, format.sampleRate);
-
         // Create the input and output busses.
         _outputBus.init(format, 8);
     }
@@ -104,7 +101,7 @@
          */
 
         // If passed null output buffer pointers, process in-place in the input buffer.
-        output->prepareOutputBufferList(outputData, frameCount, true);
+        output->prepareOutputBufferList(outputData, frameCount, false);
 
         state->setBuffers(nullptr, outputData);
         state->processWithEvents(timestamp, frameCount, realtimeEventListHead, nil /* MIDIOutEventBlock */);

@@ -12,7 +12,7 @@
 #include <algorithm>
 
 voice::voice(globals const *g) :
-    _algo(g), _lfo(g), _pitch_env(g) {
+    _algo(g, _lfo_output, _pitch), _lfo(g), _pitch_env(g) {
     _globals = g;
     _counter = 0;
     _lfo_output = 0;
@@ -109,14 +109,16 @@ voice::step() {
     }
 
     if ((_counter & 0x0f) == 0) {
-        // lfo, pitch every 16
-        // run the engine 16 samples ahead to not call every eg every sample,
-        // as those add up pretty fast.
-        _lfo_output = _lfo.step();
-        int const bias = _pitch_env.pitch_bias(_lfo_output);
-        _pitch = _pitch_env.pitch_value(_pitch_env.step(16, bias)) +
-            (_freq_eg.step(16) >> 8);
-        _algo.step(_output, _lfo_output, _pitch);
+        // lfo, pitch every 16 (per eg step)
+        if (((_counter >> 4) & _globals->eg_mask) == 0) {
+            _lfo_output = _lfo.step();
+            int const bias = _pitch_env.pitch_bias(_lfo_output);
+            _pitch = _pitch_env.pitch_value(_pitch_env.step(16, bias)) +
+                (_freq_eg.step(16) >> 8);
+        }
+
+        // run the engine 16 samples ahead
+        _algo.step(_output);
     }
     return _output[_counter++ & 0x0f];
 }

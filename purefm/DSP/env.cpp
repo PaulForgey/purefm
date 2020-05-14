@@ -158,8 +158,8 @@ envelope::set(int at) {
     case eg_delay:
         // delay immediately outputs its goal for the count of eg_min->eg_max
         _level = eg_min;
-        goal = eg_max;
         _out = goal;
+        goal = eg_max;
         break;
 
     case eg_attack:

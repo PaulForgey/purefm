@@ -138,7 +138,7 @@
             withKeyPath:@"state.operators"
                 options:nil];
 
-    // do not bind through this one (it's a silly hack)
+    // do not bind through this one; it's a silly hack to avoid multiple selection
     [self bind:@"envelope" toObject:self.operatorsController
                         withKeyPath:@"selection.envelope"
                             options:nil];

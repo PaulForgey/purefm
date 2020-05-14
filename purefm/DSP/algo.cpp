@@ -9,12 +9,12 @@
 #include "algo.hpp"
 #include <algorithm>
 
-algo::algo(globals const *g) {
+algo::algo(globals const *g, int const &lfo, int const &pitch) {
     _globals = g;
     _patch = nullptr;
 
     for (auto &&o : _ops) {
-        o = new op(g);
+        o = new op(g, lfo, pitch);
     }
 }
 
@@ -72,7 +72,7 @@ algo::start(patch const *patch, int key, int velocity) {
 }
 
 void
-algo::step(int *out, int lfo, int pitch) {
+algo::step(int *out) {
     if (_patch == nullptr) {
         return;
     }
@@ -82,7 +82,7 @@ algo::step(int *out, int lfo, int pitch) {
         int o0 = 0;
         for (int j = 7; j >= 0; --j) {
             op *o = _ops[j];
-            o0 = o->step(lfo, pitch);
+            o0 = o->step();
         }
         *(out++) = o0;
     }

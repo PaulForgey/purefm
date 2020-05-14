@@ -15,7 +15,7 @@
 
 class algo {
     public:
-        algo(globals const *);
+        algo(globals const *, int const &lfo, int const &pitch);
         virtual ~algo();
 
         // adjust the algorithm as such:
@@ -27,7 +27,7 @@ class algo {
         void update(patch const *);
 
         void start(patch const *, int key, int velocity);
-        void step(int *output, int lfo, int pitch); // output is 16 elements
+        void step(int *output); // output is 16 elements
         eg_status const *get_eg_status(int i) const { return _ops[i]->get_status(); }
 
     private:

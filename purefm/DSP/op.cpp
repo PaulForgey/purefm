@@ -11,13 +11,14 @@
 
 #include <cmath>
 
-op::op(globals const *g)
-    : _osc(g->t), _env(g) {
+op::op(globals const *g, int const &lfo, int const &pitch)
+    : _osc(g->t), _env(g), _lfo(lfo), _pitch(pitch) {
     _globals = g;
     _patch = nullptr;
     _sum = &_zero;
     _mod = &_zero;
     _out = 0;
+    _eg = 0;
     _fb = nullptr;
 }
 
@@ -103,6 +104,12 @@ op::start(op_patch const *patch, int key, int velocity) {
     velocity = ((velocity - 96) >> (7 - _patch->velocity));
     level += (velocity << 17);
 
+    if (level < eg_min) {
+        level = eg_min;
+    } else if (level > eg_max) {
+        level = eg_max;
+    }
+
     int r = ((key * _patch->rate_scale) >> 7);
     _env.start(patch->env.get(), eg_min + level, r, true);
 
@@ -112,7 +119,7 @@ op::start(op_patch const *patch, int key, int velocity) {
 }
 
 int
-op::step(int lfo, int pitch) {
+op::step() {
     if (_patch == nullptr) {
         return 0;
     }
@@ -123,16 +130,19 @@ op::step(int lfo, int pitch) {
 
     int frequency = _patch->frequency;
     if (!_patch->fixed) {
-        frequency += pitch;
+        frequency += _pitch;
     }
-
-    int bias = _env.op_bias(lfo);
 
     bool neg;
     int mod = *_mod << 2;
     int out = _osc.step(_globals->t.pitch(frequency), mod, &neg);
 
-    out = _globals->t.output(out, _env.step(1, bias));
+    if ((++_count & _globals->eg_mask) == 0) {
+        int bias = _env.op_bias(_lfo);
+        _eg = _env.step(1, bias);
+    }
+
+    out = _globals->t.output(out, _eg);
     out = (neg ? -out : out);
 
     // enter feedback loop _before_ summation

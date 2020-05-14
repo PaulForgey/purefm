@@ -173,6 +173,9 @@ struct globals {
     int mod_wheel;
     int pitch_bend;
     bool sustain_pedal;
+
+    // eg rate divider mask
+    unsigned eg_mask;
 };
 
 #endif /* globals_h */

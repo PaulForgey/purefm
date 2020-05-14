@@ -33,7 +33,7 @@
 
 - (instancetype)initWithComponentDescription:(AudioComponentDescription)componentDescription options:(AudioComponentInstantiationOptions)options error:(NSError **)outError {
     self = [super initWithComponentDescription:componentDescription options:options error:outError];
-    
+
     if (self == nil) { return nil; }
 
 	_kernelAdapter = [[purefmDSPKernelAdapter alloc] init];

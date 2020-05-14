@@ -57,7 +57,7 @@ class sawdown : public sawup {
 class noise : public function {
     public:
         int generate(tables const &, int phase) const {
-            return std::rand() & 0x3fffff;
+            return (std::rand() & 0xf) << 14 | (std::rand() & 0x3fff);
         }
         bool constant() const { return true; }
 };

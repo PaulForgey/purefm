@@ -35,6 +35,14 @@ public:
         chanCount = channelCount;
         sampleRate = float(inSampleRate);
         _globals.t.init(inSampleRate);
+
+        if (inSampleRate >= 176400.0) {
+            _globals.eg_mask = 0x3;
+        } else if (inSampleRate >= 88200.0) {
+            _globals.eg_mask = 0x1;
+        } else {
+            _globals.eg_mask = 0x0;
+        }
     }
 
     void setPatch(patch_ptr::pointer const &patch) {
