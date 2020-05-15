@@ -12,9 +12,10 @@
 #include "tables.hpp"
 #include "status.h"
 
-#include <vector>
-#include <memory>
 #include <atomic>
+#include <memory>
+#include <utility>
+#include <vector>
 
 // model -> engine configuration
 
@@ -36,28 +37,26 @@ class ptr_msg {
         // allocation calls happen from this side.
         void set(pointer const &next) {
             while (_fence.test_and_set());
-            auto p = _free;
-            _free.reset();
+            auto p = std::move(_free);
             _fence.clear();
-            p.reset(); // do potential final release outside spin lock
 
             std::atomic_store(&_next, next);
+            p.reset(); // do potential final release outside spin lock
         }
 
         // consumer: get the next or current message without allocation calls.
         // return a weak plain pointer, which will invalidate at next call to get().
         // (obviously) assumes single thread consumer.
         T const *get() const  {
-            auto p = std::atomic_load_explicit(&_next, std::memory_order_relaxed);
-            if (p == _used) {
-                // no change
-                return p.get();
+            auto &&p = std::atomic_load_explicit(&_next, std::memory_order_relaxed);
+            if (p != _used) {
+                while (_fence.test_and_set());
+                _free = std::move(_used);
+                _used = std::move(p);
+                _fence.clear();
             }
-            while (_fence.test_and_set());
-            _free = _used;
-            _used = p;
-            _fence.clear();
-            return p.get();
+
+            return _used.get();
         }
 
     private:

@@ -101,8 +101,11 @@ op::start(op_patch const *patch, int key, int velocity) {
         level += key_scale((_patch->breakpoint - key) * _patch->key_scale_left,
             _patch->scale_type_left);
     }
-    velocity = ((velocity - 96) >> (7 - _patch->velocity));
-    level += (velocity << 17);
+
+    if (_patch->velocity > 0) {
+        velocity = ((velocity - 96) >> (7 - _patch->velocity));
+        level += (velocity << 17);
+    }
 
     if (level < eg_min) {
         level = eg_min;
