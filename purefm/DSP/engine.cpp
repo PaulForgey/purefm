@@ -93,6 +93,8 @@ engine::midi(const unsigned char *msg) {
                 _globals->sustain_pedal = (msg[2] != 0);
                 break;
         }
+        break;
+        
     case 0xe0: // pitch bend
         _globals->pitch_bend = (((int)msg[1] + ((int)(msg[2]) << 7)) - 0x2000) << 2;
         break;
