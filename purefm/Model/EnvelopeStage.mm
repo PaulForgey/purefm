@@ -49,7 +49,7 @@
 
     self.duration = 0;
     self.level = 0;
-    self.linearity = kLinearity_Linear;
+    self.linearity = kLinearity_Exp;
     
     return self;
 }

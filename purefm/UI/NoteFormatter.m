@@ -8,6 +8,7 @@
 
 #import "NoteFormatter.h"
 #import <ctype.h>
+#import <stdlib.h>
 
 static char const *notes[12] = {
     "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"
@@ -30,7 +31,15 @@ static char const *notes[12] = {
     char const *s = string.UTF8String;
 
     if (!isalpha(s[0])) {
-        return NO;
+        int i = atoi(s);
+        if (i < 0) {
+            i = 0;
+        }
+        else if (i > 127) {
+            i = 127;
+        }
+        *obj = @(i);
+        return YES;
     }
 
     int note = 0, octave = 0;

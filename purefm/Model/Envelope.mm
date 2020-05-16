@@ -80,7 +80,7 @@
 
     _stages = [[NSMutableArray alloc] init];
     EnvelopeStage *es = [[EnvelopeStage alloc] init];
-    es.linearity = kLinearity_Linear;
+    es.linearity = kLinearity_Attack;
     es.level = 127;
     [_stages addObject:es];
 

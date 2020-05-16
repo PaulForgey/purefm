@@ -33,7 +33,7 @@ class fb_filter {
             _acc += _in - _buf[_ptr];
             _buf[_ptr] = _in;
             _ptr = (_ptr + 1) & 3;
-            _out = (_acc * scale) >> 9; // 7 bit scale + /4 average
+            _out = (_acc * scale) >> 10; // scale (by half at full) + /4 average
         }
 
     private:

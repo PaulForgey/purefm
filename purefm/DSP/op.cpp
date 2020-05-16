@@ -102,10 +102,8 @@ op::start(op_patch const *patch, int key, int velocity) {
             _patch->scale_type_left);
     }
 
-    if (_patch->velocity > 0) {
-        velocity = ((velocity - 96) >> (7 - _patch->velocity));
-        level += (velocity << 17);
-    }
+    velocity = (velocity - 100) * _patch->velocity;
+    level += (velocity << 14);
 
     if (level < eg_min) {
         level = eg_min;
@@ -113,7 +111,12 @@ op::start(op_patch const *patch, int key, int velocity) {
         level = eg_max;
     }
 
-    int r = ((key * _patch->rate_scale) >> 7);
+    int r = (((key - 21) * _patch->rate_scale) / 192);
+    if (r < 0) {
+        r = 0;
+    } else if (r > 64) {
+        r = 64;
+    }
     _env.start(patch->env.get(), eg_min + level, r, true);
 
     if (patch->resync) {
@@ -137,7 +140,7 @@ op::step() {
     }
 
     bool neg;
-    int mod = *_mod << 2;
+    int mod = *_mod << 3;
     int out = _osc.step(_globals->t.pitch(frequency), mod, &neg);
 
     if ((++_count & _globals->eg_mask) == 0) {
