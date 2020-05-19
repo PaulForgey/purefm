@@ -113,6 +113,22 @@ envelope::stop() {
     }
 }
 
+// linear eg state for desired output
+int
+envelope::to_linear(int out) const {
+    return eg_min + (_globals->t.exp((eg_max+1 - out) >> 6) << 8);
+}
+
+// linear output from eg state
+int
+envelope::to_exp(int level) const {
+    int i = (level - eg_min) >> 10;
+    if (i > 0) {
+        return eg_max - (_globals->t.log(i) << 6);
+    }
+    return eg_min;
+}
+
 void
 envelope::set(int at) {
     _idle = false;
@@ -151,8 +167,9 @@ envelope::set(int at) {
 
     switch (eg->type) {
     case eg_linear:
-        // if transitioning to a linear output, translate its starting state
-        _level = eg_min + (_globals->t.exp((eg_max+1 - _out) >> 6) << 8);
+        // translate starting state and goal
+        _level = to_linear(_out);
+        goal = to_linear(goal);
         break;
 
     case eg_delay:
@@ -203,16 +220,10 @@ envelope::step(int count, int bias) {
     } else {
         _level = _stage.step(count);
     }
-    int i;
 
     switch(_type) {
     case eg_linear:
-        i = (_level - eg_min) >> 10;
-        if (i > 0) {
-            _out = eg_max - (_globals->t.log(i) << 6);
-        } else {
-            _out = eg_min;
-        }
+        _out = to_exp(_level);
         break;
 
     case eg_delay:

@@ -77,6 +77,9 @@ class envelope {
         void stop();
         void set(int at);
 
+        int to_linear(int) const;
+        int to_exp(int) const;
+
     private:
         int _level, _out;
         int _at;
