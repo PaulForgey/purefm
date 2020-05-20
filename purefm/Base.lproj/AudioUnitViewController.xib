@@ -37,7 +37,7 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zpa-90-zus" userLabel="Envelope View">
-                                                <rect key="frame" x="0.0" y="177" width="447" height="266"/>
+                                                <rect key="frame" x="0.0" y="177" width="456" height="266"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             </customView>
                                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="N9s-t7-BBM">
@@ -230,23 +230,6 @@
                                                     <binding destination="lWd-LK-06F" name="value" keyPath="selection.envelope.expr" id="q5x-y8-4Es"/>
                                                 </connections>
                                             </slider>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uQU-Hp-BMu">
-                                                <rect key="frame" x="235" y="17" width="44" height="14"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="LFO" id="Mx8-BY-MOg">
-                                                    <font key="font" metaFont="message" size="11"/>
-                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                </textFieldCell>
-                                            </textField>
-                                            <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bBO-Wo-oTC" userLabel="LFO Slider">
-                                                <rect key="frame" x="285" y="15" width="154" height="18"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="16" doubleValue="7" tickMarkPosition="above" numberOfTickMarks="17" allowsTickMarkValuesOnly="YES" sliderType="linear" id="D6G-Qi-4NO"/>
-                                                <connections>
-                                                    <binding destination="lWd-LK-06F" name="value" keyPath="selection.envelope.lfo" id="z8M-9X-j6E"/>
-                                                </connections>
-                                            </slider>
                                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4ZS-vK-Go7">
                                                 <rect key="frame" x="82" y="141" width="60" height="18"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -258,6 +241,47 @@
                                                     <binding destination="lWd-LK-06F" name="value" keyPath="selection.resync" id="C1d-ha-JAn"/>
                                                 </connections>
                                             </button>
+                                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6dl-4P-Ntb" userLabel="LFO">
+                                                <rect key="frame" x="405" y="92" width="34" height="19"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="F9j-tV-XWp">
+                                                    <font key="font" metaFont="message" size="11"/>
+                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                                <connections>
+                                                    <binding destination="lWd-LK-06F" name="value" keyPath="selection.envelope.lfo" id="0Ef-DR-kb1">
+                                                        <dictionary key="options">
+                                                            <bool key="NSValidatesImmediately" value="YES"/>
+                                                        </dictionary>
+                                                    </binding>
+                                                </connections>
+                                            </textField>
+                                            <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RdH-zb-YdQ">
+                                                <rect key="frame" x="438" y="90" width="15" height="22"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="127" id="BHt-Yl-Aei"/>
+                                                <connections>
+                                                    <binding destination="lWd-LK-06F" name="value" keyPath="selection.envelope.lfo" id="jD8-Ul-Ls8"/>
+                                                </connections>
+                                            </stepper>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uQU-Hp-BMu">
+                                                <rect key="frame" x="193" y="94" width="44" height="14"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="LFO" id="Mx8-BY-MOg">
+                                                    <font key="font" metaFont="message" size="11"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bBO-Wo-oTC" userLabel="LFO Slider">
+                                                <rect key="frame" x="243" y="94" width="154" height="15"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="127" tickMarkPosition="above" allowsTickMarkValuesOnly="YES" sliderType="linear" id="D6G-Qi-4NO"/>
+                                                <connections>
+                                                    <binding destination="lWd-LK-06F" name="value" keyPath="selection.envelope.lfo" id="z8M-9X-j6E"/>
+                                                </connections>
+                                            </slider>
                                         </subviews>
                                     </view>
                                 </tabViewItem>
@@ -267,7 +291,7 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lwi-N2-F4f" userLabel="Envelope View">
-                                                <rect key="frame" x="0.0" y="177" width="447" height="266"/>
+                                                <rect key="frame" x="0.0" y="177" width="456" height="266"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             </customView>
                                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Fma-j1-FmZ">
@@ -342,40 +366,6 @@
                                                     <binding destination="-2" name="selectedIndex" keyPath="state.lfo.wave" id="H8Z-i4-35d"/>
                                                 </connections>
                                             </popUpButton>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ftt-DU-arQ">
-                                                <rect key="frame" x="15" y="95" width="64" height="14"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="Level" id="Gzl-bo-cbU">
-                                                    <font key="font" metaFont="message" size="11"/>
-                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                </textFieldCell>
-                                            </textField>
-                                            <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hlt-hK-sxv" userLabel="Level Slider">
-                                                <rect key="frame" x="85" y="92" width="312" height="19"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="127" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="yqG-XQ-wnD"/>
-                                                <connections>
-                                                    <binding destination="-2" name="value" keyPath="state.lfo.level" id="htg-D1-GXX"/>
-                                                </connections>
-                                            </slider>
-                                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9vY-zk-hri" userLabel="Level">
-                                                <rect key="frame" x="405" y="93" width="34" height="19"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="P1B-sY-Xhr">
-                                                    <font key="font" metaFont="message" size="11"/>
-                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                </textFieldCell>
-                                                <connections>
-                                                    <binding destination="-2" name="value" keyPath="state.lfo.level" id="bqo-vH-l5H">
-                                                        <dictionary key="options">
-                                                            <bool key="NSValidatesImmediately" value="YES"/>
-                                                        </dictionary>
-                                                    </binding>
-                                                    <outlet property="formatter" destination="AJL-VY-N67" id="8lR-VM-69Y"/>
-                                                </connections>
-                                            </textField>
                                         </subviews>
                                     </view>
                                 </tabViewItem>
@@ -385,7 +375,7 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nSj-eA-8mg" userLabel="Envelope View">
-                                                <rect key="frame" x="0.0" y="177" width="447" height="266"/>
+                                                <rect key="frame" x="0.0" y="177" width="456" height="266"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             </customView>
                                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="tKi-6m-JD1">
@@ -410,7 +400,7 @@
                                                 </connections>
                                             </slider>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OCO-YS-F1r">
-                                                <rect key="frame" x="15" y="115" width="54" height="14"/>
+                                                <rect key="frame" x="225" y="140" width="54" height="14"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="Bend" id="L2k-Xv-Dbf">
                                                     <font key="font" metaFont="message" size="11"/>
@@ -419,7 +409,7 @@
                                                 </textFieldCell>
                                             </textField>
                                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="80u-gc-0zW" userLabel="Bend Slider">
-                                                <rect key="frame" x="75" y="113" width="154" height="18"/>
+                                                <rect key="frame" x="285" y="138" width="154" height="18"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="7" doubleValue="7" tickMarkPosition="above" numberOfTickMarks="8" allowsTickMarkValuesOnly="YES" sliderType="linear" id="1Lb-YK-NBK"/>
                                                 <connections>
@@ -427,7 +417,7 @@
                                                 </connections>
                                             </slider>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1fs-J9-v77">
-                                                <rect key="frame" x="235" y="115" width="44" height="14"/>
+                                                <rect key="frame" x="25" y="117" width="44" height="14"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="LFO" id="Csi-Df-5at">
                                                     <font key="font" metaFont="message" size="11"/>
@@ -436,13 +426,37 @@
                                                 </textFieldCell>
                                             </textField>
                                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cz0-Gd-LmN" userLabel="LFO Slider">
-                                                <rect key="frame" x="285" y="113" width="154" height="18"/>
+                                                <rect key="frame" x="75" y="116" width="322" height="15"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="16" doubleValue="7" tickMarkPosition="above" numberOfTickMarks="17" allowsTickMarkValuesOnly="YES" sliderType="linear" id="N41-2Q-FKe"/>
+                                                <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="127" tickMarkPosition="above" sliderType="linear" id="N41-2Q-FKe"/>
                                                 <connections>
                                                     <binding destination="-2" name="value" keyPath="state.pitchEnvelope.lfo" id="DXm-q7-9Jr"/>
                                                 </connections>
                                             </slider>
+                                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4I0-Rx-age" userLabel="LFO">
+                                                <rect key="frame" x="405" y="114" width="34" height="19"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="sqm-BO-6Al">
+                                                    <font key="font" metaFont="message" size="11"/>
+                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                                <connections>
+                                                    <binding destination="-2" name="value" keyPath="state.pitchEnvelope.lfo" id="apc-3M-nzE">
+                                                        <dictionary key="options">
+                                                            <bool key="NSValidatesImmediately" value="YES"/>
+                                                        </dictionary>
+                                                    </binding>
+                                                </connections>
+                                            </textField>
+                                            <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rmi-3D-b4h">
+                                                <rect key="frame" x="438" y="112" width="15" height="22"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <stepperCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="127" id="jyt-ff-Ged"/>
+                                                <connections>
+                                                    <binding destination="-2" name="value" keyPath="state.pitchEnvelope.lfo" id="Ekm-c8-EpD"/>
+                                                </connections>
+                                            </stepper>
                                         </subviews>
                                     </view>
                                 </tabViewItem>

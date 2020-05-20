@@ -27,6 +27,7 @@ class voice {
         int step();
 
         int get_key() const { return _key; }
+        bool triggered() const { return _velocity != 0; }
         voice_status const *get_status() const { return &_status; }
 
     private:
@@ -47,7 +48,6 @@ class voice {
         unsigned char _keys[16];
         int _output[16];
         voice_status _status;
-
 };
 
 #endif /* voice_hpp */

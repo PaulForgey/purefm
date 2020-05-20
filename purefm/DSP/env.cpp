@@ -47,7 +47,7 @@ envelope::pitch_bias(int lfo) {
     if (_patch == nullptr) {
         return 0;
     }
-    return (lfo >> (8 + _patch->lfo)) << 8;
+    return (lfo * _patch->lfo) >> 7;
 }
 
 int
@@ -56,7 +56,7 @@ envelope::op_bias(int lfo) {
         return 0;
     }
     // mod_wheel value is shifted over 5
-    return ((lfo >> (8 + _patch->lfo)) << 8) +
+    return ((lfo * _patch->lfo) >> 7) +
            ((_globals->mod_wheel >> (5 + _patch->expr)) << 16);
 }
 
@@ -116,7 +116,7 @@ envelope::stop() {
 // linear eg state for desired output
 int
 envelope::to_linear(int out) const {
-    return eg_min + (_globals->t.exp((eg_max+1 - out) >> 6) << 8);
+    return eg_min + (_globals->t.exp((-out - eg_min) >> 6) << 8);
 }
 
 // linear output from eg state

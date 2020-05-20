@@ -102,18 +102,6 @@
                                                     ]
                                dependentParameters:nil];
 
-    AUParameter *lfoOutput =
-    [AUParameterTree createParameterWithIdentifier:@"lfooutput"
-                                              name:@"LFO Output"
-                                           address:kParam_LFOOutput
-                                               min:0
-                                               max:127
-                                              unit:kAudioUnitParameterUnit_Generic
-                                          unitName:nil
-                                             flags:kAudioUnitParameterFlag_DisplayExponential|kAudioUnitParameterFlag_IsWritable|kAudioUnitParameterFlag_IsReadable
-                                      valueStrings:nil
-                               dependentParameters:nil];
-
     AUParameter *lfoFrequency =
     [AUParameterTree createParameterWithIdentifier:@"lfofreq"
                                               name:@"LFO Frequency"
@@ -179,7 +167,6 @@
     _parameterTree = [AUParameterTree createTreeWithChildren:@[
         feedback,
         lfoWave,
-        lfoOutput,
         lfoFrequency,
         mono,
         middleC,
@@ -262,6 +249,8 @@
 }
 
 - (void)setFullState:(NSDictionary<NSString *,id> *)fullState {
+    [super setFullState:fullState];
+
     NSError *error = nil;
     NSKeyedUnarchiver *decode = [[NSKeyedUnarchiver alloc] initForReadingFromData:[fullState objectForKey:@"pureFMstate"]
                                                                             error:&error];
@@ -276,8 +265,6 @@
     _state = [decode decodeObjectForKey:NSKeyedArchiveRootObjectKey];
     [self updatePatch];
     [self didChangeValueForKey:@"state"];
-
-    [super setFullState:fullState];
 }
 
 // MARK: AUAudioUnit (AUAudioUnitImplementation)

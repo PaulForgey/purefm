@@ -42,7 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL resync;
 @property (nonatomic) LFOWave wave;
 @property (nonatomic) int frequency;
-@property (nonatomic) int level;
 
 @end
 

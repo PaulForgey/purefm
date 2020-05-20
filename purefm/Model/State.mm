@@ -164,7 +164,6 @@
             [self didChange:@"tuning"];
             break;
 
-        case kParam_LFOOutput:
         case kParam_LFOFreq:
         case kParam_LFOWave:
             [self.lfo setParameter:parameter value:value];

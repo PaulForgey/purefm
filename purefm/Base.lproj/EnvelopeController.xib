@@ -20,14 +20,14 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="b8a-hN-R4T">
-            <rect key="frame" x="0.0" y="0.0" width="447" height="266"/>
+            <rect key="frame" x="0.0" y="0.0" width="456" height="266"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eT3-HJ-h0Y">
                     <rect key="frame" x="23" y="250" width="64" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="Linearity" id="0LH-p2-Pj4">
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -40,7 +40,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Exp" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="baQ-Vg-l2y" id="tcC-QY-1lZ">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                         <menu key="menu" id="eEm-Vm-zCN">
                             <items>
                                 <menuItem title="Exp" state="on" id="baQ-Vg-l2y" userLabel="Exp"/>
@@ -61,7 +61,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Delay" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="GUt-ww-wt9">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                     </buttonCell>
                     <connections>
                         <action selector="updateStage:" target="-2" id="USv-s0-TCc"/>
@@ -81,7 +81,7 @@
                     <rect key="frame" x="23" y="225" width="64" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="Duration" id="eYA-5n-J9J">
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -104,7 +104,7 @@
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="invert" value="YES"/>
                             </userDefinedRuntimeAttributes>
                         </customFormatter>
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -117,7 +117,7 @@
                     <rect key="frame" x="91" y="203" width="226" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Label" id="aLu-G6-3Qw">
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -130,7 +130,7 @@
                     <rect key="frame" x="23" y="181" width="64" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="Level" id="SjR-pO-1Rx">
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -149,7 +149,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="H7l-tu-hUa">
                         <customFormatter key="formatter" id="77f-7o-nkq" customClass="ParamFormatter"/>
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -162,7 +162,7 @@
                     <rect key="frame" x="91" y="159" width="226" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Label" id="yBn-h5-TtF">
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -176,7 +176,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="Insert" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Y8z-Gb-HSq">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                     </buttonCell>
                     <connections>
                         <action selector="insert:" target="Cad-Ro-ulv" id="NEs-2f-9NF"/>
@@ -188,7 +188,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7AN-L1-mPe">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                     </buttonCell>
                     <connections>
                         <action selector="add:" target="Cad-Ro-ulv" id="Frr-s5-7s8"/>
@@ -200,7 +200,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="Remove" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="iXg-e7-6Gg">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                     </buttonCell>
                     <connections>
                         <action selector="remove:" target="Cad-Ro-ulv" id="TBA-Fd-I8V"/>
@@ -212,7 +212,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Clip" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" altersStateOfSelectedItem="NO" selectedItem="nOr-4f-Gr4" id="IJC-q2-dzI" userLabel="Clip">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                         <menu key="menu" title="Clip" autoenablesItems="NO" id="Ws9-OY-nNn">
                             <items>
                                 <menuItem title="Clip" id="nOr-4f-Gr4">
@@ -260,7 +260,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Loop" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="6nm-zr-h9R">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                     </buttonCell>
                     <connections>
                         <binding destination="-2" name="value" keyPath="envelope.loop" id="KhD-3R-ph5"/>
@@ -271,7 +271,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="Key Up" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3iF-x4-IwR">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                     </buttonCell>
                     <connections>
                         <action selector="clickedKeyUp:" target="-2" id="5Jg-oF-qBP"/>
@@ -287,7 +287,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="Prev" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2c6-wU-GSf">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                     </buttonCell>
                     <connections>
                         <action selector="selectPrevious:" target="Cad-Ro-ulv" id="FvA-yG-zpQ"/>
@@ -299,7 +299,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="push" title="Next" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fsE-pq-lFW">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="controlContent" size="11"/>
+                        <font key="font" metaFont="toolTip"/>
                     </buttonCell>
                     <connections>
                         <action selector="selectNext:" target="Cad-Ro-ulv" id="ycZ-Yc-mlo"/>

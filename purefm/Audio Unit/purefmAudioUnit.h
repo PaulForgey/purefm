@@ -13,7 +13,6 @@
 enum {
     kParam_Feedback = 0,
     kParam_LFOWave,
-    kParam_LFOOutput,
     kParam_LFOFreq,
     kParam_Mono,
     kParam_MiddleC,

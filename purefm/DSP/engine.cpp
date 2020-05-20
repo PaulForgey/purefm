@@ -41,10 +41,10 @@ engine::start(int channel, int key, int velocity) {
     if (!_patch->mono) {
         int n = _round++;
         // always refer to a voice already playing this note, otherwise
-        // round robin allocate one
-        for (int i = 0; i < 16; ++i) {
+        // round robin allocate one, preferring a voice not currently triggered
+        for (int i = 0; i < 32; ++i) {
             v = _voices[(i+n) & 0xf];
-            if (v->get_key() == key) {
+            if ((i >= 16 && !v->triggered()) || v->get_key() == key) {
                 break;
             }
         }

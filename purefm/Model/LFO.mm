@@ -20,7 +20,6 @@
     Envelope *_envelope;
     LFOWave _wave;
     lfo_patch_ptr::pointer _patch;
-    int _level;
     AUParameterTree *_parameterTree;
     struct eg_status const *_status;
 }
@@ -57,7 +56,6 @@
     _envelope = [[Envelope alloc] initDefaultOp];
 
     self.wave = kLFO_Sine;
-    self.level = 0;
     self.frequency = 0;
     self.resync = YES;
 
@@ -91,7 +89,6 @@
     _parameterTree = parameterTree;
 
     // refresh current values into parameter tree
-    [self setLevel:self.level];
     [self setFrequency:self.frequency];
     [self setWave:self.wave];
 }
@@ -105,11 +102,6 @@
 
 - (void)setParameter:(AUParameter *)parameter value:(AUValue)value {
     switch (parameter.address) {
-        case kParam_LFOOutput:
-            [self updateLevel:(int)value];
-            [self didChange:@"level"];
-            break;
-
         case kParam_LFOFreq:
             _patch->frequency = value;
             [self didChange:@"frequency"];
@@ -160,20 +152,7 @@
     return _patch->frequency;
 }
 
-- (void)setLevel:(int)level {
-    [self updateLevel:level];
-    [[_parameterTree parameterWithAddress:kParam_LFOOutput] setValue:(AUValue)level];
-}
-- (int)level {
-    return _level;
-}
-
 // MARK: non-kvo updates
-
-- (void)updateLevel:(int)level {
-    _level = level;
-    _patch->level = tables::level_param(level);
-}
 
 - (void)updateWave:(LFOWave)wave {
     _wave = wave;

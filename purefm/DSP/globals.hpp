@@ -137,7 +137,6 @@ typedef ptr_msg<function> function_ptr;
 
 struct lfo_patch {
     int frequency;
-    int level;
     bool resync;
 
     function_ptr wave;

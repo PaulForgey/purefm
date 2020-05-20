@@ -7,6 +7,7 @@
 //
 
 #import "Envelope.h"
+#import "Operator.h"
 #import "env.hpp"
 #import "globals.hpp"
 
@@ -209,10 +210,10 @@
 }
 
 - (void)setLfo:(int)lfo {
-    _patch->lfo = 16 - lfo;
+    _patch->lfo = lfo;
 }
 - (int)lfo {
-    return 16 - _patch->lfo;
+    return _patch->lfo;
 }
 
 - (void)setBend:(int)bend {
@@ -235,7 +236,7 @@
 }
 
 - (BOOL)validateLfo:(id *)ioValue error:(NSError **)outError {
-    [Envelope clampScaleValue:ioValue max:16];
+    [Operator clampMIDIValue:ioValue];
     return YES;
 }
 

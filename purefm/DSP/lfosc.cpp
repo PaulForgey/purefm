@@ -24,7 +24,7 @@ lfo::start(lfo_patch const *patch, int velocity) {
         return;
     }
 
-    _env.start(patch->env.get(), eg_min + _patch->level, 0, velocity != 0);
+    _env.start(patch->env.get(), eg_max, 0, velocity != 0);
     _frequency = patch->frequency;
 
     if (velocity > 0 && patch->resync) {
