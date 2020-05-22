@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSArray< Operator * > *operators;
 @property (nonatomic,nullable) Operator *feedback;
 
+- (void)arrange;
+
 @end
 
 NS_ASSUME_NONNULL_END

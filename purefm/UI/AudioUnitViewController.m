@@ -25,6 +25,8 @@
 @property (weak) IBOutlet NSView *operatorEnvelopeView;
 @property (weak) IBOutlet NSView *lfoEnvelopeView;
 @property (weak) IBOutlet NSView *pitchEnvelopeView;
+@property (weak) IBOutlet NSBrowser *importBrowser;
+@property (strong) IBOutlet NSTreeController *importsController;
 
 @end
 
@@ -37,10 +39,12 @@
     Envelope *_pitchEnvelope;
     State *_state;
     NSTimer *_refresh;
+    NSMutableArray< ImportNode * > *_imports;
 }
 
 @dynamic view;
 @synthesize state = _state;
+@synthesize imports = _imports;
 
 // MARK: properties
 
@@ -201,6 +205,53 @@
 
 - (IBAction)enabledChanged:(id)sender {
     self.algoView.needsDisplay = YES;
+}
+
+- (void)addImport:(ImportNode *)n {
+    [self willChangeValueForKey:@"imports"];
+    if (_imports == nil) {
+        _imports = [[NSMutableArray< ImportNode * > alloc] init];
+    }
+    [_imports addObject:n];
+    [self didChangeValueForKey:@"imports"];
+}
+
+- (IBAction)openImport:(id)sender {
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    panel.allowedFileTypes = @[@"syx", @"SYX"];
+
+    [panel beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse result) {
+        if (result != NSModalResponseOK) {
+            return;
+        }
+
+        ImportNode *n = nil;
+        NSError *error = nil;
+        NSData *data = [NSData dataWithContentsOfURL:panel.URL
+                                             options:0
+                                               error:&error];
+
+        if (data == nil) {
+            [[NSAlert alertWithError:error] runModal];
+        } else {
+            n = [Importer importerWithData:data error:&error];
+            if (n != nil) {
+                NSArray *paths = panel.URL.pathComponents;
+                n.name = [paths lastObject];
+                [self addImport:n];
+            }
+        }
+    }];
+}
+
+- (IBAction)load:(id)sender {
+    NSArray< ImportedPatch * > *selected = [self.importsController selectedObjects];
+    if ([selected count] == 1) {
+        [selected[0] applyTo:_state];
+        [_audioUnit updatePatch];
+        [_algoView arrange];
+        _algoView.needsDisplay = YES;
+    }
 }
 
 // MARK: factory

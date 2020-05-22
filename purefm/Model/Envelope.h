@@ -43,6 +43,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateStatus;
 
+- (void)addStagesObject:(EnvelopeStage *)object;
+- (void)replaceObjectInStagesAtIndex:(NSUInteger)index withObject:(id)object;
+- (void)removeObjectFromStagesAtIndex:(NSUInteger)index;
+- (void)insertObject:(EnvelopeStage *)object inStagesAtIndex:(NSUInteger)index;
+
 @end
 
 NS_ASSUME_NONNULL_END

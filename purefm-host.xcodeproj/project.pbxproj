@@ -17,6 +17,7 @@
 		8A7B3FFE2459622500CFA455 /* op.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A7B3FFC2459622500CFA455 /* op.cpp */; };
 		8A7B40012459656E00CFA455 /* algo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A7B3FFF2459656E00CFA455 /* algo.cpp */; };
 		8A7B400424596D0200CFA455 /* engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A7B400224596D0200CFA455 /* engine.cpp */; };
+		8A7BA30B2475F44200E63CC7 /* Importer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7BA30A2475F44200E63CC7 /* Importer.m */; };
 		8A8FBA74245A576D00D2D28D /* env.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A8FBA72245A576D00D2D28D /* env.cpp */; };
 		8A9724DC245C068000880B8E /* lfosc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A9724DA245C068000880B8E /* lfosc.cpp */; };
 		8A9724DE245C0C8700880B8E /* oscillator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A9724DD245C0C8700880B8E /* oscillator.cpp */; };
@@ -48,6 +49,7 @@
 		8AD30FEF243E9D0600E83F88 /* AlgoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AD30FEE243E9D0600E83F88 /* AlgoView.m */; };
 		8AD611102457F91E00B7205B /* PitchFormatter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AD6110F2457F91E00B7205B /* PitchFormatter.mm */; };
 		8ADA2E0D245D5930005473CC /* globals.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8ADA2E0C245D5930005473CC /* globals.mm */; };
+		8ADC6EC7247749F3005AEC3E /* YamahaImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ADC6EC6247749F3005AEC3E /* YamahaImporter.m */; };
 		8AF4D4EE245B7BB400EE14E2 /* voice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AF4D4EC245B7BB400EE14E2 /* voice.cpp */; };
 		8AF4EF6F2458294100267422 /* State.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AF4EF6E2458294100267422 /* State.mm */; };
 /* End PBXBuildFile section */
@@ -97,6 +99,8 @@
 		8A7B40002459656E00CFA455 /* algo.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = algo.hpp; sourceTree = "<group>"; };
 		8A7B400224596D0200CFA455 /* engine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = engine.cpp; sourceTree = "<group>"; };
 		8A7B400324596D0200CFA455 /* engine.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = engine.hpp; sourceTree = "<group>"; };
+		8A7BA3072475E84800E63CC7 /* Importer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Importer.h; sourceTree = "<group>"; };
+		8A7BA30A2475F44200E63CC7 /* Importer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Importer.m; sourceTree = "<group>"; };
 		8A7DB96924653FB600749624 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8A8FBA72245A576D00D2D28D /* env.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = env.cpp; sourceTree = "<group>"; };
 		8A8FBA73245A576D00D2D28D /* env.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = env.hpp; sourceTree = "<group>"; };
@@ -153,6 +157,8 @@
 		8AD6110E2457F91E00B7205B /* PitchFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PitchFormatter.h; sourceTree = "<group>"; };
 		8AD6110F2457F91E00B7205B /* PitchFormatter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PitchFormatter.mm; sourceTree = "<group>"; };
 		8ADA2E0C245D5930005473CC /* globals.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = globals.mm; sourceTree = "<group>"; };
+		8ADC6EC5247749F3005AEC3E /* YamahaImporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YamahaImporter.h; sourceTree = "<group>"; };
+		8ADC6EC6247749F3005AEC3E /* YamahaImporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YamahaImporter.m; sourceTree = "<group>"; };
 		8AF4D4EC245B7BB400EE14E2 /* voice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = voice.cpp; sourceTree = "<group>"; };
 		8AF4D4ED245B7BB400EE14E2 /* voice.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = voice.hpp; sourceTree = "<group>"; };
 		8AF4D4EF245BAA7600EE14E2 /* globals.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = globals.hpp; sourceTree = "<group>"; };
@@ -184,6 +190,7 @@
 		8A7B3FF52458BE6800CFA455 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8A7BA3062475E7FF00E63CC7 /* Import */,
 				8AC4B7F42462063C00D44230 /* README.txt */,
 				8AF4EF6D2458294100267422 /* State.h */,
 				8AF4EF6E2458294100267422 /* State.mm */,
@@ -197,6 +204,17 @@
 				8A5F46F42445739C003B3B53 /* EnvelopeStage.mm */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		8A7BA3062475E7FF00E63CC7 /* Import */ = {
+			isa = PBXGroup;
+			children = (
+				8A7BA3072475E84800E63CC7 /* Importer.h */,
+				8A7BA30A2475F44200E63CC7 /* Importer.m */,
+				8ADC6EC5247749F3005AEC3E /* YamahaImporter.h */,
+				8ADC6EC6247749F3005AEC3E /* YamahaImporter.m */,
+			);
+			path = Import;
 			sourceTree = "<group>";
 		};
 		8AAC8925243D977F001390F0 /* views */ = {
@@ -393,7 +411,7 @@
 		8AB2F528243C05070094B217 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1140;
+				LastUpgradeCheck = 1150;
 				ORGANIZATIONNAME = "Paul Forgey";
 				TargetAttributes = {
 					8AB2F52F243C05070094B217 = {
@@ -463,6 +481,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AF4D4EE245B7BB400EE14E2 /* voice.cpp in Sources */,
+				8ADC6EC7247749F3005AEC3E /* YamahaImporter.m in Sources */,
 				8AB2F553243C05240094B217 /* DSPKernel.mm in Sources */,
 				8ADA2E0D245D5930005473CC /* globals.mm in Sources */,
 				8AAC892E243DB3E6001390F0 /* Operator.mm in Sources */,
@@ -481,6 +500,7 @@
 				8A5F46F52445739C003B3B53 /* EnvelopeStage.mm in Sources */,
 				8ABBB8562446226E0075EC0D /* Envelope.mm in Sources */,
 				8ABE6C3124480CF800C66AD6 /* DurationFormatter.mm in Sources */,
+				8A7BA30B2475F44200E63CC7 /* Importer.m in Sources */,
 				8A11364824564A2300C1420D /* NoteFormatter.m in Sources */,
 				8A9724DC245C068000880B8E /* lfosc.cpp in Sources */,
 				8A8FBA74245A576D00D2D28D /* env.cpp in Sources */,
@@ -646,6 +666,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "purefm-host/purefm_host.entitlements";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 553434UP3A;
@@ -665,6 +686,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "purefm-host/purefm_host.entitlements";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 553434UP3A;
@@ -683,6 +705,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = purefm/purefm.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 553434UP3A;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -702,6 +725,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = purefm/purefm.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 553434UP3A;
 				ENABLE_HARDENED_RUNTIME = YES;

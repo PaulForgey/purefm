@@ -113,6 +113,10 @@
 - (void)replace:(Envelope *)from {
     self.keyUp = from.keyUp;
     self.loop = from.loop;
+    self.expr = from.expr;
+    self.lfo = from.lfo;
+    self.bend = from.bend;
+    self.scale = from.scale;
 
     [self willChangeValueForKey:@"stages"];
     NSMutableArray< EnvelopeStage * > *stages = [[NSMutableArray alloc] init];
@@ -275,6 +279,7 @@
 
     [self connect:stages];
 }
+
 
 - (void)removeObjectFromStagesAtIndex:(NSUInteger)index {
     int keyUp = _patch->key_up;
