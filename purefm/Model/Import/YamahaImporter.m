@@ -324,29 +324,25 @@ static op_alg const dx7_alg[32][6] = {
     { { -1, 1 }, { -1, 2 }, { -1, 3 }, { -1, 4 }, { -1, 5 }, { 5, 6 } },
 };
 
-@interface YamahaPatch : ImportedPatch {
+@implementation YamahaPatch {
     dx7_voice _voice;
+    NSString *_name;
 }
 
-@end
-
-@implementation YamahaPatch
+@synthesize name = _name;
 
 - (YamahaPatch *)initWithVoice:(dx7_voice const *)voice {
     self = [super init];
-    _voice = *voice;
+    [self setVoice:voice];
     return self;
 }
 
 - (void)setVoice:(dx7_voice const *)voice {
     _voice = *voice;
-}
-
-- (NSString *)name {
     char name[11];
     name[10] = 0;
     strncpy(name, _voice.name, 10);
-    return [NSString stringWithUTF8String:name];
+    self.name = @(name);
 }
 
 static int
@@ -575,7 +571,7 @@ dx7_curve(int value) {
         nodes[n] = [[YamahaPatch alloc] initWithVoice:&voice];
     }
 
-    _patches = [NSArray arrayWithObjects:nodes count:32];
+    _patches = [NSMutableArray arrayWithObjects:nodes count:32];
     return self;
 }
 

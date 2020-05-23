@@ -10,6 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface YamahaPatch : ImportedPatch
+
+@property NSString *name;
+
+@end
+
 @interface YamahaImporter : Importer
 
 @property (nonatomic,readonly) NSArray< ImportedPatch * > *patches;
