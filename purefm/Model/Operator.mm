@@ -119,7 +119,11 @@
 
 - (void)setSum:(int)sum {
     [self willChangeValueForKey:@"algoChange"];
-    _patch.sum = sum;
+    if (sum > 7 || sum < 0) {
+        _patch.sum = -1;
+    } else {
+        _patch.sum = sum;
+    }
     [self didChangeValueForKey:@"algoChange"];
 }
 - (int)sum {
@@ -128,7 +132,11 @@
 
 - (void)setMod:(int)mod {
     [self willChangeValueForKey:@"algoChange"];
-    _patch.mod = mod;
+    if (mod > 7 || mod < 0) {
+        _patch.mod = -1;
+    } else {
+        _patch.mod = mod;
+    }
     [self didChangeValueForKey:@"algoChange"];
 }
 - (int)mod {

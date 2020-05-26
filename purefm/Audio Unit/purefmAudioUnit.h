@@ -9,6 +9,8 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "purefmDSPKernelAdapter.h"
 #import "State.h"
+#import "Importer.h"
+#import "StateImporter.h"
 
 enum {
     kParam_Feedback = 0,
@@ -23,12 +25,15 @@ enum {
 @interface purefmAudioUnit : AUAudioUnit
 
 @property (nonatomic, readonly) State *state;
+@property (nonatomic, readonly) StateImporter *stash;
+@property (nonatomic, readonly) NSArray< Importer * > *imports;
 @property (nonatomic, readonly) purefmDSPKernelAdapter *kernelAdapter;
 @property (readonly) double sampleRate;
 @property (readonly) double envelopeRate;
 @property (readonly) double lfoRate;
 
 - (void)updatePatch;
+- (void)addImport:(Importer *)importer;
 
 - (void)setupAudioBuses;
 - (void)setupParameterTree;

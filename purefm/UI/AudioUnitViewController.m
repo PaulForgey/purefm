@@ -14,6 +14,7 @@
 #import "DurationFormatter.h"
 #import "FrequencyFormatter.h"
 #import "PitchFormatter.h"
+#import "StateImporter.h"
 
 @interface AudioUnitViewController ()
 @property (weak) IBOutlet NSView *view; // XCode's xib editor doesn't see us as an NSViewController
@@ -39,12 +40,10 @@
     Envelope *_pitchEnvelope;
     State *_state;
     NSTimer *_refresh;
-    NSMutableArray< ImportNode * > *_imports;
 }
 
 @dynamic view;
 @synthesize state = _state;
-@synthesize imports = _imports;
 
 // MARK: properties
 
@@ -207,13 +206,8 @@
     self.algoView.needsDisplay = YES;
 }
 
-- (void)addImport:(ImportNode *)n {
-    [self willChangeValueForKey:@"imports"];
-    if (_imports == nil) {
-        _imports = [[NSMutableArray< ImportNode * > alloc] init];
-    }
-    [_imports addObject:n];
-    [self didChangeValueForKey:@"imports"];
+- (IBAction)save:(id)sender {
+    [_audioUnit.stash addPatch:_state];
 }
 
 - (IBAction)openImport:(id)sender {
@@ -225,7 +219,7 @@
             return;
         }
 
-        ImportNode *n = nil;
+        Importer *n = nil;
         NSError *error = nil;
         NSData *data = [NSData dataWithContentsOfURL:panel.URL
                                              options:0
@@ -238,7 +232,7 @@
             if (n != nil) {
                 NSArray *paths = panel.URL.pathComponents;
                 n.name = [paths lastObject];
-                [self addImport:n];
+                [self.audioUnit addImport:n];
             }
         }
     }];

@@ -322,4 +322,9 @@
     [self connect:stages];
 }
 
+- (void)removeAllStages {
+    NSMutableArray< EnvelopeStage * > *stages = [[NSMutableArray alloc] init];
+    [self connect:stages];
+}
+
 @end

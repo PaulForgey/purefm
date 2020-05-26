@@ -24,12 +24,14 @@
     double _envelopeRate;
     double _lfoRate;
     State *_state;
+    NSMutableArray< Importer * > *_imports;
 }
 
 @synthesize parameterTree = _parameterTree;
 @synthesize sampleRate = _sampleRate;
 @synthesize envelopeRate = _envelopeRate;
 @synthesize lfoRate = _lfoRate;
+@synthesize imports = _imports;
 
 - (instancetype)initWithComponentDescription:(AudioComponentDescription)componentDescription options:(AudioComponentInstantiationOptions)options error:(NSError **)outError {
     self = [super initWithComponentDescription:componentDescription options:options error:outError];
@@ -52,6 +54,39 @@
         _state = [[State alloc] init];
     }
     return _state;
+}
+
+- (NSArray< Importer * > *)imports {
+    if (_imports == nil) {
+        _imports = [[NSMutableArray alloc] init];
+    }
+    return _imports;
+}
+
+- (void)addImport:(Importer *)import {
+    [self willChangeValueForKey:@"imports"];
+    if (_imports == nil) {
+        _imports = [[NSMutableArray alloc] init];
+    }
+    [_imports addObject:import];
+    [self didChangeValueForKey:@"imports"];
+}
+
+- (StateImporter *)stash {
+    id i;
+    for (i in self.imports) {
+        if ([i isKindOfClass:[StateImporter class]] &&
+            [[i name] isEqualToString:@"Saved"]) {
+            return i;
+        }
+    }
+
+    [self willChangeValueForKey:@"imports"];
+    StateImporter *stash = [[StateImporter alloc] init];
+    stash.name = @"Saved";
+    [_imports insertObject:stash atIndex:0];
+    [self didChangeValueForKey:@"imports"];
+    return stash;
 }
 
 - (void)updatePatch {
@@ -241,10 +276,14 @@
 
     NSMutableDictionary *s = [[NSMutableDictionary alloc] init];
     [s addEntriesFromDictionary:[super fullState]];
-    [s setObject:[NSKeyedArchiver archivedDataWithRootObject:_state
-                                       requiringSecureCoding:NO
-                                                       error:&error]
-          forKey:@"pureFMstate"];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:_state
+                                         requiringSecureCoding:NO
+                                                         error:&error];
+    if (error != nil) {
+        NSLog(@"fullState: %@", error);
+        return s;
+    }
+    [s setObject:data forKey:@"pureFMstate"];
     return s;
 }
 
@@ -252,19 +291,55 @@
     [super setFullState:fullState];
 
     NSError *error = nil;
-    NSKeyedUnarchiver *decode = [[NSKeyedUnarchiver alloc] initForReadingFromData:[fullState objectForKey:@"pureFMstate"]
-                                                                            error:&error];
+    NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingFromData:[fullState objectForKey:@"pureFMstate"]
+                                                                             error:&error];
     if (error != nil) {
         NSLog(@"setFullState: %@", error);
         return;
     }
 
-    decode.requiresSecureCoding = NO;
+    decoder.requiresSecureCoding = NO;
 
     [self willChangeValueForKey:@"state"];
-    _state = [decode decodeObjectForKey:NSKeyedArchiveRootObjectKey];
+    _state = [decoder decodeObjectForKey:NSKeyedArchiveRootObjectKey];
     [self updatePatch];
     [self didChangeValueForKey:@"state"];
+
+
+    NSData *document = [fullState objectForKey:@"pureFMdocument"];
+    if (document != nil) {
+        NSError *error = nil;
+        NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingFromData:document
+                                                                                 error:&error];
+        if (error != nil) {
+            NSLog(@"setFullStateForDocument: %@", error);
+        } else {
+            decoder.requiresSecureCoding = NO;
+            [self willChangeValueForKey:@"imports"];
+            _imports = [decoder decodeObjectForKey:NSKeyedArchiveRootObjectKey];
+            [self didChangeValueForKey:@"imports"];
+        }
+    }
+}
+
+- (NSDictionary< NSString *, id > *)fullStateForDocument {
+    NSMutableDictionary< NSString *, id > *fullState = [[NSMutableDictionary alloc] init];
+    [fullState addEntriesFromDictionary:[self fullState]];
+    NSError *error = nil;
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.imports
+                                         requiringSecureCoding:NO
+                                                         error:&error];
+    if (error != nil) {
+        NSLog(@"fullStateForDocument: %@", error);
+        return fullState;
+    }
+    [fullState setObject:data forKey:@"pureFMdocument"];
+
+    return fullState;
+}
+
+- (void)setFullStateForDocument:(NSDictionary<NSString *,id> *)fullStateForDocument {
+    [self setFullState:fullStateForDocument];
 }
 
 // MARK: AUAudioUnit (AUAudioUnitImplementation)

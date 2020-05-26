@@ -11,9 +11,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ImportNode : NSObject
+@interface ImportNode : NSObject< NSCoding >
 
 @property NSString *name;
+@property (nonatomic,readonly) NSMutableArray< ImportNode * > *patches;
 
 @end
 
@@ -24,8 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface Importer : ImportNode
-
-@property (nonatomic,readonly) NSArray< ImportNode * > *patches;
 
 + (Importer *)importerWithData:(NSData *)data error:(NSError **)error;
 

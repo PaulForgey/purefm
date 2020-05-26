@@ -45,6 +45,7 @@
 		8ABE6C3124480CF800C66AD6 /* DurationFormatter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8ABE6C3024480CF800C66AD6 /* DurationFormatter.mm */; };
 		8ABE6C3424480DBB00C66AD6 /* tables.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8ABE6C3224480DBB00C66AD6 /* tables.cpp */; };
 		8ABE6C372448321E00C66AD6 /* LevelFormatter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8ABE6C362448321E00C66AD6 /* LevelFormatter.mm */; };
+		8ACF92C1247A3C8800B58EDD /* StateImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ACF92C0247A3C8800B58EDD /* StateImporter.m */; };
 		8AD30FE6243E652600E83F88 /* OperatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AD30FE5243E652600E83F88 /* OperatorView.m */; };
 		8AD30FEF243E9D0600E83F88 /* AlgoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AD30FEE243E9D0600E83F88 /* AlgoView.m */; };
 		8AD611102457F91E00B7205B /* PitchFormatter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AD6110F2457F91E00B7205B /* PitchFormatter.mm */; };
@@ -150,6 +151,8 @@
 		8ABE6C352448321E00C66AD6 /* LevelFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LevelFormatter.h; sourceTree = "<group>"; };
 		8ABE6C362448321E00C66AD6 /* LevelFormatter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LevelFormatter.mm; sourceTree = "<group>"; };
 		8AC4B7F42462063C00D44230 /* README.txt */ = {isa = PBXFileReference; explicitFileType = text; path = README.txt; sourceTree = "<group>"; };
+		8ACF92BF247A3C8800B58EDD /* StateImporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateImporter.h; sourceTree = "<group>"; };
+		8ACF92C0247A3C8800B58EDD /* StateImporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StateImporter.m; sourceTree = "<group>"; };
 		8AD30FE4243E652600E83F88 /* OperatorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OperatorView.h; sourceTree = "<group>"; };
 		8AD30FE5243E652600E83F88 /* OperatorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OperatorView.m; sourceTree = "<group>"; };
 		8AD30FED243E9D0600E83F88 /* AlgoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlgoView.h; sourceTree = "<group>"; };
@@ -213,6 +216,8 @@
 				8A7BA30A2475F44200E63CC7 /* Importer.m */,
 				8ADC6EC5247749F3005AEC3E /* YamahaImporter.h */,
 				8ADC6EC6247749F3005AEC3E /* YamahaImporter.m */,
+				8ACF92BF247A3C8800B58EDD /* StateImporter.h */,
+				8ACF92C0247A3C8800B58EDD /* StateImporter.m */,
 			);
 			path = Import;
 			sourceTree = "<group>";
@@ -509,6 +514,7 @@
 				8ABE6C3424480DBB00C66AD6 /* tables.cpp in Sources */,
 				8A9FD999246A691B0077B6E6 /* TuningFormatter.m in Sources */,
 				8AD30FE6243E652600E83F88 /* OperatorView.m in Sources */,
+				8ACF92C1247A3C8800B58EDD /* StateImporter.m in Sources */,
 				8A7B400424596D0200CFA455 /* engine.cpp in Sources */,
 				8A9FD99C246B25C60077B6E6 /* ParamFormatter.m in Sources */,
 			);

@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,readonly) LFO *lfo;
 
 @property (nonatomic) int feedback;
-@property (nonatomic )BOOL mono;
+@property (nonatomic) BOOL mono;
 @property (nonatomic) int middleC;
 @property (nonatomic) int portamento;
 @property (nonatomic) int tuning;

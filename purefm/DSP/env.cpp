@@ -65,6 +65,8 @@ envelope::update(env_patch const *patch) {
     _patch = patch;
     _key_up = 0;
     _end = 0;
+    _out = eg_min;
+    _level = eg_min;
     if (patch != nullptr) {
         _egs = patch->egs.get();
         if (_egs != nullptr) {

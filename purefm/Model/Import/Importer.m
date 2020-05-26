@@ -9,7 +9,27 @@
 #import "Importer.h"
 #import "YamahaImporter.h"
 
-@implementation ImportNode
+@implementation ImportNode {
+    NSMutableArray< ImportNode * > *_patches;
+}
+
+@synthesize patches = _patches;
+
+- (NSMutableArray< ImportNode * > *)patches {
+    if (_patches == nil) {
+        _patches = [[NSMutableArray alloc] init];
+    }
+    return _patches;
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+    NSAssert(NO, @"base initWithCode called");
+    return [super init];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    NSAssert(NO, @"base encodeWithCoder called");
+}
 
 @end
 
@@ -23,10 +43,6 @@
 
 - (BOOL)isLeaf {
     return YES;
-}
-
-- (NSMutableArray< ImportedPatch * > *)patches {
-    return nil;
 }
 
 - (void)applyTo:(State *)state {
@@ -60,6 +76,18 @@
 
 - (BOOL)isLeaf {
     return NO;
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+    self = [super init];
+    self.name = [coder decodeObjectForKey:@"name"];
+    [self.patches addObjectsFromArray:[coder decodeObjectForKey:@"patches"]];
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:self.name forKey:@"name"];
+    [coder encodeObject:self.patches forKey:@"patches"];
 }
 
 @end

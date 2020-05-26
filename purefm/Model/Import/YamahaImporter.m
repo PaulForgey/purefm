@@ -13,7 +13,7 @@
 #import "EnvelopeStage.h"
 
 #import <math.h>
-#import <MacTypes.h>
+#import <stdint.h>
 
 static double const middleC = 261.625565;
 
@@ -23,87 +23,87 @@ enum {
 };
 
 typedef struct dx7_voice_op {
-    UInt8 eg_rate[4];
-    UInt8 eg_level[4];
-    UInt8 breakpoint;
-    UInt8 left;
-    UInt8 right;
-    UInt8 left_curve;
-    UInt8 right_curve;
-    UInt8 rate_scale;
-    UInt8 amp_mod;
-    UInt8 velocity;
-    UInt8 level;
-    UInt8 osc_mode;
-    UInt8 freq_coarse;
-    UInt8 freq_fine;
-    UInt8 detune;
+    uint8_t eg_rate[4];
+    uint8_t eg_level[4];
+    uint8_t breakpoint;
+    uint8_t left;
+    uint8_t right;
+    uint8_t left_curve;
+    uint8_t right_curve;
+    uint8_t rate_scale;
+    uint8_t amp_mod;
+    uint8_t velocity;
+    uint8_t level;
+    uint8_t osc_mode;
+    uint8_t freq_coarse;
+    uint8_t freq_fine;
+    uint8_t detune;
 } __attribute((packed)) dx7_voice_op;
 static_assert(sizeof(dx7_voice_op) == 21, "");
 
 typedef struct dx7_voice {
     dx7_voice_op ops[6];
-    UInt8 pitch_eg_rate[4];
-    UInt8 pitch_eg_level[4];
-    UInt8 alg;
-    UInt8 feedback;
-    UInt8 osc_sync;
-    UInt8 lfo_speed;
-    UInt8 lfo_delay;
-    UInt8 lfo_pmd;
-    UInt8 lfo_amd;
-    UInt8 lfo_sync;
-    UInt8 lfo_wave;
-    UInt8 pmd;
-    UInt8 transpose;
+    uint8_t pitch_eg_rate[4];
+    uint8_t pitch_eg_level[4];
+    uint8_t alg;
+    uint8_t feedback;
+    uint8_t osc_sync;
+    uint8_t lfo_speed;
+    uint8_t lfo_delay;
+    uint8_t lfo_pmd;
+    uint8_t lfo_amd;
+    uint8_t lfo_sync;
+    uint8_t lfo_wave;
+    uint8_t pmd;
+    uint8_t transpose;
     char name[10];
 } __attribute((packed)) dx7_voice;
 static_assert(sizeof(dx7_voice) == 155, "");
 
 typedef struct dx7_packed_voice_op {
-    UInt8 eg_rate[4];
-    UInt8 eg_level[4];
-    UInt8 breakpoint;
-    UInt8 left;
-    UInt8 right;
-    UInt8 curves;
-    UInt8 detune_rate_scale;
-    UInt8 velocity_amp_mod;
-    UInt8 level;
-    UInt8 freq_coarse_mode;
-    UInt8 freq_fine;
+    uint8_t eg_rate[4];
+    uint8_t eg_level[4];
+    uint8_t breakpoint;
+    uint8_t left;
+    uint8_t right;
+    uint8_t curves;
+    uint8_t detune_rate_scale;
+    uint8_t velocity_amp_mod;
+    uint8_t level;
+    uint8_t freq_coarse_mode;
+    uint8_t freq_fine;
 } __attribute__((packed)) dx7_packed_voice_op;
 static_assert(sizeof(dx7_packed_voice_op) == 17, "");
 
 typedef struct dx7_packed_voice {
     dx7_packed_voice_op ops[6];
-    UInt8 pitch_eg_rate[4];
-    UInt8 pitch_eg_level[4];
-    UInt8 alg;
-    UInt8 osc_sync_feedback;
-    UInt8 lfo_speed;
-    UInt8 lfo_delay;
-    UInt8 lfo_pmd;
-    UInt8 lfo_amd;
-    UInt8 lfo_pmd_wave_sync;
-    UInt8 transpose;
+    uint8_t pitch_eg_rate[4];
+    uint8_t pitch_eg_level[4];
+    uint8_t alg;
+    uint8_t osc_sync_feedback;
+    uint8_t lfo_speed;
+    uint8_t lfo_delay;
+    uint8_t lfo_pmd;
+    uint8_t lfo_amd;
+    uint8_t lfo_pmd_wave_sync;
+    uint8_t transpose;
     char name[10];
 } __attribute__((packed)) dx7_packed_voice;
 static_assert(sizeof(dx7_packed_voice) == 128, "");
 
 typedef struct dx7_sysex {
-    UInt8 status;
-    UInt8 mid;
-    UInt8 sub_status;
-    UInt8 format;
-    UInt8 count_msb;
-    UInt8 count_lsb;
+    uint8_t status;
+    uint8_t mid;
+    uint8_t sub_status;
+    uint8_t format;
+    uint8_t count_msb;
+    uint8_t count_lsb;
     union {
         dx7_voice voice;
         dx7_packed_voice packed_voice[32];
     } data;
-    UInt8 checksum;
-    UInt8 status_end;
+    uint8_t checksum;
+    uint8_t status_end;
 } __attribute__((packed)) dx7_sysex;
 
 typedef struct op_alg {
@@ -326,15 +326,28 @@ static op_alg const dx7_alg[32][6] = {
 
 @implementation YamahaPatch {
     dx7_voice _voice;
-    NSString *_name;
 }
-
-@synthesize name = _name;
 
 - (YamahaPatch *)initWithVoice:(dx7_voice const *)voice {
     self = [super init];
     [self setVoice:voice];
     return self;
+}
+
+- (YamahaPatch *)initWithCoder:(NSCoder *)coder {
+    self = [super init];
+
+    self.name = [coder decodeObjectForKey:@"name"];
+    NSData *data = [coder decodeObjectForKey:@"data"];
+    [data getBytes:&_voice length:sizeof(_voice)];
+
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:self.name forKey:@"name"];
+    NSData *data = [NSData dataWithBytes:&_voice length:sizeof(_voice)];
+    [coder encodeObject:data forKey:@"data"];
 }
 
 - (void)setVoice:(dx7_voice const *)voice {
@@ -510,15 +523,11 @@ dx7_curve(int value) {
 
 @end
 
-@implementation YamahaImporter {
-    NSArray< YamahaPatch * > *_patches;
-}
-
-@synthesize patches = _patches;
+@implementation YamahaImporter
 
 - (YamahaImporter *)initWithVoice:(dx7_voice const *)voice {
     self = [super init];
-    _patches = [NSArray arrayWithObject:[[YamahaPatch alloc] initWithVoice:voice]];
+    [self.patches addObject:[[YamahaPatch alloc] initWithVoice:voice]];
     return self;
 }
 
@@ -571,7 +580,7 @@ dx7_curve(int value) {
         nodes[n] = [[YamahaPatch alloc] initWithVoice:&voice];
     }
 
-    _patches = [NSMutableArray arrayWithObjects:nodes count:32];
+    [self.patches addObjectsFromArray:[NSArray arrayWithObjects:nodes count:32]];
     return self;
 }
 
