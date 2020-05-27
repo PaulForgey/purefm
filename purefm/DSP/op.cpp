@@ -11,8 +11,8 @@
 
 #include <cmath>
 
-op::op(globals const *g, int const &lfo, int const &pitch)
-    : _osc(g->t), _env(g), _lfo(lfo), _pitch(pitch) {
+op::op(globals const *g, int const &lfo, int const &pitch, int const &pressure)
+    : _osc(g->t), _env(g), _lfo(lfo), _pitch(pitch), _pressure(pressure) {
     _globals = g;
     _patch = nullptr;
     _sum = &_zero;
@@ -26,12 +26,12 @@ op::~op() {
 }
 
 void
-op::update(op_patch const *patch) {
+op::update(op_patch const *patch, bool reset) {
     _patch = patch;
     if (patch != nullptr) {
-        _env.update(patch->env.get());
+        _env.update(patch->env.get(), reset);
     } else {
-        _env.update(nullptr);
+        _env.update(nullptr, true);
     }
 }
 
@@ -82,7 +82,7 @@ op::set_fb_output(fb_filter *f) {
 
 void
 op::start(op_patch const *patch, int key, int velocity) {
-    update(patch);
+    update(patch, false);
     if (patch == nullptr) {
         return;
     }
@@ -144,7 +144,7 @@ op::step() {
     int out = _osc.step(_globals->t.pitch(frequency), mod, &neg);
 
     if ((++_count & _globals->eg_mask) == 0) {
-        int bias = _env.op_bias(_lfo);
+        int bias = _env.op_bias(_lfo, _pressure);
         _eg = _env.step(1, bias);
     }
 

@@ -51,22 +51,21 @@ envelope::pitch_bias(int lfo) {
 }
 
 int
-envelope::op_bias(int lfo) {
+envelope::op_bias(int lfo, int pressure) {
     if (_patch == nullptr) {
         return 0;
     }
     // mod_wheel value is shifted over 5
     return ((lfo * _patch->lfo) >> 7) +
+           ((pressure >> (5 + _patch->after)) << 16) +
            ((_globals->mod_wheel >> (5 + _patch->expr)) << 16);
 }
 
 void
-envelope::update(env_patch const *patch) {
+envelope::update(env_patch const *patch, bool reset) {
     _patch = patch;
     _key_up = 0;
     _end = 0;
-    _out = eg_min;
-    _level = eg_min;
     if (patch != nullptr) {
         _egs = patch->egs.get();
         if (_egs != nullptr) {
@@ -81,11 +80,16 @@ envelope::update(env_patch const *patch) {
     } else {
         _egs = nullptr;
     }
+    if (reset) {
+        _out = eg_min;
+        _level = eg_min;
+        stop();
+    }
 }
 
 void
 envelope::start(env_patch const *patch, int level_adj, int rate_adj, bool trigger) {
-    update(patch);
+    update(patch, false);
     if (_egs == nullptr || _egs->empty()) {
         return;
     }
@@ -104,7 +108,6 @@ void
 envelope::run() {
     _run = true;
     set(0);
-
 }
 
 void

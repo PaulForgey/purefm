@@ -53,9 +53,28 @@ engine::start(int channel, int key, int velocity) {
     v->start(_patch, key, velocity);
 }
 
+void
+engine::pressure(int channel, int key, int pressure) {
+    if (_patch == nullptr) {
+        return;
+    }
+    if (_patch->mono) {
+        auto &v = _voices[channel];
+        if (key == -1 || v->get_key() == key) {
+            v->pressure(pressure);
+        }
+    } else {
+        for (auto &v : _voices) {
+            if (key == -1 || v->get_key() == key) {
+                v->pressure(pressure);
+            }
+        }
+    }
+}
+
 int
 engine::step() {
-    auto &&mod = _globals->mod_wheel;
+    auto &mod = _globals->mod_wheel;
     if (mod < _expr) {
         ++mod;
     }
@@ -64,7 +83,7 @@ engine::step() {
     }
 
     int out = 0;
-    for (auto && v : _voices) {
+    for (auto &&v : _voices) {
         out += v->step();
     }
     return out;
@@ -83,16 +102,27 @@ engine::midi(const unsigned char *msg) {
         start(channel, msg[1], msg[2]);
         break;
 
+    case 0xa0: // polyphonic pressure
+        pressure(channel, msg[1], msg[2]);
+        break;
+
     case 0xb0: // control
         switch(msg[1]) {
-            case 1: // modulation wheel
-                _expr = msg[2] << 5;
-                break;
-
             case 64: // sustain pedal
                 _globals->sustain_pedal = (msg[2] != 0);
                 break;
+
+            default:
+                if (_patch != nullptr &&
+                    (msg[1] == _patch->expr1 || msg[1] == _patch->expr2)) {
+                    _expr = (int)msg[2] << 5;
+                }
+                break;
         }
+        break;
+
+    case 0xd0: // channel pressure
+        pressure(channel, -1, msg[1]);
         break;
         
     case 0xe0: // pitch bend

@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int middleC;
 @property (nonatomic) int portamento;
 @property (nonatomic) int tuning;
+@property (nonatomic) int expr1;
+@property (nonatomic) int expr2;
 
 #ifdef __cplusplus
 - (patch_ptr::pointer const &)patch;

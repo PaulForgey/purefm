@@ -9,12 +9,12 @@
 #include "algo.hpp"
 #include <algorithm>
 
-algo::algo(globals const *g, int const &lfo, int const &pitch) {
+algo::algo(globals const *g, int const &lfo, int const &pitch, int const &pressure) {
     _globals = g;
     _patch = nullptr;
 
     for (auto &&o : _ops) {
-        o = new op(g, lfo, pitch);
+        o = new op(g, lfo, pitch, pressure);
     }
 }
 
@@ -35,7 +35,7 @@ algo::update(patch const *patch) {
     for (int i = 0; i < 8; ++i) {
         auto const &op = patch->ops[i];
         set_op_node(i, op->sum, op->mod);
-        _ops[i]->update(op);
+        _ops[i]->update(op, true);
     }
 }
 

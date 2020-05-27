@@ -25,6 +25,7 @@ class voice {
         // key up indicated with 0 velocity
         void start(patch const *, int key, int velocity);
         int step();
+        void pressure(int pressure);
 
         int get_key() const { return _key; }
         bool triggered() const { return _velocity != 0; }
@@ -48,6 +49,8 @@ class voice {
         unsigned char _keys[16];
         int _output[16];
         voice_status _status;
+        int _pressure; // smoothed value to use
+        int _pressure_in; // current value
 };
 
 #endif /* voice_hpp */

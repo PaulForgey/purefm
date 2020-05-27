@@ -45,7 +45,7 @@ class fb_filter {
 // from this level, all things are normalized to 24 bit ranges
 class op {
     public:
-        op(globals const *, int const &lfo, int const &pitch);
+        op(globals const *, int const &lfo, int const &pitch, int const &pressure);
         virtual ~op();
 
         void set_sum(op const *s);
@@ -54,7 +54,7 @@ class op {
         void set_fb_output(fb_filter *);
 
         void start(op_patch const *patch, int key, int velocity);
-        void update(op_patch const *patch);
+        void update(op_patch const *patch, bool reset);
         int step();
         eg_status const *get_status() const { return _env.get_status(); }
 
@@ -63,6 +63,7 @@ class op {
         op_patch const *_patch;
         int const &_lfo;
         int const &_pitch;
+        int const &_pressure;
         int const *_sum;
         int const *_mod;
         fb_filter *_fb;

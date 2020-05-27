@@ -37,6 +37,8 @@
     self.middleC = 60;
     self.portamento = 0;
     self.tuning = 0;
+    self.expr1 = 1;  // modulation wheel
+    self.expr2 = 11; // expression control
 
     return self;
 }
@@ -51,6 +53,8 @@
     [coder encodeInt:self.middleC forKey:@"middleC"];
     [coder encodeInt:self.portamento forKey:@"portamento"];
     [coder encodeInt:self.tuning forKey:@"tuning"];
+    [coder encodeInt:self.expr1 forKey:@"expr1"];
+    [coder encodeInt:self.expr2 forKey:@"expr2"];
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
@@ -68,6 +72,8 @@
     self.middleC = [coder decodeIntForKey:@"middleC"];
     self.portamento = [coder decodeIntForKey:@"portamento"];
     self.tuning = [coder decodeIntForKey:@"tuning"];
+    self.expr1 = [coder decodeIntForKey:@"expr1"];
+    self.expr2 = [coder decodeIntForKey:@"expr2"];
 
     return self;
 }
@@ -214,6 +220,20 @@
     return _patch->tuning;
 }
 
+- (void)setExpr1:(int)expr1 {
+    _patch->expr1 = expr1;
+}
+- (int)expr1 {
+    return _patch->expr1;
+}
+
+- (void)setExpr2:(int)expr2 {
+    _patch->expr2 = expr2;
+}
+- (int)expr2 {
+    return _patch->expr2;
+}
+
 - (NSArray< Operator * > *)operators {
     if (_operators == nil) {
         _operators = @[
@@ -268,6 +288,16 @@
 }
 
 - (BOOL)validatePortamento:(id *)ioValue error:(NSError **)outError {
+    [Operator clampMIDIValue:ioValue];
+    return YES;
+}
+
+- (BOOL)validateExpr1:(id *)ioValue error:(NSError **)outError {
+    [Operator clampMIDIValue:ioValue];
+    return YES;
+}
+
+- (BOOL)validateExpr2:(id *)ioValue error:(NSError **)outError {
     [Operator clampMIDIValue:ioValue];
     return YES;
 }

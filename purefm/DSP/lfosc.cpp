@@ -36,9 +36,9 @@ void
 lfo::update(lfo_patch const *patch) {
     _patch = patch;
     if (patch != nullptr) {
-        _env.update(patch->env.get());
+        _env.update(patch->env.get(), true);
     } else {
-        _env.update(nullptr);
+        _env.update(nullptr, true);
     }
 }
 

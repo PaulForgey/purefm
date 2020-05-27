@@ -15,7 +15,7 @@
 
 class algo {
     public:
-        algo(globals const *, int const &lfo, int const &pitch);
+        algo(globals const *, int const &lfo, int const &pitch, int const &pressure);
         virtual ~algo();
 
         // adjust the algorithm as such:

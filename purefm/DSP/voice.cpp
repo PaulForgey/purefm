@@ -12,7 +12,7 @@
 #include <algorithm>
 
 voice::voice(globals const *g) :
-    _algo(g, _lfo_output, _pitch), _lfo(g), _pitch_env(g) {
+    _algo(g, _lfo_output, _pitch, _pressure), _lfo(g), _pitch_env(g) {
     _globals = g;
     _counter = 0;
     _lfo_output = 0;
@@ -28,6 +28,8 @@ voice::voice(globals const *g) :
     }
     _status.pitch = _pitch_env.get_status();
     _status.lfo = _lfo.get_status();
+    _pressure = 0;
+    _pressure_in = 0;
 }
 
 voice::~voice() {
@@ -39,10 +41,10 @@ voice::update(patch const *patch) {
     _algo.update(patch);
 
     if (patch != nullptr) {
-        _pitch_env.update(patch->pitch_env.get());
+        _pitch_env.update(patch->pitch_env.get(), true);
         _lfo.update(patch->lfo.get());
     } else {
-        _pitch_env.update(nullptr);
+        _pitch_env.update(nullptr, true);
         _lfo.update(nullptr);
     }
 }
@@ -102,10 +104,22 @@ voice::start(patch const *patch, int key, int velocity) {
     _pitch_env.start(_patch->pitch_env.get(), 0, 0, velocity > 0);
 }
 
+void
+voice::pressure(int pressure) {
+    _pressure_in = pressure << 5;
+}
+
 int
 voice::step() {
     if (_patch == nullptr) {
         return 0;
+    }
+
+    if (_pressure < _pressure_in) {
+        _pressure++;
+    }
+    else if (_pressure > _pressure_in) {
+        _pressure--;
     }
 
     if ((_counter & 0x0f) == 0) {

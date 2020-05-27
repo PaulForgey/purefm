@@ -32,6 +32,7 @@
     [coder encodeInteger:(NSInteger)self.keyUp forKey:@"keyUp"];
     [coder encodeBool:self.loop forKey:@"loop"];
     [coder encodeInt:self.expr forKey:@"expr"];
+    [coder encodeInt:self.after forKey:@"after"];
     [coder encodeInt:self.lfo forKey:@"lfo"];
     [coder encodeInt:self.bend forKey:@"bend"];
     [coder encodeInt:self.scale forKey:@"scale"];
@@ -45,6 +46,7 @@
     _stages = [coder decodeObjectForKey:@"stages"];
     self.loop = [coder decodeBoolForKey:@"loop"];
     self.expr = [coder decodeIntForKey:@"expr"];
+    self.after = [coder decodeIntForKey:@"after"];
     self.lfo = [coder decodeIntForKey:@"lfo"];
     self.bend = [coder decodeIntForKey:@"bend"];
     self.scale = [coder decodeIntForKey:@"scale"];
@@ -64,6 +66,7 @@
 
     self.loop = NO;
     self.expr = 0;
+    self.after = 0;
     self.lfo = 0;
     self.bend = 0;
     self.scale = 0;
@@ -95,6 +98,7 @@
 
     self.loop = NO;
     self.expr = 0;
+    self.after = 0;
     self.lfo = 0;
     self.bend = 0;
     self.scale = 0;
@@ -114,6 +118,7 @@
     self.keyUp = from.keyUp;
     self.loop = from.loop;
     self.expr = from.expr;
+    self.after = from.after;
     self.lfo = from.lfo;
     self.bend = from.bend;
     self.scale = from.scale;
@@ -211,6 +216,13 @@
 }
 - (int)expr {
     return 7 - _patch->expr;
+}
+
+- (void)setAfter:(int)after {
+    _patch->after = 7 - after;
+}
+- (int)after {
+    return 7 - _patch->after;
 }
 
 - (void)setLfo:(int)lfo {

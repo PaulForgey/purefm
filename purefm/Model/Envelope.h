@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSUInteger keyUp;
 @property (nonatomic) BOOL loop;
 @property (nonatomic) int expr;
+@property (nonatomic) int after;
 @property (nonatomic) int lfo;
 @property (nonatomic) int bend;     // pitch envelope
 @property (nonatomic) int scale;    // pitch envelope

@@ -57,6 +57,7 @@ typedef enum {
     kKeyUp,
     kLoop,
     kExpr,
+    kAfter,
     kLFOScale,
     kBend,
     kScale,
@@ -191,6 +192,10 @@ midiToInt7(uint8_t value) {
 
             case kExpr:
                 envelope.expr = pair[1];
+                break;
+
+            case kAfter:
+                envelope.after = pair[1];
                 break;
 
              case kLFOScale:
@@ -493,6 +498,10 @@ midiToInt7(uint8_t value) {
 
     pair[0] = kExpr;
     pair[1] = e.expr;
+    [data appendBytes:pair length:2];
+
+    pair[0] = kAfter;
+    pair[1] = e.after;
     [data appendBytes:pair length:2];
 
     pair[0] = kLFOScale;

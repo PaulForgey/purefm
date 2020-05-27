@@ -90,6 +90,7 @@ typedef ptr_msg< eg_vec > eg_vec_ptr;
 struct env_patch {
     bool loop;
     int expr;
+    int after;
     int lfo;
     int bend;
     int scale;
@@ -150,6 +151,8 @@ struct patch {
     int middle_c;
     int portamento;
     int tuning;
+    int expr1;
+    int expr2;
 
     op_patch const *ops[8];
     env_patch_ptr pitch_env;

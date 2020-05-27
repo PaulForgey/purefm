@@ -24,6 +24,7 @@ class engine {
 
     private:
         void start(int channel, int key, int velocity);
+        void pressure(int channel, int key, int pressure);
 
     private:
         globals *_globals;
