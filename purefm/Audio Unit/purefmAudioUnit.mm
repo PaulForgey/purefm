@@ -25,6 +25,7 @@
     double _lfoRate;
     State *_state;
     NSMutableArray< Importer * > *_imports;
+    NSArray< AUAudioUnitPreset * > *_factoryPresets;
 }
 
 @synthesize parameterTree = _parameterTree;
@@ -305,7 +306,6 @@
     [self updatePatch];
     [self didChangeValueForKey:@"state"];
 
-
     NSData *document = [fullState objectForKey:@"pureFMdocument"];
     if (document != nil) {
         NSError *error = nil;
@@ -343,21 +343,25 @@
 }
 
 - (NSArray< AUAudioUnitPreset * > *)factoryPresets {
-    AUAudioUnitPreset *factoryInit = [[AUAudioUnitPreset alloc] init];
-    factoryInit.number = 0;
-    factoryInit.name = @"Init";
-    return @[
-        factoryInit,
-    ];
+    if (_factoryPresets == nil) {
+        AUAudioUnitPreset *factoryInit = [[AUAudioUnitPreset alloc] init];
+        factoryInit.number = 1;
+        factoryInit.name = @"Init";
+        _factoryPresets = @[ factoryInit ];
+    }
+    return _factoryPresets;
 }
 
 - (void)setCurrentPreset:(AUAudioUnitPreset *)currentPreset {
     [super setCurrentPreset:currentPreset];
 
-    if (currentPreset.number == 0) {
-        [self willChangeValueForKey:@"state"];
-        _state = [[State alloc] init];
-        [self didChangeValueForKey:@"state"];
+    if (currentPreset != nil) {
+        if (currentPreset.number == 1) {
+            [self willChangeValueForKey:@"state"];
+            _state = [[State alloc] init];
+            [self didChangeValueForKey:@"state"];
+        }
+        self.state.name = currentPreset.name;
     }
 }
 

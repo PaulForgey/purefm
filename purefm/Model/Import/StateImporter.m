@@ -385,6 +385,8 @@ midiToInt7(uint8_t value) {
     uint8_t const *bytes = [self.data bytes];
     int length = (int)[self.data length];
 
+    state.name = self.name;
+
     // eat the header, which has already been vetted
     if (!consume(&bytes, &length, NULL, 4)) {
         return;
@@ -658,7 +660,10 @@ midiToInt7(uint8_t value) {
 
 - (void)addPatch:(State *)state {
     StatePatch *patch = [[StatePatch alloc] init];
-    patch.name = [NSString stringWithFormat:@"Patch %lu", [self.patches count]];
+    NSString *name = state.name;
+    if (name == nil || [name isEqualToString:@""]) {
+        name = [NSString stringWithFormat:@"Patch %lu", [self.patches count]];
+    }
 
     NSMutableData *data = [[NSMutableData alloc] init];
     [data appendBytes:kPatchHdr length:4];
@@ -678,6 +683,7 @@ midiToInt7(uint8_t value) {
         if ([p.data isEqualToData:data]) {
             found = YES;
             patch = (StatePatch *)self.patches[n];
+            patch.name = name;
             self.patches[n] = self.patches[0];
             self.patches[0] = patch;
             break;
@@ -686,6 +692,7 @@ midiToInt7(uint8_t value) {
     }
 
     if (!found) {
+        patch.name = name;
         [self.patches addObject:patch];
     }
     

@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface State : NSObject< NSCoding >
 
+@property NSString *name;
+
 @property (nonatomic) AUParameterTree *parameterTree;
 @property (nonatomic) struct status const *status;
 

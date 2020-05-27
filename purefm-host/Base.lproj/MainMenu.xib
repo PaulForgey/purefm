@@ -697,12 +697,12 @@
                     </customView>
                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ULG-rf-SYU" userLabel="Preset Button">
                         <rect key="frame" x="18" y="506" width="260" height="25"/>
-                        <popUpButtonCell key="cell" type="push" title="Save As..." bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="bHe-ZD-ZMS" id="gIV-iw-PC0">
+                        <popUpButtonCell key="cell" type="push" title="Save As..." bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="bHe-ZD-ZMS" id="gIV-iw-PC0">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                             <menu key="menu" id="uMp-2a-D0D">
                                 <items>
-                                    <menuItem title="Save As..." state="on" id="bHe-ZD-ZMS">
+                                    <menuItem title="Save As..." id="bHe-ZD-ZMS">
                                         <connections>
                                             <action selector="saveAs:" target="6sY-G8-74g" id="4xl-39-7XB"/>
                                         </connections>

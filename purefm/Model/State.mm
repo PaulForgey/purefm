@@ -32,6 +32,7 @@
     _patch = std::make_shared<patch>();
     [self connect];
 
+    self.name = @"Init";
     self.feedback = 0;
     self.mono = NO;
     self.middleC = 60;
@@ -44,6 +45,8 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:self.name forKey:@"name"];
+
     [coder encodeObject:_operators forKey:@"operators"];
     [coder encodeObject:_pitchEnvelope forKey:@"pitchEnvelope"];
     [coder encodeObject:_lfo forKey:@"lfo"];
@@ -66,6 +69,8 @@
     _lfo = [coder decodeObjectForKey:@"lfo"];
 
     [self connect];
+
+    self.name = [coder decodeObjectForKey:@"name"];
 
     self.feedback = [coder decodeIntForKey:@"feedback"];
     self.mono = [coder decodeBoolForKey:@"mono"];

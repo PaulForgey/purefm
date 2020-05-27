@@ -20,6 +20,7 @@
 @implementation ViewController {
     MIDIClientRef midiClient;
     MIDIPortRef midiPort;
+    NSInteger presetSelection;
 }
 
 - (NSURL *)presetsURL {
@@ -36,10 +37,12 @@
 }
 
 - (IBAction)presetAction:(id)sender {
-    if ([_presetButton indexOfSelectedItem] < 3) {
+    if (_presetButton.indexOfSelectedItem < 3) {
         return;
     }
-    NSURL *url = [NSURL fileURLWithPath:[_presetButton titleOfSelectedItem]
+    presetSelection = _presetButton.indexOfSelectedItem;
+
+    NSURL *url = [NSURL fileURLWithPath:_presetButton.titleOfSelectedItem
                           relativeToURL:[self presetsURL]];
     NSData *data = [NSData dataWithContentsOfURL:url];
     if (data != nil) {
@@ -66,15 +69,20 @@
             NSLog(@"error deserializing: %@", error);
         } else {
             self.audioUnit.AUAudioUnit.fullState = dict;
+
+            NSMenuItem *item;
+            for (item in [_presetButton itemAtIndex:1].submenu.itemArray) {
+                item.state = NSControlStateValueOff;
+            }
         }
     }
 }
 
 - (void)refreshPresets {
     NSInteger count = [_presetButton numberOfItems];
-    if (count > 2) {
-        for (int i = 2; i < count; i++) {
-            [_presetButton removeItemAtIndex:2];
+    if (count > 1) {
+        for (int i = 1; i < count; i++) {
+            [_presetButton removeItemAtIndex:1];
         }
     }
 
@@ -83,6 +91,7 @@
                                                      action:NULL
                                               keyEquivalent:@""];
     [menu addItem:factory];
+    [menu addItem:[NSMenuItem separatorItem]];
 
     NSMenu *factoryPresets = [[NSMenu alloc] initWithTitle:@"Factory Presets"];
     factory.submenu = factoryPresets;
@@ -112,6 +121,10 @@
     for (NSString *n in [names sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]) {
         [_presetButton addItemWithTitle:n];
     }
+
+    [_presetButton selectItemAtIndex:0];
+    [_presetButton itemAtIndex:0].state = NSControlStateValueOff;
+    presetSelection = -1;
 }
 
 - (IBAction)factoryPreset:(id)sender {
@@ -122,6 +135,10 @@
             break;
         }
     }
+    [_presetButton selectItemAtIndex:0];
+    [_presetButton itemAtIndex:0].state = NSControlStateValueOff;
+    ((NSMenuItem *)sender).state = NSControlStateValueOn;
+    presetSelection = -1;
 }
 
 - (IBAction)saveAs:(id)sender {
@@ -129,15 +146,32 @@
     panel.directoryURL = [self presetsURL];
     panel.allowedFileTypes = @[@"aupreset"];
 
+    NSInteger __block *selection = &presetSelection;
+
     [panel beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse result) {
         if (result == NSModalResponseOK) {
             NSError *error = nil;
+            NSString *name = panel.URL.lastPathComponent;
+            if ([name hasSuffix:@".aupreset"]) {
+                name = [name substringToIndex:[name length] - 9];
+            }
+            AUAudioUnitPreset *preset = [[AUAudioUnitPreset alloc] init];
+            preset.number = -1;
+            preset.name = name;
+            self.audioUnit.AUAudioUnit.currentPreset = preset;
+
             if (![self.audioUnit.AUAudioUnit.fullState writeToURL:panel.URL error:&error]) {
                 [[NSAlert alertWithError:error] runModal];
+                [self.presetButton selectItemAtIndex:*selection];
+            } else {
+                [self refreshPresets];
+                [self.presetButton selectItemWithTitle:panel.URL.lastPathComponent];
+                *selection = self.presetButton.indexOfSelectedItem;
             }
+        } else {
+            [self.presetButton selectItemAtIndex:*selection];
         }
     }];
-    [self refreshPresets];
 }
 
 
