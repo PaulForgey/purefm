@@ -36,7 +36,7 @@
 }
 
 - (IBAction)presetAction:(id)sender {
-    if ([_presetButton indexOfSelectedItem] < 2) {
+    if ([_presetButton indexOfSelectedItem] < 3) {
         return;
     }
     NSURL *url = [NSURL fileURLWithPath:[_presetButton titleOfSelectedItem]
@@ -78,6 +78,26 @@
         }
     }
 
+    NSMenu *menu = _presetButton.menu;
+    NSMenuItem *factory = [[NSMenuItem alloc] initWithTitle:@"Factory Presets"
+                                                     action:NULL
+                                              keyEquivalent:@""];
+    [menu addItem:factory];
+
+    NSMenu *factoryPresets = [[NSMenu alloc] initWithTitle:@"Factory Presets"];
+    factory.submenu = factoryPresets;
+
+    AUAudioUnitPreset *preset;
+    for (preset in self.audioUnit.AUAudioUnit.factoryPresets) {
+        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:preset.name
+                                                      action:@selector(factoryPreset:)
+                                               keyEquivalent:@""];
+        item.target = self;
+        item.tag = preset.number;
+
+        [factoryPresets addItem:item];
+    }
+
     NSArray<NSURL *> *presets =
     [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[self presetsURL]
                                   includingPropertiesForKeys:nil
@@ -91,6 +111,16 @@
     }
     for (NSString *n in [names sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]) {
         [_presetButton addItemWithTitle:n];
+    }
+}
+
+- (IBAction)factoryPreset:(id)sender {
+    AUAudioUnitPreset *preset;
+    for (preset in self.audioUnit.AUAudioUnit.factoryPresets) {
+        if (preset.number == [sender tag]) {
+            self.audioUnit.AUAudioUnit.currentPreset = preset;
+            break;
+        }
     }
 }
 

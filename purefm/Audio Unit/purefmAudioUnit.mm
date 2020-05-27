@@ -342,6 +342,25 @@
     [self setFullState:fullStateForDocument];
 }
 
+- (NSArray< AUAudioUnitPreset * > *)factoryPresets {
+    AUAudioUnitPreset *factoryInit = [[AUAudioUnitPreset alloc] init];
+    factoryInit.number = 0;
+    factoryInit.name = @"Init";
+    return @[
+        factoryInit,
+    ];
+}
+
+- (void)setCurrentPreset:(AUAudioUnitPreset *)currentPreset {
+    [super setCurrentPreset:currentPreset];
+
+    if (currentPreset.number == 0) {
+        [self willChangeValueForKey:@"state"];
+        _state = [[State alloc] init];
+        [self didChangeValueForKey:@"state"];
+    }
+}
+
 // MARK: AUAudioUnit (AUAudioUnitImplementation)
 
 // Block which subclassers must provide to implement rendering.
