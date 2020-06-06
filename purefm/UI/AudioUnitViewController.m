@@ -243,7 +243,6 @@
     if ([selected count] == 1) {
         [selected[0] applyTo:_state];
         [_audioUnit updatePatch];
-        [_algoView arrange];
         _algoView.needsDisplay = YES;
     }
 }

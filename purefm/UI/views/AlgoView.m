@@ -54,7 +54,8 @@
         }
         operatorViews[n].hidden = NO;
     }
-    [self arrange];
+
+    self.needsDisplay = YES;
 }
 
 - (void)awakeFromNib {
@@ -62,12 +63,15 @@
 
     int n;
     for (n = 0; n < 8; ++n) {
+        NSPoint pt = NSMakePoint(5.0+(float)n * 35.0, 5.0+(float)n * 35.0);
+
         OperatorView *operatorView = [[OperatorView alloc] initWithFrame:NSMakeRect(0.0, 0.0, 30.0, 30.0)];
         operatorView.hidden = YES;
         operatorView.label = [NSString stringWithFormat:@"%d", n+1];
         operatorView.tag = (NSUInteger)n;
         operatorView.target = self;
         operatorView.action = @selector(clicked:);
+        [operatorView setFrameOrigin:pt];
         [self addSubview:operatorView];
         operatorViews[n] = operatorView;
 
@@ -75,6 +79,7 @@
         phaseView.hidden = YES;
         phaseView.label = @"ω";
         phaseView.tag = (NSUInteger)n;
+        [phaseView setFrameOrigin:NSMakePoint(pt.x, pt.y + 35.0)];
         [self addSubview:phaseView];
         phaseViews[n] = phaseView;
 
@@ -82,6 +87,7 @@
         sumView.hidden = YES;
         sumView.label = @"∑";
         sumView.tag = (NSUInteger)n;
+        [sumView setFrameOrigin:NSMakePoint(pt.x + 35.0, pt.y)];
         [self addSubview:sumView];
         sumViews[n] = sumView;
     }
@@ -92,45 +98,11 @@
 - (void)beginDrag:(id)sender event:(NSEvent *)event {
     int op = (int)((OperatorView *)sender).tag;
     int i;
-
-    // non-feedback phase: if prior op has no modulator, it's available
-    if (op > 0) {
-        Operator *o = self.operators[op-1];
-
-        if (o.mod == -1) {
-            phaseViews[op-1].hidden = NO;
-        } else if (o.mod == op) {
-            // consecutive prior ops may also be us
-            for (i = op-1; i >=0; i--) {
-                o = self.operators[i];
-                if (o.mod == -1) {
-                    phaseViews[i].hidden = NO;
-                    break;
-                } else if (o.mod != op) {
-                    break;
-                }
-            }
-        }
-    }
-    // feedback phase: top of the stack is available
-    for (i = op; i < 8; ++i) {
-        Operator *o = self.operators[i];
-
-        if (o.mod <= i) {
-            phaseViews[i].hidden = NO;
-            break;
-        }
-        if (o.mod != i+1) {
-            break;
-        }
-    }
-
-    // prior ops not summed
-    for (i = op-1; i >= 0; i--) {
-        Operator *o = self.operators[i];
-        if (o.sum != i+1) {
+    for (i = 0; i < 8; ++i) {
+        if (i < op) {
             sumViews[i].hidden = NO;
         }
+        phaseViews[i].hidden = NO;
     }
 }
 
@@ -182,56 +154,33 @@
 }
 
 - (void)sum:(int)op sum:(int)sum {
-    Operator *operator;
-    int i;
-
-    // break any modulation paths through us and any prior summation to us
-    for (i = 0; i < op; ++i) {
-        operator = self.operators[i];
-        if (operator.mod >= op) {
-            operator.mod = -1;
-        }
-        if (operator.sum == op) {
-            operator.sum = -1;
-        }
+    Operator *operator = self.operators[sum];
+    if (operator.sum == op) {
+        operator.sum = -1;
+    } else {
+        operator.sum = op;
     }
-    for (i = op; i < 8; ++i) {
-        operator = self.operators[i];
-        if (operator.mod != -1 && operator.mod < op) {
-            operator.mod = -1;
-            self.feedback = nil;
-        }
-        if (operator.sum == op) {
-            operator.sum = -1;
-        }
-    }
-
-    // and hook it up
-    operator = self.operators[sum];
-    operator.sum = op;
-    [self arrange];
+    self.needsDisplay = YES;
 }
 
 - (void)mod:(int)op mod:(int)mod {
     Operator *operator = self.operators[mod];
 
-    // break summation chain if next op is the new modulator
-    if (operator.sum == op) {
-        operator.sum = -1;
-    }
-
-    // mark new feedback
-    if (op <= mod) {
-        if (_feedback != nil) {
-            _feedback.mod = -1;
+    if (operator.mod == op) {
+        operator.mod = -1;
+    } else {
+        // mark new feedback
+        if (op <= mod) {
+            if (_feedback != nil) {
+                _feedback.mod = -1;
+            }
+            self.feedback = operator;
         }
-        self.feedback = operator;
+
+        // and hook it up
+        operator.mod = op;
     }
-
-    // and hook it up
-    operator.mod = op;
-
-    [self arrange];
+    self.needsDisplay = YES;
 }
 
 - (void)clicked:(id)sender {
@@ -271,59 +220,6 @@
         [set addIndex:index];
     }
     self.selectionIndexes = set;
-}
-
-// recursively position operator at row and column for its chain
-// returns number of columns over to start next chain
-- (int)arrange:(int)op row:(int)row column:(int)column {
-    // row,column is at this point
-    NSPoint pt = NSMakePoint(5.0+(float)column * 35.0, 5.0+(float)row * 35.0);
-    // and move the operator to it
-    [operatorViews[op] setFrameOrigin:pt];
-
-    int width = 1; // we're taking up at least one
-    Operator *o = self.operators[op];
-
-    if (o.mod == op+1) {
-        // place modulation chain above us
-        // (if modulator is not next immediate operator, we're in a chain
-        // of oeprators all modulated by it. Only do this for the last one)
-        int n = [self arrange:o.mod row:row+1 column:column];
-        width += n;
-        column += n;
-
-        if (row == 0) {
-            // fix up summations in row 0
-            int sum = op+1 +n;
-
-            if (sum >= 8) {
-                sum = -1;
-            }
-            o.sum = sum;
-        }
-    }
-
-    if (op < 7 && row == 0 && o.mod == -1) {
-        // fix up summations in row 0
-        o.sum = op+1;
-    }
-
-    if (o.sum != -1) {
-        // place next in summation chain
-        width += [self arrange:o.sum row:row column:column+1];
-    }
-
-    // place the summation and phase buttons
-    [phaseViews[op] setFrameOrigin:NSMakePoint(pt.x, pt.y+35.0)];
-    [sumViews[op] setFrameOrigin:NSMakePoint(pt.x+35.0, pt.y)];
-
-    return width;
-}
-
-// visually arrange the operators, as well as normalize bottom level sums
-- (void)arrange {
-    [self arrange:0 row:0 column:0];
-    self.needsDisplay = YES;
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -371,10 +267,8 @@
             from.x += 15.0;
 
             if (op.mod > n) {
-                [lines moveToPoint:to];
-                [lines lineToPoint:NSMakePoint(to.x, from.y-2.5)];
-                [lines lineToPoint:NSMakePoint(from.x, from.y-2.5)];
-                [lines lineToPoint:from];
+                NSRect r = NSMakeRect(to.x-5.0, from.y+10.0, 10.0, 10.0);
+                [lines appendBezierPathWithOvalInRect:r];
             } else {
                 [lines moveToPoint:to];
                 [lines lineToPoint:NSMakePoint(to.x, to.y+2.5)];
@@ -383,6 +277,15 @@
                 [lines lineToPoint:NSMakePoint(from.x, from.y-2.5)];
                 [lines lineToPoint:from];
             }
+        }
+        if (op.sum >= 0) {
+            NSPoint to = [operatorViews[n] frame].origin;
+            NSPoint from = [operatorViews[op.sum] frame].origin;
+
+            [lines moveToPoint:NSMakePoint(from.x+15.0, to.y+10.0)];
+            [lines lineToPoint:NSMakePoint(from.x+15.0, to.y+20.0)];
+            [lines moveToPoint:NSMakePoint(from.x+10.0, to.y+15.0)];
+            [lines lineToPoint:NSMakePoint(from.x+20.0, to.y+15.0)];
         }
     }
 
