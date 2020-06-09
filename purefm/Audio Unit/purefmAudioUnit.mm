@@ -359,6 +359,7 @@
         if (currentPreset.number == 1) {
             [self willChangeValueForKey:@"state"];
             _state = [[State alloc] init];
+            [self updatePatch];
             [self didChangeValueForKey:@"state"];
         }
         self.state.name = currentPreset.name;

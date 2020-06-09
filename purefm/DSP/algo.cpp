@@ -29,6 +29,9 @@ void
 algo::update(patch const *patch) {
     _patch = patch;
     if (patch == nullptr) {
+        for (int i = 0; i < 8; ++i) {
+            _ops[i]->update(nullptr, true);
+        }
         return;
     }
 
