@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) EnvelopeStageLinearity linearity;
 
 #ifdef __cplusplus
-- (eg_ptr const &)eg;
+- (eg_ptr)eg;
 #endif // __cplusplus
 
 @end

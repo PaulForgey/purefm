@@ -14,6 +14,8 @@
 #include "lfosc.hpp"
 #include "globals.hpp"
 
+#include <cstdint>
+
 class voice {
     public:
         voice(globals const *);
@@ -31,6 +33,9 @@ class voice {
         bool triggered() const { return _velocity != 0; }
         voice_status const *get_status() const { return &_status; }
 
+        uint64_t get_priority() const { return _priority; }
+        void set_priority(uint64_t p) { _priority = p; }
+
     private:
         int highest_key() const;
 
@@ -46,11 +51,12 @@ class voice {
         unsigned _counter;
         int _key;
         int _velocity;
-        unsigned char _keys[16];
+        uint64_t _keys[2];
         int _output[16];
         voice_status _status;
         int _pressure; // smoothed value to use
         int _pressure_in; // current value
+        uint64_t _priority;
 };
 
 #endif /* voice_hpp */

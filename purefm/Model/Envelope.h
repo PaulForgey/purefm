@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)toggleKeyUp:(NSUInteger)index;
 
 #ifdef __cplusplus
-- (env_patch_ptr::pointer const &)patch;
+- (env_patch_ptr::pointer)patch;
 #endif // __cplusplus
 
 - (void)updateStatus;

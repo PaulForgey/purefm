@@ -97,7 +97,7 @@
         _patch->pitch_env.set([_pitchEnvelope patch]);
     }
 }
-- (patch_ptr::pointer const &)patch {
+- (patch_ptr::pointer)patch {
     return _patch;
 }
 

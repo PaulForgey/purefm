@@ -135,7 +135,7 @@
 
 // MARK: patch
 
-- (env_patch_ptr::pointer const &)patch {
+- (env_patch_ptr::pointer)patch {
     return _patch;
 }
 

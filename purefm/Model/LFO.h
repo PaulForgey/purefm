@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface LFO : NSObject< NSCoding >
 
 #ifdef __cplusplus
-- (lfo_patch_ptr::pointer const &)patch;
+- (lfo_patch_ptr::pointer)patch;
 #endif // __cplusplus
 
 - (void)setParameter:(AUParameter *)parameter value:(AUValue)value;

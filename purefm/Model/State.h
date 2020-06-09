@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int expr2;
 
 #ifdef __cplusplus
-- (patch_ptr::pointer const &)patch;
+- (patch_ptr::pointer)patch;
 #endif // __cplusplus
 
 - (void)setParameter:(AUParameter *)parameter value:(AUValue)value;

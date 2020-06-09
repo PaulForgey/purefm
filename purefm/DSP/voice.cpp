@@ -11,6 +11,47 @@
 
 #include <algorithm>
 
+static inline uint64_t
+bitset(uint64_t bits, int pos) {
+    return bits | (1ULL << pos);
+}
+
+static inline uint64_t
+bitclear(uint64_t bits, int pos) {
+    return bits & ~(1ULL << pos);
+}
+
+static inline bool
+bittest(uint64_t bits, int pos) {
+    return (bits & (1ULL << pos)) != 0;
+}
+
+static int
+highest(uint64_t bits) {
+    // special case terminal
+    if (bittest(bits, 63)) {
+        return 63;
+    }
+    int i, j;
+    for (i = 31, j = 16; ;j >>= 1) {
+        uint64_t t = (1ULL << i);
+        if (bits == t) {
+            return i;
+        }
+        if (bits > t) {
+            if (j == 0) {
+                return i;
+            }
+            i += j;
+        } else {
+            if (j == 0) {
+                return i-1;
+            }
+            i -= j;
+        }
+    }
+}
+
 voice::voice(globals const *g) :
     _algo(g, _lfo_output, _pitch, _pressure), _lfo(g), _pitch_env(g) {
     _globals = g;
@@ -30,6 +71,7 @@ voice::voice(globals const *g) :
     _status.lfo = _lfo.get_status();
     _pressure = 0;
     _pressure_in = 0;
+    _priority = 0;
 }
 
 voice::~voice() {
@@ -51,19 +93,10 @@ voice::update(patch const *patch) {
 
 int
 voice::highest_key() const {
-    for (int i = 15; i >= 0; --i) {
-        unsigned char const b = _keys[i];
-        if (b == 0) {
-            continue;
-        }
-        int k = (i << 3) + 7;
-        for (int j = 0x80; j > 0; j >>= 1, --k) {
-            if ((b & j) != 0) {
-                return k;
-            }
-        }
+    if (_keys[1] != 0) {
+        return highest(_keys[1])+64;
     }
-    return -1;
+    return highest(_keys[0]);
 }
 
 void
@@ -75,12 +108,20 @@ voice::start(patch const *patch, int key, int velocity) {
 
     if (_patch->mono) {
         if (velocity > 0) {
-            _keys[key>>3] ^= (1 << (key&7));
+            if (key >= 64) {
+                _keys[1] = bitset(_keys[1], key-64);
+            } else {
+                _keys[0] = bitset(_keys[0], key);
+            }
             if (highest_key() > key) {
                 return;
             }
         } else {
-            _keys[key>>3] &= ~(1 << (key&7));
+            if (key >= 64) {
+                _keys[1] = bitclear(_keys[1], key-64);
+            } else {
+                _keys[0] = bitclear(_keys[0], key);
+            }
             int k = highest_key();
             if (k >= 0) {
                 key = k;

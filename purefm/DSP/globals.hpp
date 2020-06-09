@@ -35,7 +35,7 @@ class ptr_msg {
         // producer: set the next message.
         // any prior set either missed or no longer in use will be released.
         // allocation calls happen from this side.
-        void set(pointer const &next) {
+        void set(pointer next) {
             while (_fence.test_and_set());
             auto p = std::move(_free);
             _fence.clear();
@@ -48,7 +48,7 @@ class ptr_msg {
         // return a weak plain pointer, which will invalidate at next call to get().
         // (obviously) assumes single thread consumer.
         T const *get() const  {
-            auto &&p = std::atomic_load_explicit(&_next, std::memory_order_relaxed);
+            auto &&p = std::atomic_load(&_next);
             if (p != _used) {
                 while (_fence.test_and_set());
                 _free = std::move(_used);

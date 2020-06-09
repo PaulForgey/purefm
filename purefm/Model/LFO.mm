@@ -66,7 +66,7 @@
 
 // MARK: patch
 
-- (lfo_patch_ptr::pointer const &)patch {
+- (lfo_patch_ptr::pointer)patch {
     return _patch;
 }
 

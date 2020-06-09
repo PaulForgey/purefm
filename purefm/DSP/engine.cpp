@@ -12,6 +12,7 @@
 
 engine::engine(globals *g) {
     _globals = g;
+    _now = 0ULL;
     for (auto &&v : _voices) {
         v = new voice(g);
     }
@@ -37,20 +38,65 @@ engine::start(int channel, int key, int velocity) {
         return;
     }
 
-    voice *v = _voices[channel];
-    if (!_patch->mono) {
-        int n = _round++;
-        // always refer to a voice already playing this note, otherwise
-        // round robin allocate one, preferring a voice not currently triggered
-        for (int i = 0; i < 32; ++i) {
-            v = _voices[(i+n) & 0xf];
-            if ((i >= 16 && !v->triggered()) || v->get_key() == key) {
+    int v = 0; // voices are kept in a minheap by oldest use (unless mono)
+
+    if (_patch->mono) {
+        v = channel;
+    } else {
+        for (int i = 0; i < _poly; ++i) {
+            if (_voices[i]->get_key() == key) {
+                v = i;
                 break;
             }
         }
     }
-    _globals->status->voice = v->get_status();
-    v->start(_patch, key, velocity);
+
+    voice *voice = _voices[v];
+    _globals->status->voice = voice->get_status();
+    voice->start(_patch, key, velocity);
+
+    if (!_patch->mono) {
+        // mark playing voice as currently now and fix it up in the minheap
+        // now will overflow after 584 million years playing 1000 notes/sec
+        voice->set_priority(++_now);
+        int v0 = v;
+
+        // work down first
+        while (v < _poly) {
+            int l = (v << 1) + 1;
+            int r = l + 1;
+
+            if (l >= _poly) {
+                break;
+            }
+            if (r < _poly &&
+                _voices[r]->get_priority() < _voices[l]->get_priority()) {
+                // compare and potentially swap with lower of two branches
+                l = r;
+            }
+            if (_voices[l]->get_priority() < _voices[v]->get_priority()) {
+                // move down
+                std::swap(_voices[l], _voices[v]);
+                v = l;
+            } else {
+                break;
+            }
+        }
+
+        if (v0 == v) {
+            // no violations down, so move up
+            for (;;) {
+                int p = (v - 1) >> 1;
+
+                if (p == v ||
+                    _voices[p]->get_priority() < _voices[v]->get_priority()) {
+                    break;
+                }
+                std::swap(_voices[p], _voices[v]);
+                v = p;
+            }
+        }
+    }
 }
 
 void

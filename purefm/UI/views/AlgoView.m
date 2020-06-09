@@ -15,7 +15,7 @@
     OperatorView *operatorViews[8];     // operators
     OperatorView *phaseViews[8];        // phase targets
     OperatorView *sumViews[8];          // sum targets
-    Operator *_feedback;                 // feedback input op, if any
+    Operator *_feedback;                // feedback input op, if any
 
     // properties
     NSIndexSet *_selectionIndexes;              // current selection
