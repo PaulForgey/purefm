@@ -20,7 +20,7 @@
     int _frequency;
     int _detune;
 
-    op_patch _patch;
+    op_ptr _patch;
     struct eg_status const *_status;
 }
 
@@ -50,11 +50,12 @@
 
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super init];
+    _patch = std::make_shared<op_patch>();
 
     _number = [coder decodeIntForKey:@"number"];
     _envelope = [coder decodeObjectForKey:@"envelope"];
 
-    _patch.env.set([_envelope patch]);
+    _patch->env.set([_envelope patch]);
 
     self.sum = [coder decodeIntForKey:@"sum"];
     self.mod = [coder decodeIntForKey:@"mod"];
@@ -79,7 +80,8 @@
     Operator *o = [[Operator alloc] init];
     o->_number = n;
     o->_envelope = [[Envelope alloc] initDefaultOp];
-    o->_patch.env.set([o->_envelope patch]);
+    o->_patch = std::make_shared<op_patch>();
+    o->_patch->env.set([o->_envelope patch]);
 
     // preset loading will overwrite these later
     o.sum = -1;
@@ -96,8 +98,8 @@
 
 // MARK: patch
 
-- (op_patch const *)patch {
-    return &_patch;
+- (op_ptr const)patch {
+    return _patch;
 }
 
 // MARK: status
@@ -120,103 +122,103 @@
 - (void)setSum:(int)sum {
     [self willChangeValueForKey:@"algoChange"];
     if (sum > 7 || sum < 0) {
-        _patch.sum = -1;
+        _patch->sum = -1;
     } else {
-        _patch.sum = sum;
+        _patch->sum = sum;
     }
     [self didChangeValueForKey:@"algoChange"];
 }
 - (int)sum {
-    return _patch.sum;
+    return _patch->sum;
 }
 
 - (void)setMod:(int)mod {
     [self willChangeValueForKey:@"algoChange"];
     if (mod > 7 || mod < 0) {
-        _patch.mod = -1;
+        _patch->mod = -1;
     } else {
-        _patch.mod = mod;
+        _patch->mod = mod;
     }
     [self didChangeValueForKey:@"algoChange"];
 }
 - (int)mod {
-    return _patch.mod;
+    return _patch->mod;
 }
 
 - (void)setEnabled:(BOOL)enabled {
-    _patch.enabled = enabled;
+    _patch->enabled = enabled;
 }
 - (BOOL)enabled {
-    return _patch.enabled;
+    return _patch->enabled;
 }
 
 - (void)setLevel:(int)level {
     _level = level;
-    _patch.level = tables::level_param(level);
+    _patch->level = tables::level_param(level);
 }
 - (int)level {
     return _level;
 }
 
 - (void)setResync:(BOOL)resync {
-    _patch.resync = (bool)resync;
+    _patch->resync = (bool)resync;
 }
 - (BOOL)resync {
-    return (BOOL)(_patch.resync);
+    return (BOOL)(_patch->resync);
 }
 
 - (void)setVelocity:(int)velocity {
-    _patch.velocity = velocity;
+    _patch->velocity = velocity;
 }
 - (int)velocity {
-    return _patch.velocity;
+    return _patch->velocity;
 }
 
 - (void)setRateScale:(int)rateScale {
-    _patch.rate_scale = rateScale;
+    _patch->rate_scale = rateScale;
 }
 - (int)rateScale {
-    return _patch.rate_scale;
+    return _patch->rate_scale;
 }
 
 - (void)setBreakpoint:(int)breakpoint {
-    _patch.breakpoint = breakpoint;
+    _patch->breakpoint = breakpoint;
 }
 - (int)breakpoint {
-    return _patch.breakpoint;
+    return _patch->breakpoint;
 }
 
 - (void)setScaleTypeLeft:(ScaleType)scaleTypeLeft {
-    _patch.scale_type_left = (int)scaleTypeLeft;
+    _patch->scale_type_left = (int)scaleTypeLeft;
 }
 - (ScaleType)scaleTypeLeft {
-    return (ScaleType)_patch.scale_type_left;
+    return (ScaleType)_patch->scale_type_left;
 }
 
 - (void)setScaleTypeRight:(ScaleType)scaleTypeRight {
-    _patch.scale_type_right = (int)scaleTypeRight;
+    _patch->scale_type_right = (int)scaleTypeRight;
 }
 - (ScaleType)scaleTypeRight {
-    return (ScaleType)_patch.scale_type_right;
+    return (ScaleType)_patch->scale_type_right;
 }
 
 - (void)setKeyScaleLeft:(int)keyScaleLeft {
-    _patch.key_scale_left = keyScaleLeft;
+    _patch->key_scale_left = keyScaleLeft;
 }
 - (int)keyScaleLeft {
-    return _patch.key_scale_left;
+    return _patch->key_scale_left;
 }
 
 - (void)setKeyScaleRight:(int)keyScaleRight {
-    _patch.key_scale_right = keyScaleRight;
+    _patch->key_scale_right = keyScaleRight;
 }
 - (int)keyScaleRight {
-    return _patch.key_scale_right;
+    return _patch->key_scale_right;
 }
 
 - (void)setFrequency:(int)frequency {
     _frequency = frequency;
-    _patch.frequency = frequency + _detune;
+    _patch->frequency = frequency + _detune;
 }
 - (int)frequency {
     return _frequency;
@@ -224,17 +226,17 @@
 
 - (void)setDetune:(int)detune {
     _detune = detune;
-    _patch.frequency = _frequency + detune;
+    _patch->frequency = _frequency + detune;
 }
 - (int)detune {
     return _detune;
 }
 
 - (void)setFixed:(BOOL)fixed {
-    _patch.fixed = (bool)fixed;
+    _patch->fixed = (bool)fixed;
 }
 - (BOOL)fixed {
-    return (BOOL)(_patch.fixed);
+    return (BOOL)(_patch->fixed);
 }
 
 + (void)clampMIDIValue:(id *)ioValue {

@@ -121,6 +121,7 @@ struct op_patch {
 
     env_patch_ptr env;
 };
+typedef std::shared_ptr<op_patch> op_ptr;
 
 class function {
     public:
@@ -154,7 +155,7 @@ struct patch {
     int expr1;
     int expr2;
 
-    op_patch const *ops[8];
+    op_ptr ops[8];
     env_patch_ptr pitch_env;
     lfo_patch_ptr lfo;
 };
