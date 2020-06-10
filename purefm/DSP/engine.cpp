@@ -85,11 +85,10 @@ engine::start(int channel, int key, int velocity) {
 
         if (v0 == v) {
             // no violations down, so move up
-            for (;;) {
+            while (v > 0) {
                 int p = (v - 1) >> 1;
 
-                if (p == v ||
-                    _voices[p]->get_priority() < _voices[v]->get_priority()) {
+                if (_voices[p]->get_priority() < _voices[v]->get_priority()) {
                     break;
                 }
                 std::swap(_voices[p], _voices[v]);
