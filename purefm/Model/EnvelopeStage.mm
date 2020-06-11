@@ -20,7 +20,7 @@
 
 // MARK: patch
 
-- (eg_ptr)eg {
+- (eg_ptr const &)eg {
     return _eg;
 }
 

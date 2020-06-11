@@ -98,7 +98,7 @@
 
 // MARK: patch
 
-- (op_ptr const)patch {
+- (op_ptr const &)patch {
     return _patch;
 }
 

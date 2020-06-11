@@ -26,7 +26,7 @@ op::~op() {
 }
 
 void
-op::update(op_ptr patch, bool reset) {
+op::update(op_patch const *patch, bool reset) {
     _patch = patch;
     if (patch != nullptr) {
         _env.update(patch->env.get(), reset);
@@ -81,7 +81,7 @@ op::set_fb_output(fb_filter *f) {
 }
 
 void
-op::start(op_ptr patch, int key, int velocity) {
+op::start(op_patch const *patch, int key, int velocity) {
     update(patch, false);
     if (patch == nullptr) {
         return;

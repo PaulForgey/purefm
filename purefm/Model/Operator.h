@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)clampFrequencyValue:(id _Nullable * _Nonnull)ioValue;
 
 #ifdef __cplusplus
-- (op_ptr const)patch;
+- (op_ptr const &)patch;
 #endif // __cplusplus
 
 @property (nonatomic) struct eg_status const *status;

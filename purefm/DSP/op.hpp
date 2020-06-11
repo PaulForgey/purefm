@@ -53,14 +53,14 @@ class op {
         void set_fb_input(fb_filter const *);
         void set_fb_output(fb_filter *);
 
-        void start(op_ptr const patch, int key, int velocity);
-        void update(op_ptr const patch, bool reset);
+        void start(op_patch const *patch, int key, int velocity);
+        void update(op_patch const *patch, bool reset);
         int step();
         eg_status const *get_status() const { return _env.get_status(); }
 
     private:
         globals const *_globals;
-        op_ptr _patch;
+        op_patch const *_patch;
         int const &_lfo;
         int const &_pitch;
         int const &_pressure;

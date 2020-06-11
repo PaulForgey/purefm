@@ -38,7 +38,7 @@ algo::update(patch const *patch) {
     for (int i = 0; i < 8; ++i) {
         auto const &op = patch->ops[i];
         set_op_node(i, op->sum, op->mod);
-        _ops[i]->update(op, true);
+        _ops[i]->update(op.get(), true);
     }
 }
 
@@ -70,7 +70,7 @@ algo::start(patch const *patch, int key, int velocity) {
     }
 
     for (int i = 0; i < 8; ++i) {
-        _ops[i]->start(_patch->ops[i], key, velocity);
+        _ops[i]->start(_patch->ops[i].get(), key, velocity);
     }
 }
 
