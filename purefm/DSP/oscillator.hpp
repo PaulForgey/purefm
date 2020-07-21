@@ -64,13 +64,13 @@ class noise : public function {
 
 class oscillator {
     public:
-        oscillator();
+        oscillator(tables const &t);
         virtual ~oscillator();
 
         void reset() { _phase = 0; }
 
         template< class T >
-        int step(T const &f, tables const &t, long pitch, int offset, bool *neg) {
+        int step(T const &f, long pitch, int offset, bool *neg) {
             long prev = (_phase & 0xffffffff);
             _phase += pitch;
             long next = (_phase & 0xffffffff);
@@ -85,13 +85,14 @@ class oscillator {
 
             // only stroke constant() functions one per period
             if (!f.constant() || (next < prev)) {
-                _out = f.generate(t, phase & 0x7fff);
+                _out = f.generate(_tables, phase & 0x7fff);
             }
 
             return _out;
         }
 
     private:
+        tables const &_tables;
         long _phase;
         int _out;
 };
@@ -99,16 +100,15 @@ class oscillator {
 // convenience sine oscillator for the operators
 class sine_oscillator : public oscillator {
     public:
-        sine_oscillator(tables const &t) : _tables(t) {}
+        sine_oscillator(tables const &t) : oscillator(t) {}
         virtual ~sine_oscillator() {}
 
         int step(long pitch, int offset, bool *neg) {
-            return oscillator::step(_sine, _tables, pitch, offset, neg);
+            return oscillator::step(_sine, pitch, offset, neg);
         }
 
     private:
         sine _sine;
-        tables const &_tables;
 };
 
 #endif /* oscillator_hpp */

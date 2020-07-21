@@ -9,7 +9,7 @@
 #include "lfosc.hpp"
 #include "globals.hpp"
 
-lfo::lfo(globals const *g) : _env(g) {
+lfo::lfo(globals const *g) : _env(g), _osc(g->t) {
     _globals = g;
     _patch = nullptr;
 }
@@ -57,7 +57,7 @@ lfo::step() {
     }
 
     unsigned long pitch = _globals->t.pitch(_frequency);
-    osc = _osc.step(*f, _globals->t, pitch, 0, &neg);
+    osc = _osc.step(*f, pitch, 0, &neg);
     env = _env.step(1, 0);
 
     osc = _globals->t.output(osc, env);

@@ -9,7 +9,7 @@
 #include "oscillator.hpp"
 #include "globals.hpp"
 
-oscillator::oscillator() {
+oscillator::oscillator(tables const &t) : _tables(t) {
     _phase = 0;
     _out = 0;
 }
