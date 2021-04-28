@@ -59,6 +59,7 @@ algo::set_op_node(int op_num, int sum, int mod) {
         _ops[mod]->set_fb_output(&_fb);
     } else {
         o->set_mod(_ops[mod]);
+        _ops[mod]->set_fb_output(nullptr);
     }
 }
 
